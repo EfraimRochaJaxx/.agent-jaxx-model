@@ -5,3 +5,5 @@ export * from "./log";
 export * from "./config";
 export * from "./session";
 export * from "./controlplane";
+export * from "./git";
+export * from "./skills";
