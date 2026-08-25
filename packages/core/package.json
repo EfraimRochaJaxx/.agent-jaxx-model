@@ -1,0 +1,17 @@
+{
+  "name": "@jaxx/core",
+  "version": "0.1.0",
+  "description": "Agent Jaxx Model core: schemas, configuration, session lifecycle, append-only audit log, file locking.",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "typescript": "^5.5.4",
+    "zod": "^3.23.8"
+  }
+}

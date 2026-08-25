@@ -1,0 +1,25 @@
+{
+  "name": "agent-jaxx-model",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Whitelabel autonomous agent engineering framework: control plane, persistent project memory, audit logs, quality gates, skills registry, dashboard observability and optional multi-agent orchestration.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -b packages/core",
+    "test": "vitest run",
+    "dashboard:build": "npm run build --workspace @jaxx/dashboard",
+    "dashboard:start": "node packages/dashboard/dist/server/server.js",
+    "quality": "node packages/cli/dist/index.js doctor --quality"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.9"
+  }
+}
