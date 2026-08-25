@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T15:40:28.480Z
-- Files analyzed: 27 · Functions: 132
+- Generated: 2026-08-25T16:04:12.642Z
+- Files analyzed: 28 · Functions: 141
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -15,7 +15,7 @@
 
 ## Duplication
 
-- Ratio: 3.9% of 2410 significant lines
+- Ratio: 4.2% of 2529 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `bf003ac24104` ×2 (first: frame.config.example.ts:6)
 - block `7d02f9e3291f` ×2 (first: frame.config.example.ts:7)
@@ -27,7 +27,6 @@
 - `ComplexityReport` in packages/analyzers/src/complexity.ts
 - `DeadCodeReport` in packages/analyzers/src/deadcode.ts
 - `DuplicationBlock` in packages/analyzers/src/duplication.ts
-- `findProjectRoot` in packages/core/src/config.ts
 - `locateFrameConfig` in packages/core/src/config.ts
 - `loadFrameConfigFromPath` in packages/core/src/config.ts
 - `runGit` in packages/core/src/git.ts
@@ -39,5 +38,6 @@
 - `agentLogPath` in packages/core/src/log.ts
 - `AppendResult` in packages/core/src/log.ts
 - `ReadEventsResult` in packages/core/src/log.ts
+- `LogIntegrity` in packages/core/src/log.ts
 
-_Note: approximate — exported symbols never referenced by another analyzed file (85 exports scanned); entry points exempt_
+_Note: approximate — exported symbols never referenced by another analyzed file (86 exports scanned); entry points exempt_

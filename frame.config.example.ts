@@ -1,4 +1,4 @@
-import type { FrameConfig } from "./packages/core/src/schemas";
+import type { FrameConfig } from "@jaxx/core";
 
 /**
  * Example whitelabel configuration.

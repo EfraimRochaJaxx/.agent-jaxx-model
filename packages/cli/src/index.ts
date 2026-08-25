@@ -14,6 +14,7 @@ Usage:
       --quality                       Include quality-gate analysis
       --json                          Machine-readable output
       --branch-protection             Probe GitHub branch protection (requires gh CLI)
+  jaxx session open|close             Managed work sessions; close appends a summary to VERIFICATION.md
   jaxx skill add <name>               Add a skill from a template
   jaxx skill list [--json]            List installed skills
   jaxx skill install <repo-git>       Safely install skills from an external Git repository
@@ -31,6 +32,7 @@ const COMMANDS: Record<string, Handler> = {
   init: handleInit,
   log: handleLog,
   doctor: handleDoctor,
+  session: handleSession,
   skill: handleSkill,
   skills: handleSkill,
   help: () => (console.log(USAGE), EXIT.OK),
@@ -99,6 +101,11 @@ async function handleDoctor({ args, json }: CliContext): Promise<number> {
   if (json) console.log(JSON.stringify(report, null, 2));
   else console.log(formatDoctorReport(report));
   return report.ok ? EXIT.OK : EXIT.CHECK_FAILED;
+}
+
+async function handleSession(ctx: CliContext): Promise<number> {
+  const { runSession } = await import("./commands/session");
+  return runSession(ctx.args, ctx.json);
 }
 
 async function handleSkill(ctx: CliContext): Promise<number> {

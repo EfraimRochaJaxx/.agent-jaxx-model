@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-25T15:40:28.480Z",
+  "generatedAt": "2026-08-25T16:04:12.642Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
-  "filesAnalyzed": 27,
-  "functionsAnalyzed": 132,
+  "filesAnalyzed": 28,
+  "functionsAnalyzed": 141,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -76,10 +76,6 @@
       {
         "file": "packages/analyzers/src/duplication.ts",
         "symbol": "DuplicationBlock"
-      },
-      {
-        "file": "packages/core/src/config.ts",
-        "symbol": "findProjectRoot"
       },
       {
         "file": "packages/core/src/config.ts",
@@ -158,10 +154,6 @@
         "symbol": "SessionSummary"
       },
       {
-        "file": "packages/core/src/session.ts",
-        "symbol": "Session"
-      },
-      {
         "file": "packages/core/src/skills.ts",
         "symbol": "ParsedSkill"
       },
@@ -206,12 +198,12 @@
         "symbol": "DoctorOptions"
       }
     ],
-    "note": "approximate — exported symbols never referenced by another analyzed file (85 exports scanned); entry points exempt"
+    "note": "approximate — exported symbols never referenced by another analyzed file (86 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.03941908713692946,
-    "linesTotal": 2410,
-    "linesDuplicated": 95,
+    "ratio": 0.04151838671411625,
+    "linesTotal": 2529,
+    "linesDuplicated": 105,
     "worstBlocks": [
       {
         "hash": "05ab8df3d768",
