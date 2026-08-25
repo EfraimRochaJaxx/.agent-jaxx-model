@@ -5,12 +5,19 @@
 :root {
   --jx-primary: #2563eb;
   --jx-radius: 0.5rem;
+  --jx-bg: #020617;
 }
 
 @layer components {
   .card {
-    @apply bg-slate-900/60 border border-slate-800 rounded-lg shadow-sm;
+    @apply border shadow-sm;
+    background: color-mix(in srgb, var(--jx-bg) 70%, #f8fafc 4%);
+    border-color: color-mix(in srgb, var(--jx-primary) 12%, transparent);
     border-radius: var(--jx-radius);
   }
+}
+
+body {
+  background: var(--jx-bg);
 }
 

@@ -88,9 +88,12 @@ export default function App() {
   );
 }
 
-function applyTheme(theme: { primaryColor: string; borderRadius: string }) {
+function applyTheme(theme: { primaryColor: string; backgroundColor?: string; borderRadius: string }) {
   document.documentElement.style.setProperty("--jx-primary", theme.primaryColor);
   document.documentElement.style.setProperty("--jx-radius", theme.borderRadius);
+  if (theme.backgroundColor) {
+    document.documentElement.style.setProperty("--jx-bg", theme.backgroundColor);
+  }
 }
 
 function Card({ title, right, children, className = "" }: { title: string; right?: React.ReactNode; children: React.ReactNode; className?: string }) {

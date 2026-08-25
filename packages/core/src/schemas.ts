@@ -42,6 +42,8 @@ export const FrameConfigSchema = z.object({
   theme: z
     .object({
       primaryColor: z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/).default("#2563eb"),
+      /** Optional page background override (defaults to the built-in dark surface). */
+      backgroundColor: z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/).optional(),
       borderRadius: z.string().default("0.5rem"),
     })
     .default({}),

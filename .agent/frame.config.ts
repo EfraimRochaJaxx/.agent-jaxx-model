@@ -10,7 +10,10 @@ const config = {
     name: "Agent Jaxx Model",
   },
   theme: {
-    primaryColor: "#2563eb",
+    // JaxxSystems official palette (jaxx-ip/10-assets/paleta.md v1.0.0):
+    // Quantum Teal accent on Deep Obsidian dark surfaces.
+    primaryColor: "#00FFD1",
+    backgroundColor: "#0A0B0D",
     borderRadius: "0.5rem",
   },
   repos: [

@@ -48,7 +48,7 @@ export interface QualityDTO {
 export interface AllResponse {
   ts: string;
   project: { name: string; logoUrl: string | null };
-  theme: { primaryColor: string; borderRadius: string };
+  theme: { primaryColor: string; backgroundColor?: string; borderRadius: string };
   tokenCountdown: { enabled: boolean; resetMinutes: number; label: string };
   repos: RepoDTO[];
   docker: DockerDTO;
