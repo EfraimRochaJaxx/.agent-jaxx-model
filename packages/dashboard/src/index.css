@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --jx-primary: #2563eb;
+  --jx-radius: 0.5rem;
+}
+
+@layer components {
+  .card {
+    @apply bg-slate-900/60 border border-slate-800 rounded-lg shadow-sm;
+    border-radius: var(--jx-radius);
+  }
+}
+
