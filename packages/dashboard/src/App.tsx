@@ -121,7 +121,7 @@ export default function App() {
         <QualityPanel quality={data.quality} />
       </section>
 
-      <BridgePanel events={data.agentLog.events} />
+      <BridgePanel events={data.agentLog.events} bridge={data.bridge} />
     </div>
   );
 }
@@ -133,7 +133,7 @@ const BRIDGE_NODES = [
   { id: "qa", label: "QA", role: "verifies" },
 ] as const;
 
-function BridgePanel({ events }: { events: EventDTO[] }) {
+function BridgePanel({ events, bridge }: { events: EventDTO[]; bridge?: { running: boolean; port: number } }) {
   const counts = new Map<string, number>();
   let lastAt = "";
   for (const e of events) {
@@ -143,10 +143,13 @@ function BridgePanel({ events }: { events: EventDTO[] }) {
     if (!lastAt || e.ts > lastAt) lastAt = e.ts;
   }
   const total = [...counts.values()].reduce((a, b) => a + b, 0);
+  const service = bridge?.running
+    ? { text: `service running at :${bridge.port}`, cls: "text-emerald-300" }
+    : { text: "service idle", cls: "text-slate-500" };
 
   return (
     <Card title="Multi-Agent Graph (LangGraph bridge)" right={
-      <span className="text-xs text-slate-500">{total > 0 ? `active · last event ${fmtTime(lastAt)}` : "idle — run POST /run on the bridge"}</span>
+      <span className={`text-xs ${service.cls}`}>{service.text}{total > 0 && bridge?.running ? ` · last event ${fmtTime(lastAt)}` : ""}</span>
     }>
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
         {BRIDGE_NODES.map((n, i) => (
@@ -177,7 +180,7 @@ function BridgePanel({ events }: { events: EventDTO[] }) {
       </div>
       <p className="mt-3 text-xs text-slate-500">
         Every node appends to the shared AGENT_LOG.jsonl — the counters above are derived from the same audit log.
-        Start the bridge: <code className="text-slate-400">uvicorn jaxx_bridge.server:app --port 3100</code> then <code className="text-slate-400">POST /run {"{ goal }"}</code>.
+        Start it with <code className="text-slate-400">jaxx bridge start</code> or <code className="text-slate-400">npm run dashboard:start:bridge</code>.
       </p>
     </Card>
   );

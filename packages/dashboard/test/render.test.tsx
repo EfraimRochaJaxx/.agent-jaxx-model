@@ -32,6 +32,7 @@ function serverPayload() {
       events: [{ ts: new Date().toISOString(), lvl: "INFO", agent: "t", msg: "hello render" }],
       malformedLines: 0,
     },
+    bridge: { running: true, port: 3100 },
     skills: {
       skills: [
         { name: "demo", description: "d", trigger: "t", allowedTools: ["read"], version: "1.0.0", file: "demo.md" },

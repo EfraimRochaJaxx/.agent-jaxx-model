@@ -14,7 +14,8 @@
     "build": "npm run build --workspace @jaxx/core --if-present && npm run build --workspace @jaxx/analyzers && npm run build --workspace @jaxx/cli && npm run build --workspace @jaxx/dashboard",
     "test": "vitest run",
     "dashboard:build": "npm run build --workspace @jaxx/dashboard",
-    "dashboard:start": "node packages/dashboard/dist/server/server.js",
+    "dashboard:start": "node packages/cli/dist/index.js serve",
+    "dashboard:start:bridge": "node packages/cli/dist/index.js serve --with-bridge",
     "quality": "node packages/cli/dist/index.js doctor --quality"
   },
   "devDependencies": {

@@ -18,6 +18,8 @@ Usage:
   jaxx skill add <name>               Add a skill from a template
   jaxx skill list [--json]            List installed skills
   jaxx skill install <repo-git>       Safely install skills from an external Git repository
+  jaxx bridge start|status            Start / probe the optional LangGraph bridge service
+  jaxx serve [--with-bridge]          Start the dashboard (and optionally the bridge) for this project
 
 Exit codes: 0 ok | 1 check failed | 2 usage error | 3 config error | 4 internal error`;
 
@@ -34,6 +36,8 @@ const COMMANDS: Record<string, Handler> = {
   doctor: handleDoctor,
   session: handleSession,
   skill: handleSkill,
+  bridge: handleBridge,
+  serve: handleServe,
   skills: handleSkill,
   help: () => (console.log(USAGE), EXIT.OK),
 };
@@ -116,6 +120,16 @@ async function handleDoctor({ args, json }: CliContext): Promise<number> {
 async function handleSession(ctx: CliContext): Promise<number> {
   const { runSession } = await import("./commands/session");
   return runSession(ctx.args, ctx.json);
+}
+
+async function handleBridge(ctx: CliContext): Promise<number> {
+  const { runBridge } = await import("./commands/bridge");
+  return runBridge(ctx.args, ctx.json);
+}
+
+async function handleServe(ctx: CliContext): Promise<number> {
+  const { runServe } = await import("./commands/serve");
+  return runServe(ctx.args, ctx.json);
 }
 
 async function handleSkill(ctx: CliContext): Promise<number> {

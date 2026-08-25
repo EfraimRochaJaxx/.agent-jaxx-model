@@ -50,6 +50,11 @@ export const FrameConfigSchema = z.object({
   repos: z.array(RepoConfigSchema).default([]),
   docker: z.object({ containers: z.array(z.string()).default([]) }).default({}),
   ports: z.object({ dashboard: z.number().int().min(1).max(65535).default(3099) }).default({}),
+  bridge: z
+    .object({
+      port: z.number().int().min(1).max(65535).default(3100),
+    })
+    .default({}),
   quality: QualityConfigSchema,
   tokenCountdown: z
     .object({

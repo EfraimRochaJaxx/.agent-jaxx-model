@@ -163,15 +163,13 @@ function handleRequest(req: http.IncomingMessage, res: http.ServerResponse): voi
   }
   const url = (req.url ?? "/").split("?")[0];
   if (url === "/api/logo") return void handleLogo(res);
+  if (url === "/api/all") return void handleAll(res);
   if (handleApiRoute(url, res)) return;
   serveStatic(url, res);
 }
 
 function handleApiRoute(url: string, res: http.ServerResponse): boolean {
   switch (url) {
-    case "/api/all":
-      sendJson(res, 200, snapshot());
-      return true;
     case "/api/ping":
       sendJson(res, 200, { ok: true, ts: new Date().toISOString() });
       return true;
@@ -182,6 +180,28 @@ function handleApiRoute(url: string, res: http.ServerResponse): boolean {
 
 function handleLogo(res: http.ServerResponse): void {
   if (!logoResponse(res)) sendJson(res, 404, { error: "no logo configured" });
+}
+
+function handleAll(res: http.ServerResponse): void {
+  probeBridge()
+    .catch(() => ({ running: false, port: CONFIG.bridge.port }))
+    .then((bridge) => sendJson(res, 200, { ...snapshot(), bridge }));
+}
+
+/** Probe the optional LangGraph bridge health endpoint (short timeout). */
+function probeBridge(): Promise<{ running: boolean; port: number }> {
+  const port = CONFIG.bridge.port;
+  return new Promise((resolve, reject) => {
+    const req = http.get({ host: "127.0.0.1", port, path: "/health", timeout: 800 }, (res) => {
+      res.resume();
+      resolve({ running: res.statusCode === 200, port });
+    });
+    req.on("timeout", () => {
+      req.destroy();
+      reject(new Error("timeout"));
+    });
+    req.on("error", reject);
+  });
 }
 
 function snapshot() {

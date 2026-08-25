@@ -54,5 +54,6 @@ export interface AllResponse {
   docker: DockerDTO;
   agentLog: { events: EventDTO[]; malformedLines: number };
   skills: { skills: SkillDTO[]; issues: { filePath: string; reason: string }[] };
+  bridge?: { running: boolean; port: number };
   quality: QualityDTO;
 }

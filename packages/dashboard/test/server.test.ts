@@ -76,6 +76,8 @@ describe("dashboard server", () => {
     expect(data.agentLog.events).toHaveLength(1);
     expect(data.agentLog.events[0].msg).toBe("dash test event");
     expect(Array.isArray(data.repos)).toBe(true);
+    // bridge probe degrades gracefully when the service is down
+    expect(data.bridge).toMatchObject({ running: false, port: 3100 });
   });
 
   it("refuses logo paths that escape the project root", async () => {
