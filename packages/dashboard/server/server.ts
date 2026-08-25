@@ -216,17 +216,25 @@ function serveStatic(url: string, res: http.ServerResponse): void {
     return;
   }
   const filePath = path.resolve(WEB_DIR, "." + decoded);
-  if (!filePath.startsWith(WEB_DIR + path.sep) && filePath !== WEB_DIR) {
-    sendJson(res, 403, { error: "forbidden" });
-    return;
-  }
+  // Never SPA-fallback for asset-like requests: a stale index.html must not
+  // receive HTML in place of a missing JS/CSS file (blank-screen symptom).
+  const isAssetRequest = path.extname(decoded) !== "" && decoded !== "/index.html";
   fs.readFile(filePath, (err, data) => {
     if (!err) {
-      res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] ?? "application/octet-stream" });
+      const headers: Record<string, string> = {
+        "Content-Type": MIME[path.extname(filePath)] ?? "application/octet-stream",
+      };
+      // Hashed assets are immutable; the HTML shell must always revalidate.
+      headers["Cache-Control"] = isAssetRequest ? "public, max-age=31536000, immutable" : "no-cache";
+      res.writeHead(200, headers);
       res.end(data);
       return;
     }
-    // SPA fallback
+    if (isAssetRequest) {
+      sendJson(res, 404, { error: `asset not found: ${decoded} — rebuild the dashboard web bundle` });
+      return;
+    }
+    // SPA fallback (route paths)
     fs.readFile(path.join(WEB_DIR, "index.html"), (err2, index) => {
       if (err2) {
         sendJson(res, 404, {
@@ -234,7 +242,7 @@ function serveStatic(url: string, res: http.ServerResponse): void {
         });
         return;
       }
-      res.writeHead(200, { "Content-Type": MIME[".html"] });
+      res.writeHead(200, { "Content-Type": MIME[".html"], "Cache-Control": "no-cache" });
       res.end(index);
     });
   });

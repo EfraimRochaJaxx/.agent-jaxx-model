@@ -97,6 +97,12 @@ describe("dashboard server", () => {
     expect(body).not.toContain('"name"');
   });
 
+  it("returns 404 (never HTML) for missing hashed assets", async () => {
+    const res = await fetch(`${BASE}/assets/does-not-exist-123.js`);
+    expect(res.status).toBe(404);
+    expect(res.headers.get("content-type")).toContain("application/json");
+  });
+
   it("serves the built SPA shell", async () => {
     // web build may or may not exist in CI order; endpoint must respond 200/404 JSON, never crash
     const res = await fetch(BASE);
