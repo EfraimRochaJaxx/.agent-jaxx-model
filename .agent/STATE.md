@@ -1,28 +1,31 @@
 # State — Agent Jaxx Model
 
 ## Status
-IN_PROGRESS — PHASE_3
+MISSION_COMPLETE — CONTINUOUS_IMPROVEMENT_MODE
 
 ## Product
 Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScript monorepo + optional Python bridge).
 
-## Current phase
-Phase 3 of 6: @jaxx/dashboard (Vite + React 18 + Tailwind 3 + native HTTP server).
+## Completed (all 6 phases + acceptance)
+- Phase 1: @jaxx/core — schemas, config, sessions, append-only log, locking. Commit 7ac5566.
+- Phase 2: @jaxx/cli — init/log/doctor/skills/session, deterministic exit codes. Commit da79434.
+- Phase 3: @jaxx/dashboard — native HTTP server + React18/Tailwind3 SPA. Commit 5baaac3.
+- Phase 4: @jaxx/analyzers — complexity/dead-code/duplication wired into doctor --quality. Commit e7cb165.
+- Phase 5: skills registry hardened — 7 security boundary tests, trust model. Commit 0fbbb7e.
+- Phase 6: @jaxx/langgraph-bridge — FastAPI/LangGraph sharing the same log; cross-language verified. Commit 806f88e.
+- Clean-room acceptance suite (scripts/clean-room.mjs): 26 checks, ALL PASS.
+- Whitelabel invariant scan: no project-specific assumptions in source.
+- Security review documented (docs/security.md).
+- Dogfooding loop proven: quality gate caught real violations in own code twice; both fixed.
 
-## Completed
-- Phase 1: @jaxx/core — Zod schemas, frame.config loading, session lifecycle,
-  append-only JSONL audit log with file locking. 23 tests. Commit 7ac5566.
-- Phase 2: @jaxx/cli — init / log / doctor (+ skills command surface),
-  deterministic exit codes, --json modes. E2E-tested against temp projects.
-  Commit da79434.
-- Dogfooding: `.agent` control plane initialized inside this repository
-  (this file is part of it). Doctor passes on the repo itself.
+## Test totals
+- TypeScript: 49 vitest tests green.
+- Python bridge: 6 pytest tests green.
+- Clean-room E2E: 26 checks green.
 
-## Next steps
-1. Phase 3 — dashboard package (whitelabel, port from frame.config).
-2. Phase 4 — @jaxx/analyzers (complexity/dead-code/duplication) wired into `doctor --quality`.
-3. Phase 5 — full skills install trust tests (external repo, malicious inputs).
-4. Phase 6 — @jaxx/langgraph-bridge (FastAPI thin orchestrator graph).
+## Next steps (continuous improvement backlog)
+See PLAN.md M8+ candidates: npm publish prep, CI action, websocket push,
+cross-machine lock options, real LLM wiring example for the bridge.
 
 ## Blockers
 None.

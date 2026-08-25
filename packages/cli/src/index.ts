@@ -43,8 +43,18 @@ async function main(): Promise<number> {
   const ctx: CliContext = { args, json: args.flags["json"] === true };
 
   if (args.command == null || args.command === "--help" || args.command === "-h") {
+    if (args.flags["version"] === true) {
+      const { version } = require("../package.json") as { version: string };
+      console.log(version);
+      return EXIT.OK;
+    }
     console.log(USAGE);
     return args.command == null ? EXIT.USAGE : EXIT.OK;
+  }
+  if (args.command === "version") {
+    const { version } = require("../package.json") as { version: string };
+    console.log(version);
+    return EXIT.OK;
   }
   const handler = COMMANDS[args.command];
   if (!handler) {

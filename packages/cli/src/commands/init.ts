@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { ensureControlPlane } from "@jaxx/core";
+import { appendEvent, ensureControlPlane } from "@jaxx/core";
 
 export function cmdInit(name: string, rootDir: string): { files: string[]; configPath: string } {
   if (!name) throw new Error("init requires a project name: jaxx init \"My Project\"");
@@ -9,6 +9,13 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
   if (!fs.existsSync(configPath)) {
     fs.writeFileSync(configPath, generateFrameConfig(name), "utf8");
   }
+  // First entry in the audit log — proves the append-only channel works
+  // from the very first second of the project's control plane.
+  appendEvent(rootDir, {
+    lvl: "DONE",
+    agent: "jaxx-init",
+    msg: `Control plane initialized for "${name}"`,
+  });
   const files = fs
     .readdirSync(agentDir)
     .map((f) => path.join(".agent", f))

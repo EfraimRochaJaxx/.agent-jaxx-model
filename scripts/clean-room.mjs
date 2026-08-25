@@ -54,7 +54,7 @@ try {
   ok(jaxx(["log", "DONE", "second event", "--agent", "acceptance"], proj).code === 0, "jaxx log #2 exits 0");
   const after = fs.readFileSync(path.join(proj, ".agent", "AGENT_LOG.jsonl"), "utf8");
   ok(after.startsWith(before), "log is append-only (#2 preserves #1)");
-  ok(after.trim().split("\n").length === 2, "two log commands => exactly 2 events");
+  ok(after.trim().split("\n").length === 3, "init event + two log commands => exactly 3 events");
 
   // 4. git status integration
   spawnSync("git", ["init", "-b", "main"], { cwd: proj, windowsHide: true });
