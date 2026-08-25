@@ -29,9 +29,21 @@ beforeAll(async () => {
     path.join(agentDir, "AGENT_LOG.jsonl"),
     JSON.stringify({ ts: new Date().toISOString(), lvl: "INFO", agent: "t", msg: "dash test event" }) + "\n",
   );
-  child = spawn(process.execPath, [SERVER, "--root", proj], { windowsHide: true });
-  await waitForServer();
-}, 30_000);
+  // Retry on transient port collisions between parallel test files.
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      child = spawn(process.execPath, [SERVER, "--root", proj], { windowsHide: true });
+      await waitForServer();
+      lastErr = null;
+      break;
+    } catch (e) {
+      lastErr = e;
+      child?.kill();
+    }
+  }
+  if (lastErr) throw lastErr;
+}, 60_000);
 
 function waitForServer(): Promise<void> {
   return new Promise((resolve, reject) => {

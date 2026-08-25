@@ -95,7 +95,7 @@ async function handleInit({ args, json }: CliContext): Promise<number> {
 
 function handleLog({ args, json }: CliContext): number {
   const [lvl, msg] = args.positional;
-  cmdLog(lvl ?? "", msg ?? "", flagStr(args, "agent"), flagStr(args, "root") ?? ".");
+  cmdLog(lvl ?? "", msg ?? "", flagStr(args, "agent"), flagStr(args, "root"));
   if (json) console.log(JSON.stringify({ ok: true }));
   else console.log("logged.");
   return EXIT.OK;
@@ -124,7 +124,10 @@ async function handleSkill(ctx: CliContext): Promise<number> {
 }
 
 function resolveRoot(args: ParsedArgs): string {
-  return path.resolve(flagStr(args, "root") ?? ".");
+  const rootFlag = flagStr(args, "root");
+  if (rootFlag) return path.resolve(rootFlag);
+  const { findProjectRoot } = require("@jaxx/core") as typeof import("@jaxx/core");
+  return findProjectRoot(process.cwd()) ?? process.cwd();
 }
 
 main().then((code) => process.exit(code));

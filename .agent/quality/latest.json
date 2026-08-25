@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T16:04:12.642Z",
+  "generatedAt": "2026-08-25T16:12:32.632Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
@@ -25,6 +25,11 @@
         "file": "packages/dashboard/src/App.tsx",
         "function": "App",
         "complexity": 10
+      },
+      {
+        "file": "packages/cli/src/index.ts",
+        "function": "main",
+        "complexity": 9
       },
       {
         "file": "packages/analyzers/src/complexity.ts",
@@ -55,11 +60,6 @@
         "file": "packages/cli/src/commands/skills.ts",
         "function": "findSkillFiles",
         "complexity": 8
-      },
-      {
-        "file": "packages/cli/src/index.ts",
-        "function": "main",
-        "complexity": 7
       }
     ]
   },
@@ -201,8 +201,8 @@
     "note": "approximate — exported symbols never referenced by another analyzed file (86 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.04151838671411625,
-    "linesTotal": 2529,
+    "ratio": 0.04119262455865045,
+    "linesTotal": 2549,
     "linesDuplicated": 105,
     "worstBlocks": [
       {

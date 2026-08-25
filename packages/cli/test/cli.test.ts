@@ -88,6 +88,16 @@ describe("jaxx log", () => {
     expect(res.code).toBe(2);
     expect(fs.readFileSync(path.join(proj, ".agent", "AGENT_LOG.jsonl"), "utf8")).toBe(before);
   });
+
+  it("logging from a subdirectory targets the project root, not the cwd", () => {
+    const sub = path.join(proj, "src", "deep");
+    fs.mkdirSync(sub, { recursive: true });
+    const res = jaxx(["log", "INFO", "from nested dir", "--agent", "walker"], sub);
+    expect(res.code).toBe(0);
+    const events = readEventsFrom(path.join(proj, ".agent", "AGENT_LOG.jsonl"));
+    expect(events.events.at(-1)?.msg).toBe("from nested dir");
+    expect(fs.existsSync(path.join(sub, ".agent"))).toBe(false);
+  });
 });
 
 describe("jaxx doctor", () => {
