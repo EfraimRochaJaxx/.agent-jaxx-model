@@ -2,7 +2,7 @@ node_modules/
 dist/
 *.tsbuildinfo
 .agent/skills/.cache/
+packages/langgraph-bridge/.venv/
 __pycache__/
 *.pyc
-.venv/
 .pytest_cache/

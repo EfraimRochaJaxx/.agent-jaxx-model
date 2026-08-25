@@ -1,6 +1,6 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T15:19:26.559Z
+- Generated: 2026-08-25T15:40:28.480Z
 - Files analyzed: 27 · Functions: 132
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
@@ -15,7 +15,7 @@
 
 ## Duplication
 
-- Ratio: 3.9% of 2408 significant lines
+- Ratio: 3.9% of 2410 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `bf003ac24104` ×2 (first: frame.config.example.ts:6)
 - block `7d02f9e3291f` ×2 (first: frame.config.example.ts:7)
