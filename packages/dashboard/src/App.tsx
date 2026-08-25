@@ -1,7 +1,43 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { AllResponse, EventDTO } from "./types";
 
 const POLL_MS = 10_000;
+
+/** Render crashes must never produce a silent blank screen. */
+export function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  const [error, setError] = useState<unknown>(null);
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <div className="card p-6 max-w-xl">
+          <h1 className="text-lg font-semibold text-red-300 mb-2">Interface error</h1>
+          <pre className="text-xs text-slate-300 whitespace-pre-wrap">{String(error)}</pre>
+          <button className="mt-4 px-3 py-1.5 rounded text-sm" style={{ background: "var(--jx-primary)", color: "#0A0B0D" }} onClick={() => setError(null)}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <ErrorCatcher onError={setError}>
+      {children}
+    </ErrorCatcher>
+  );
+}
+
+class ErrorCatcher extends React.Component<{ onError: (e: unknown) => void; children: React.ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: unknown) {
+    this.props.onError(error);
+  }
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
 
 const LEVEL_STYLE: Record<string, string> = {
   INFO: "bg-sky-500/15 text-sky-300",
@@ -75,13 +111,13 @@ export default function App() {
       </header>
 
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <AgentLog events={data.agentLog} />
+        <AgentLog events={data.agentLog.events} />
         <GitPanel repos={data.repos} />
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <DockerPanel docker={data.docker} />
-        <SkillsPanel skills={data.skills} issues={data.skillIssues} />
+        <SkillsPanel skills={data.skills.skills} issues={data.skills.issues} />
         <QualityPanel quality={data.quality} />
       </section>
     </div>
@@ -215,7 +251,7 @@ function SkillsPanel({ skills, issues }: { skills: { name: string; version: stri
   );
 }
 
-function QualityPanel({ quality }: { quality: { exists: boolean; passed?: boolean; summary?: string; generatedAt?: string } }) {
+function QualityPanel({ quality }: { quality: { exists: boolean; passed?: boolean; violations?: string[]; generatedAt?: string } }) {
   return (
     <Card title="Quality" right={
       quality.exists ? (
@@ -226,8 +262,15 @@ function QualityPanel({ quality }: { quality: { exists: boolean; passed?: boolea
     }>
       {quality.exists ? (
         <div className="text-sm space-y-2">
-          <pre className="whitespace-pre-wrap text-xs text-slate-300 max-h-[200px] overflow-y-auto">{quality.summary ?? "(no summary)"}</pre>
-          {quality.generatedAt && <p className="text-xs text-slate-500">generated {quality.generatedAt}</p>}
+          <ul className="space-y-1 max-h-[200px] overflow-y-auto">
+            {(quality.violations ?? []).map((v, i) => (
+              <li key={i} className="text-xs text-red-300 break-all">• {v}</li>
+            ))}
+            {(quality.violations ?? []).length === 0 && (
+              <li className="text-xs text-emerald-300">All thresholds met.</li>
+            )}
+          </ul>
+          {quality.generatedAt && <p className="text-xs text-slate-500">generated {new Date(quality.generatedAt).toLocaleString()}</p>}
         </div>
       ) : (
         <p className="text-slate-500 text-sm">No quality scorecard yet. Run <code className="text-slate-300">jaxx doctor --quality</code>.</p>

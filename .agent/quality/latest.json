@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-25T16:59:02.850Z",
+  "generatedAt": "2026-08-25T17:37:58.509Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
-  "filesAnalyzed": 28,
-  "functionsAnalyzed": 141,
+  "filesAnalyzed": 29,
+  "functionsAnalyzed": 148,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -22,6 +22,11 @@
         "complexity": 10
       },
       {
+        "file": "packages/dashboard/server/server.ts",
+        "function": "serveStatic",
+        "complexity": 10
+      },
+      {
         "file": "packages/dashboard/src/App.tsx",
         "function": "App",
         "complexity": 10
@@ -29,11 +34,6 @@
       {
         "file": "packages/cli/src/index.ts",
         "function": "main",
-        "complexity": 9
-      },
-      {
-        "file": "packages/dashboard/server/server.ts",
-        "function": "serveStatic",
         "complexity": 9
       },
       {
@@ -198,11 +198,11 @@
         "symbol": "DoctorOptions"
       }
     ],
-    "note": "approximate — exported symbols never referenced by another analyzed file (86 exports scanned); entry points exempt"
+    "note": "approximate — exported symbols never referenced by another analyzed file (87 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.04095163806552262,
-    "linesTotal": 2564,
+    "ratio": 0.039208364451082896,
+    "linesTotal": 2678,
     "linesDuplicated": 105,
     "worstBlocks": [
       {

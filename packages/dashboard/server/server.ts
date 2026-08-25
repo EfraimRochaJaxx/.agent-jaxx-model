@@ -106,7 +106,7 @@ function skills() {
 function quality(): unknown {
   const p = path.join(ROOT, ".agent", "quality", "latest.json");
   try {
-    return JSON.parse(fs.readFileSync(p, "utf8"));
+    return { ...JSON.parse(fs.readFileSync(p, "utf8")), exists: true };
   } catch {
     return { exists: false };
   }

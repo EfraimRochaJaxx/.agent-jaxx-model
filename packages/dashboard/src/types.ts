@@ -41,7 +41,7 @@ export interface QualityDTO {
   exists: boolean;
   generatedAt?: string;
   passed?: boolean;
-  scorecard?: unknown;
+  violations?: string[];
   summary?: string;
 }
 
@@ -52,8 +52,7 @@ export interface AllResponse {
   tokenCountdown: { enabled: boolean; resetMinutes: number; label: string };
   repos: RepoDTO[];
   docker: DockerDTO;
-  agentLog: EventDTO[];
-  skills: SkillDTO[];
-  skillIssues: { filePath: string; reason: string }[];
+  agentLog: { events: EventDTO[]; malformedLines: number };
+  skills: { skills: SkillDTO[]; issues: { filePath: string; reason: string }[] };
   quality: QualityDTO;
 }

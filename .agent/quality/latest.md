@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T16:59:02.850Z
-- Files analyzed: 28 · Functions: 141
+- Generated: 2026-08-25T17:37:58.509Z
+- Files analyzed: 29 · Functions: 148
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -9,13 +9,13 @@
 
 - `parseSimpleYaml` in packages/core/src/skills.ts — 10
 - `logoResponse` in packages/dashboard/server/server.ts — 10
+- `serveStatic` in packages/dashboard/server/server.ts — 10
 - `App` in packages/dashboard/src/App.tsx — 10
 - `main` in packages/cli/src/index.ts — 9
-- `serveStatic` in packages/dashboard/server/server.ts — 9
 
 ## Duplication
 
-- Ratio: 4.1% of 2564 significant lines
+- Ratio: 3.9% of 2678 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `bf003ac24104` ×2 (first: frame.config.example.ts:6)
 - block `7d02f9e3291f` ×2 (first: frame.config.example.ts:7)
@@ -40,4 +40,4 @@
 - `ReadEventsResult` in packages/core/src/log.ts
 - `LogIntegrity` in packages/core/src/log.ts
 
-_Note: approximate — exported symbols never referenced by another analyzed file (86 exports scanned); entry points exempt_
+_Note: approximate — exported symbols never referenced by another analyzed file (87 exports scanned); entry points exempt_

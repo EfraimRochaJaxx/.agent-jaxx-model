@@ -25,3 +25,4 @@
 {"ts":"2026-08-25T16:16:31.329Z","lvl":"DONE","agent":"ox-alpha","msg":"CI hardening: subdir logging fix, version flag, init audit event, test port-collision retry"}
 {"ts":"2026-08-25T16:27:18.966Z","lvl":"DONE","agent":"ox-alpha","msg":"Hardening round: encoded-traversal rejection in dashboard, pytest pythonpath fix, unified root build; 51 TS + 6 PY tests + 26 acceptance checks green"}
 {"ts":"2026-08-25T17:14:21.990Z","lvl":"DONE","agent":"ox-alpha","msg":"Fix: dashboard blank screen - stale index.html cached by browser received HTML fallback instead of 404 for missing hashed assets; added cache headers (no-cache shell, immutable assets)"}
+{"ts":"2026-08-25T17:39:22.405Z","lvl":"DONE","agent":"ox-alpha","msg":"Blank screen root-caused: UI expected arrays but server sends {events},{skills,issues} objects - React crashed on .map. Fixed contract, added ErrorBoundary + jsdom render smoke test with real server payload (54 tests)"}
