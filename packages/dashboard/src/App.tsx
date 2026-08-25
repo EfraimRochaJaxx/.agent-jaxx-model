@@ -120,7 +120,66 @@ export default function App() {
         <SkillsPanel skills={data.skills.skills} issues={data.skills.issues} />
         <QualityPanel quality={data.quality} />
       </section>
+
+      <BridgePanel events={data.agentLog.events} />
     </div>
+  );
+}
+
+const BRIDGE_NODES = [
+  { id: "orchestrator", label: "Orchestrator", role: "plans & delegates" },
+  { id: "coder", label: "Coder", role: "implements" },
+  { id: "reviewer", label: "Reviewer", role: "reviews" },
+  { id: "qa", label: "QA", role: "verifies" },
+] as const;
+
+function BridgePanel({ events }: { events: EventDTO[] }) {
+  const counts = new Map<string, number>();
+  let lastAt = "";
+  for (const e of events) {
+    const node = BRIDGE_NODES.find((n) => n.id === e.agent) ?? (e.agent === "bridge" ? { id: "bridge", label: "", role: "" } : null);
+    if (!node) continue;
+    if (node.id !== "bridge") counts.set(node.id, (counts.get(node.id) ?? 0) + 1);
+    if (!lastAt || e.ts > lastAt) lastAt = e.ts;
+  }
+  const total = [...counts.values()].reduce((a, b) => a + b, 0);
+
+  return (
+    <Card title="Multi-Agent Graph (LangGraph bridge)" right={
+      <span className="text-xs text-slate-500">{total > 0 ? `active · last event ${fmtTime(lastAt)}` : "idle — run POST /run on the bridge"}</span>
+    }>
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
+        {BRIDGE_NODES.map((n, i) => (
+          <div key={n.id} className="flex items-center gap-3 flex-1 min-w-0">
+            <div
+              className={`flex-1 rounded-lg border p-3 transition-colors ${
+                counts.get(n.id) ? "border-transparent" : "border-slate-800"
+              }`}
+              style={
+                counts.get(n.id)
+                  ? { background: "color-mix(in srgb, var(--jx-primary) 10%, transparent)", borderColor: "color-mix(in srgb, var(--jx-primary) 40%, transparent)" }
+                  : undefined
+              }
+            >
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="font-medium">{n.label}</span>
+                <span className="font-mono text-sm" style={{ color: counts.get(n.id) ? "var(--jx-primary)" : undefined }}>
+                  {counts.get(n.id) ?? 0}
+                </span>
+              </div>
+              <p className="text-xs text-slate-500">{n.role}</p>
+            </div>
+            {i < BRIDGE_NODES.length - 1 && (
+              <span className="text-slate-600 hidden lg:block" aria-hidden>→</span>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 text-xs text-slate-500">
+        Every node appends to the shared AGENT_LOG.jsonl — the counters above are derived from the same audit log.
+        Start the bridge: <code className="text-slate-400">uvicorn jaxx_bridge.server:app --port 3100</code> then <code className="text-slate-400">POST /run {"{ goal }"}</code>.
+      </p>
+    </Card>
   );
 }
 

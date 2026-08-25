@@ -26,3 +26,15 @@
 {"ts":"2026-08-25T16:27:18.966Z","lvl":"DONE","agent":"ox-alpha","msg":"Hardening round: encoded-traversal rejection in dashboard, pytest pythonpath fix, unified root build; 51 TS + 6 PY tests + 26 acceptance checks green"}
 {"ts":"2026-08-25T17:14:21.990Z","lvl":"DONE","agent":"ox-alpha","msg":"Fix: dashboard blank screen - stale index.html cached by browser received HTML fallback instead of 404 for missing hashed assets; added cache headers (no-cache shell, immutable assets)"}
 {"ts":"2026-08-25T17:39:22.405Z","lvl":"DONE","agent":"ox-alpha","msg":"Blank screen root-caused: UI expected arrays but server sends {events},{skills,issues} objects - React crashed on .map. Fixed contract, added ErrorBoundary + jsdom render smoke test with real server payload (54 tests)"}
+{"ts":"2026-08-25T14:48:48.954344-03:00","lvl":"INFO","agent":"bridge","msg":"graph run started for goal: demo: implement login rate limiting"}
+{"ts":"2026-08-25T14:48:49.015178-03:00","lvl":"AGENT","agent":"orchestrator","msg":"orchestrator planning: demo: implement login rate limiting"}
+{"ts":"2026-08-25T14:48:49.017417-03:00","lvl":"INFO","agent":"orchestrator","msg":"task 1: clarify scope of 'demo: implement login rate limiting'"}
+{"ts":"2026-08-25T14:48:49.019264-03:00","lvl":"INFO","agent":"orchestrator","msg":"task 2: implement 'demo: implement login rate limiting' behind tests"}
+{"ts":"2026-08-25T14:48:49.021169-03:00","lvl":"INFO","agent":"orchestrator","msg":"task 3: verify 'demo: implement login rate limiting' against acceptance criteria"}
+{"ts":"2026-08-25T14:48:49.024691-03:00","lvl":"AGENT","agent":"coder","msg":"coder working on: clarify scope of 'demo: implement login rate limiting'"}
+{"ts":"2026-08-25T14:48:49.029964-03:00","lvl":"INFO","agent":"reviewer","msg":"reviewed: clarify scope of 'demo: implement login rate limiting'"}
+{"ts":"2026-08-25T14:48:49.032097-03:00","lvl":"INFO","agent":"reviewer","msg":"reviewed: implement 'demo: implement login rate limiting' behind tests"}
+{"ts":"2026-08-25T14:48:49.034273-03:00","lvl":"INFO","agent":"reviewer","msg":"reviewed: verify 'demo: implement login rate limiting' against acceptance criteria"}
+{"ts":"2026-08-25T14:48:49.036858-03:00","lvl":"DONE","agent":"qa","msg":"qa verdict: PASS (deterministic stub)"}
+{"ts":"2026-08-25T14:48:49.039323-03:00","lvl":"DONE","agent":"bridge","msg":"graph finished: 3 task(s), qa=PASS (deterministic stub)"}
+{"ts":"2026-08-25T17:48:59.569Z","lvl":"GIT","agent":"bridge","msg":"bridge demo run: orchestrator->coder->reviewer->qa appended events for goal 'demo: implement login rate limiting'"}
