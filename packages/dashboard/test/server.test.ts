@@ -90,6 +90,13 @@ describe("dashboard server", () => {
     }
   });
 
+  it("blocks encoded path traversal on static routes", async () => {
+    const res = await fetch(`${BASE}/..%2F..%2F..%2Fpackage.json`);
+    expect([403, 404]).toContain(res.status);
+    const body = await res.text();
+    expect(body).not.toContain('"name"');
+  });
+
   it("serves the built SPA shell", async () => {
     // web build may or may not exist in CI order; endpoint must respond 200/404 JSON, never crash
     const res = await fetch(BASE);

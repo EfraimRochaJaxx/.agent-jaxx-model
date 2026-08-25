@@ -1,6 +1,6 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T16:12:32.632Z
+- Generated: 2026-08-25T16:25:56.918Z
 - Files analyzed: 28 · Functions: 141
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
@@ -11,11 +11,11 @@
 - `logoResponse` in packages/dashboard/server/server.ts — 10
 - `App` in packages/dashboard/src/App.tsx — 10
 - `main` in packages/cli/src/index.ts — 9
-- `analyzeComplexity` in packages/analyzers/src/complexity.ts — 8
+- `serveStatic` in packages/dashboard/server/server.ts — 9
 
 ## Duplication
 
-- Ratio: 4.1% of 2549 significant lines
+- Ratio: 4.1% of 2560 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `bf003ac24104` ×2 (first: frame.config.example.ts:6)
 - block `7d02f9e3291f` ×2 (first: frame.config.example.ts:7)

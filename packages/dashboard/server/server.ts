@@ -202,8 +202,20 @@ function snapshot() {
 }
 
 function serveStatic(url: string, res: http.ServerResponse): void {
-  const rel = url === "/" ? "/index.html" : url;
-  const filePath = path.resolve(WEB_DIR, "." + rel);
+  let rel = url === "/" ? "/index.html" : url;
+  // Reject traversal attempts in raw and percent-encoded form.
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(rel);
+  } catch {
+    sendJson(res, 400, { error: "bad request" });
+    return;
+  }
+  if (rel.includes("..") || decoded.includes("..")) {
+    sendJson(res, 403, { error: "forbidden" });
+    return;
+  }
+  const filePath = path.resolve(WEB_DIR, "." + decoded);
   if (!filePath.startsWith(WEB_DIR + path.sep) && filePath !== WEB_DIR) {
     sendJson(res, 403, { error: "forbidden" });
     return;

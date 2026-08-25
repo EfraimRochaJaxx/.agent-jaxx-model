@@ -11,7 +11,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -b packages/core packages/cli packages/analyzers",
+    "build": "npm run build --workspace @jaxx/core --if-present && npm run build --workspace @jaxx/analyzers && npm run build --workspace @jaxx/cli && npm run build --workspace @jaxx/dashboard",
     "test": "vitest run",
     "dashboard:build": "npm run build --workspace @jaxx/dashboard",
     "dashboard:start": "node packages/dashboard/dist/server/server.js",

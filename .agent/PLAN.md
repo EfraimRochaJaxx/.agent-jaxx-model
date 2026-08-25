@@ -12,26 +12,33 @@ High-level roadmap. Ordered by priority.
 - [x] jaxx init / log / doctor with deterministic exit codes and --json
 - [x] Skills registry command surface (add/list/install)
 
-### M3 — Dashboard observability
-- [ ] Whitelabel Vite+React18+Tailwind3 dashboard served by native HTTP server
-- [ ] Agent log polling, git status, docker status, token countdown, skills, quality views
+### M3 — Dashboard observability (DONE)
+- [x] Whitelabel Vite+React18+Tailwind3 dashboard served by native HTTP server
+- [x] Agent log polling, git status, docker status, token countdown, skills, quality views
 
-### M4 — Quality gates
-- [ ] @jaxx/analyzers: cyclomatic complexity, dead code, duplication
-- [ ] doctor --quality gate with threshold-driven exit codes
+### M4 — Quality gates (DONE)
+- [x] @jaxx/analyzers: cyclomatic complexity, dead code, duplication
+- [x] doctor --quality gate with threshold-driven exit codes
 
-### M5 — Skills hardening
-- [ ] Safe external installation tests (malicious frontmatter, traversal, symlinks)
-- [ ] Trust model documentation
+### M5 — Skills hardening (DONE)
+- [x] Safe external installation tests (malicious frontmatter, traversal, symlinks)
+- [x] Trust model documentation (docs/security.md)
 
-### M6 — Multi-agent bridge
-- [ ] @jaxx/langgraph-bridge: orchestrator -> coder/reviewer/qa appending shared events
-- [ ] REST interface mirroring core schemas
+### M6 — Multi-agent bridge (DONE)
+- [x] @jaxx/langgraph-bridge: orchestrator -> coder/reviewer/qa appending shared events
+- [x] REST interface mirroring core schemas; cross-language logging verified
 
-### M7 — Acceptance & audit
-- [ ] Clean-room acceptance test in a fresh temp project
-- [ ] Security review + whitelabel invariant scan
-- [ ] README + docs/
+### M7 — Acceptance & audit (DONE)
+- [x] Clean-room acceptance test (scripts/clean-room.mjs, 26 checks)
+- [x] Security review + whitelabel invariant scan
+- [x] README + docs/
+
+### M8 — Continuous improvement backlog
+- [ ] npm publish preparation (bin packaging, files field audit)
+- [ ] GitHub Action wrapping `doctor --quality` as CI gate
+- [ ] Real LLM wiring example for bridge nodes
+- [ ] Dashboard websocket push option (currently 10s polling)
+- [ ] Cross-machine lock coordination options
 
 ## Working agreements
 - One feature = one branch = one agent.
