@@ -1,0 +1,245 @@
+{
+  "generatedAt": "2026-08-25T15:19:26.559Z",
+  "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
+  "thresholds": {
+    "maxComplexity": 10,
+    "maxDuplicationRatio": 0.05
+  },
+  "filesAnalyzed": 27,
+  "functionsAnalyzed": 132,
+  "complexity": {
+    "maxObserved": 10,
+    "violations": [],
+    "topFunctions": [
+      {
+        "file": "packages/core/src/skills.ts",
+        "function": "parseSimpleYaml",
+        "complexity": 10
+      },
+      {
+        "file": "packages/dashboard/server/server.ts",
+        "function": "logoResponse",
+        "complexity": 10
+      },
+      {
+        "file": "packages/dashboard/src/App.tsx",
+        "function": "App",
+        "complexity": 10
+      },
+      {
+        "file": "packages/analyzers/src/complexity.ts",
+        "function": "analyzeComplexity",
+        "complexity": 8
+      },
+      {
+        "file": "packages/analyzers/src/index.ts",
+        "function": "listSourceFiles",
+        "complexity": 8
+      },
+      {
+        "file": "packages/core/src/skills.ts",
+        "function": "listSkills",
+        "complexity": 8
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "function": "qualityGate",
+        "complexity": 8
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "function": "checkEnv",
+        "complexity": 8
+      },
+      {
+        "file": "packages/cli/src/commands/skills.ts",
+        "function": "findSkillFiles",
+        "complexity": 8
+      },
+      {
+        "file": "packages/cli/src/index.ts",
+        "function": "main",
+        "complexity": 7
+      }
+    ]
+  },
+  "deadCode": {
+    "candidates": [
+      {
+        "file": "packages/analyzers/src/complexity.ts",
+        "symbol": "ComplexityReport"
+      },
+      {
+        "file": "packages/analyzers/src/deadcode.ts",
+        "symbol": "DeadCodeReport"
+      },
+      {
+        "file": "packages/analyzers/src/duplication.ts",
+        "symbol": "DuplicationBlock"
+      },
+      {
+        "file": "packages/core/src/config.ts",
+        "symbol": "findProjectRoot"
+      },
+      {
+        "file": "packages/core/src/config.ts",
+        "symbol": "locateFrameConfig"
+      },
+      {
+        "file": "packages/core/src/config.ts",
+        "symbol": "loadFrameConfigFromPath"
+      },
+      {
+        "file": "packages/core/src/git.ts",
+        "symbol": "runGit"
+      },
+      {
+        "file": "packages/core/src/git.ts",
+        "symbol": "CommitInfo"
+      },
+      {
+        "file": "packages/core/src/git.ts",
+        "symbol": "RepoStatus"
+      },
+      {
+        "file": "packages/core/src/lock.ts",
+        "symbol": "withFileLock"
+      },
+      {
+        "file": "packages/core/src/lock.ts",
+        "symbol": "FileLockOptions"
+      },
+      {
+        "file": "packages/core/src/lock.ts",
+        "symbol": "LockTimeoutError"
+      },
+      {
+        "file": "packages/core/src/log.ts",
+        "symbol": "agentLogPath"
+      },
+      {
+        "file": "packages/core/src/log.ts",
+        "symbol": "AppendResult"
+      },
+      {
+        "file": "packages/core/src/log.ts",
+        "symbol": "ReadEventsResult"
+      },
+      {
+        "file": "packages/core/src/log.ts",
+        "symbol": "LogIntegrity"
+      },
+      {
+        "file": "packages/core/src/paths.ts",
+        "symbol": "SKILLS_DIR_NAME"
+      },
+      {
+        "file": "packages/core/src/paths.ts",
+        "symbol": "FRAME_CONFIG_FILENAME"
+      },
+      {
+        "file": "packages/core/src/schemas.ts",
+        "symbol": "RepoConfigSchema"
+      },
+      {
+        "file": "packages/core/src/schemas.ts",
+        "symbol": "RepoConfig"
+      },
+      {
+        "file": "packages/core/src/schemas.ts",
+        "symbol": "QualityConfigSchema"
+      },
+      {
+        "file": "packages/core/src/session.ts",
+        "symbol": "recentEvents"
+      },
+      {
+        "file": "packages/core/src/session.ts",
+        "symbol": "SessionSummary"
+      },
+      {
+        "file": "packages/core/src/session.ts",
+        "symbol": "Session"
+      },
+      {
+        "file": "packages/core/src/skills.ts",
+        "symbol": "ParsedSkill"
+      },
+      {
+        "file": "packages/core/src/skills.ts",
+        "symbol": "SkillParseIssue"
+      },
+      {
+        "file": "packages/dashboard/src/types.ts",
+        "symbol": "CommitDTO"
+      },
+      {
+        "file": "packages/dashboard/src/types.ts",
+        "symbol": "RepoDTO"
+      },
+      {
+        "file": "packages/dashboard/src/types.ts",
+        "symbol": "DockerDTO"
+      },
+      {
+        "file": "packages/dashboard/src/types.ts",
+        "symbol": "SkillDTO"
+      },
+      {
+        "file": "packages/dashboard/src/types.ts",
+        "symbol": "QualityDTO"
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "symbol": "CheckStatus"
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "symbol": "CheckResult"
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "symbol": "DoctorReport"
+      },
+      {
+        "file": "packages/cli/src/commands/doctor.ts",
+        "symbol": "DoctorOptions"
+      }
+    ],
+    "note": "approximate — exported symbols never referenced by another analyzed file (85 exports scanned); entry points exempt"
+  },
+  "duplication": {
+    "ratio": 0.03945182724252492,
+    "linesTotal": 2408,
+    "linesDuplicated": 95,
+    "worstBlocks": [
+      {
+        "hash": "05ab8df3d768",
+        "count": 3,
+        "firstOccurrence": "packages/core/src/git.ts:19"
+      },
+      {
+        "hash": "bf003ac24104",
+        "count": 2,
+        "firstOccurrence": "frame.config.example.ts:6"
+      },
+      {
+        "hash": "7d02f9e3291f",
+        "count": 2,
+        "firstOccurrence": "frame.config.example.ts:7"
+      },
+      {
+        "hash": "3a80f842e47b",
+        "count": 2,
+        "firstOccurrence": "frame.config.example.ts:8"
+      },
+      {
+        "hash": "4cc4251f9b23",
+        "count": 2,
+        "firstOccurrence": "frame.config.example.ts:14"
+      }
+    ]
+  },
+  "passed": true,
+  "violations": []
+}

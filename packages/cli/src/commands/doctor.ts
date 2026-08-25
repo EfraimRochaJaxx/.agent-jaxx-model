@@ -96,17 +96,48 @@ export async function runDoctor(rootDir: string, opts: DoctorOptions = {}): Prom
   // 7. Docker containers
   checks.push(await checkDocker(cfg));
 
-  // 8. Quality gate hook (implemented by @jaxx/analyzers; wired in doctor --quality)
-  checks.push(qualityHook(opts.quality ?? false));
+  // 8. Quality gate (cyclomatic complexity / duplication via @jaxx/analyzers)
+  checks.push(qualityGate(root, cfg, opts.quality ?? false));
 
   const ok = checks.every((c) => c.status !== "fail");
   return { root, projectName: cfg?.project.name, checks, ok };
 }
 
-/** Overridden in Phase 4 when @jaxx/analyzers is wired into the CLI. */
-function qualityHook(enabled: boolean): CheckResult {
-  void enabled;
-  return { id: "quality", title: "Quality gates", status: "skip", detail: "analyzers not wired yet" };
+function qualityGate(root: string, cfg: FrameConfig | null, enabled: boolean): CheckResult {
+  const qCfg = cfg?.quality;
+  if (!enabled && !qCfg?.enabled) {
+    return { id: "quality", title: "Quality gates", status: "skip", detail: "run `jaxx doctor --quality` to analyze" };
+  }
+  if (qCfg?.enabled === false) {
+    return { id: "quality", title: "Quality gates", status: "skip", detail: "disabled in frame.config" };
+  }
+  try {
+    // Lazy import so plain `doctor` never pays the analyzer cost.
+    const { runAnalyzers, persistResults } = require("@jaxx/analyzers") as typeof import("@jaxx/analyzers");
+    const result = runAnalyzers(root, qCfg ?? {});
+    persistResults(root, result);
+    if (!result.passed) {
+      return {
+        id: "quality",
+        title: "Quality gates",
+        status: "fail",
+        detail: result.scorecard.violations.slice(0, 5).join("; ") + (result.scorecard.violations.length > 5 ? "; …" : ""),
+      };
+    }
+    return {
+      id: "quality",
+      title: "Quality gates",
+      status: "pass",
+      detail: `${result.scorecard.filesAnalyzed} files · max complexity ${result.scorecard.complexity.maxObserved} · duplication ${(result.scorecard.duplication.ratio * 100).toFixed(1)}%`,
+    };
+  } catch (err) {
+    return {
+      id: "quality",
+      title: "Quality gates",
+      status: "warn",
+      detail: `analysis error: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
 }
 
 function checkControlPlane(root: string): CheckResult {

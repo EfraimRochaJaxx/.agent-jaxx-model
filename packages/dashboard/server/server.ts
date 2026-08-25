@@ -154,69 +154,79 @@ const MIME: Record<string, string> = {
   ".woff2": "font/woff2",
 };
 
-const server = http.createServer((req, res) => {
-  const url = (req.url ?? "/").split("?")[0];
+const server = http.createServer(handleRequest);
 
+function handleRequest(req: http.IncomingMessage, res: http.ServerResponse): void {
   if (!["GET", "HEAD"].includes(req.method ?? "")) {
     sendJson(res, 405, { error: "method not allowed" });
     return;
   }
+  const url = (req.url ?? "/").split("?")[0];
+  if (url === "/api/logo") return void handleLogo(res);
+  if (handleApiRoute(url, res)) return;
+  serveStatic(url, res);
+}
 
-  if (url === "/api/logo") {
-    if (!logoResponse(res)) sendJson(res, 404, { error: "no logo configured" });
-    return;
-  }
-
+function handleApiRoute(url: string, res: http.ServerResponse): boolean {
   switch (url) {
     case "/api/all":
-      sendJson(res, 200, {
-        ts: new Date().toISOString(),
-        project: {
-          name: CONFIG.project.name,
-          logoUrl: CONFIG.project.logoPath ? "/api/logo" : null,
-        },
-        theme: CONFIG.theme,
-        tokenCountdown: CONFIG.tokenCountdown,
-        repos: reposStatus(),
-        docker: dockerStatus(),
-        agentLog: agentLog(),
-        skills: skills(),
-        quality: quality(),
-      });
-      return;
+      sendJson(res, 200, snapshot());
+      return true;
     case "/api/ping":
       sendJson(res, 200, { ok: true, ts: new Date().toISOString() });
-      return;
+      return true;
     default:
-      break;
+      return false;
   }
+}
 
-  // Static files (built SPA), restricted to WEB_DIR.
-  let rel = url === "/" ? "/index.html" : url;
+function handleLogo(res: http.ServerResponse): void {
+  if (!logoResponse(res)) sendJson(res, 404, { error: "no logo configured" });
+}
+
+function snapshot() {
+  return {
+    ts: new Date().toISOString(),
+    project: {
+      name: CONFIG.project.name,
+      logoUrl: CONFIG.project.logoPath ? "/api/logo" : null,
+    },
+    theme: CONFIG.theme,
+    tokenCountdown: CONFIG.tokenCountdown,
+    repos: reposStatus(),
+    docker: dockerStatus(),
+    agentLog: agentLog(),
+    skills: skills(),
+    quality: quality(),
+  };
+}
+
+function serveStatic(url: string, res: http.ServerResponse): void {
+  const rel = url === "/" ? "/index.html" : url;
   const filePath = path.resolve(WEB_DIR, "." + rel);
   if (!filePath.startsWith(WEB_DIR + path.sep) && filePath !== WEB_DIR) {
     sendJson(res, 403, { error: "forbidden" });
     return;
   }
   fs.readFile(filePath, (err, data) => {
-    if (err) {
-      // SPA fallback
-      fs.readFile(path.join(WEB_DIR, "index.html"), (err2, index) => {
-        if (err2) {
-          sendJson(res, 404, {
-            error: "dashboard web build not found — run `npm run build` in @jaxx/dashboard",
-          });
-          return;
-        }
-        res.writeHead(200, { "Content-Type": MIME[".html"] });
-        res.end(index);
-      });
+    if (!err) {
+      res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] ?? "application/octet-stream" });
+      res.end(data);
       return;
     }
-    res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] ?? "application/octet-stream" });
-    res.end(data);
+    // SPA fallback
+    fs.readFile(path.join(WEB_DIR, "index.html"), (err2, index) => {
+      if (err2) {
+        sendJson(res, 404, {
+          error: "dashboard web build not found — run `npm run build` in @jaxx/dashboard",
+        });
+        return;
+      }
+      res.writeHead(200, { "Content-Type": MIME[".html"] });
+      res.end(index);
+    });
   });
-});
+}
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Control Center for "${CONFIG.project.name}" at http://localhost:${PORT}`);
