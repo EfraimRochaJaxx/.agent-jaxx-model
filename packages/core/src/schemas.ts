@@ -84,7 +84,6 @@ export const SkillFrontmatterSchema = z.object({
 export type SkillFrontmatter = z.infer<typeof SkillFrontmatterSchema> & { allowedTools: string[] };
 
 function pathIsTraversal(p: string): boolean {
-  if (/^[a-zA-Z]:[\\/]/.test(p) || p.startsWith("\\\\")) return false;
   return p.split(/[\\/]/).includes("..");
 }
 

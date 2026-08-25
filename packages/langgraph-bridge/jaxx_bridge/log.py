@@ -80,7 +80,7 @@ class ControlPlane:
                 os.write(fd, str(os.getpid()).encode())
                 os.close(fd)
                 return
-            except FileExistsError:
+            except (FileExistsError, PermissionError):
                 try:
                     age = time.time() - lock_path.stat().st_mtime
                     if age > 30:  # stale lock from a crashed writer

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-25T17:37:58.509Z",
+  "generatedAt": "2026-08-25T23:53:46.092Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
-  "filesAnalyzed": 29,
-  "functionsAnalyzed": 148,
+  "filesAnalyzed": 31,
+  "functionsAnalyzed": 169,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -53,12 +53,12 @@
       },
       {
         "file": "packages/cli/src/commands/doctor.ts",
-        "function": "qualityGate",
+        "function": "checkEnv",
         "complexity": 8
       },
       {
-        "file": "packages/cli/src/commands/doctor.ts",
-        "function": "checkEnv",
+        "file": "packages/cli/src/commands/skills.ts",
+        "function": "findSkillFiles",
         "complexity": 8
       }
     ]
@@ -182,6 +182,10 @@
         "symbol": "QualityDTO"
       },
       {
+        "file": "packages/cli/src/commands/bridge.ts",
+        "symbol": "probeHealth"
+      },
+      {
         "file": "packages/cli/src/commands/doctor.ts",
         "symbol": "CheckStatus"
       },
@@ -198,12 +202,12 @@
         "symbol": "DoctorOptions"
       }
     ],
-    "note": "approximate — exported symbols never referenced by another analyzed file (87 exports scanned); entry points exempt"
+    "note": "approximate — exported symbols never referenced by another analyzed file (93 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.039208364451082896,
-    "linesTotal": 2678,
-    "linesDuplicated": 105,
+    "ratio": 0.044466403162055336,
+    "linesTotal": 3036,
+    "linesDuplicated": 135,
     "worstBlocks": [
       {
         "hash": "05ab8df3d768",
@@ -211,24 +215,24 @@
         "firstOccurrence": "packages/core/src/git.ts:19"
       },
       {
+        "hash": "108cd8ce7bf8",
+        "count": 3,
+        "firstOccurrence": "packages/cli/src/commands/bridge.ts:61"
+      },
+      {
+        "hash": "a741382de55f",
+        "count": 3,
+        "firstOccurrence": "packages/cli/src/commands/bridge.ts:62"
+      },
+      {
+        "hash": "2487b01e81c4",
+        "count": 3,
+        "firstOccurrence": "packages/cli/src/commands/bridge.ts:63"
+      },
+      {
         "hash": "bf003ac24104",
         "count": 2,
         "firstOccurrence": "frame.config.example.ts:6"
-      },
-      {
-        "hash": "7d02f9e3291f",
-        "count": 2,
-        "firstOccurrence": "frame.config.example.ts:7"
-      },
-      {
-        "hash": "3a80f842e47b",
-        "count": 2,
-        "firstOccurrence": "frame.config.example.ts:8"
-      },
-      {
-        "hash": "4cc4251f9b23",
-        "count": 2,
-        "firstOccurrence": "frame.config.example.ts:14"
       }
     ]
   },

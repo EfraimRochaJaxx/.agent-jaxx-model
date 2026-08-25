@@ -105,7 +105,7 @@ export async function runDoctor(rootDir: string, opts: DoctorOptions = {}): Prom
 
 function qualityGate(root: string, cfg: FrameConfig | null, enabled: boolean): CheckResult {
   const qCfg = cfg?.quality;
-  if (!enabled && !qCfg?.enabled) {
+  if (!enabled) {
     return { id: "quality", title: "Quality gates", status: "skip", detail: "run `jaxx doctor --quality` to analyze" };
   }
   if (qCfg?.enabled === false) {

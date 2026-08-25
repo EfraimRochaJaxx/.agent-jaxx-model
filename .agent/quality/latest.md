@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T17:37:58.509Z
-- Files analyzed: 29 · Functions: 148
+- Generated: 2026-08-25T23:53:46.092Z
+- Files analyzed: 31 · Functions: 169
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -15,12 +15,12 @@
 
 ## Duplication
 
-- Ratio: 3.9% of 2678 significant lines
+- Ratio: 4.4% of 3036 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
+- block `108cd8ce7bf8` ×3 (first: packages/cli/src/commands/bridge.ts:61)
+- block `a741382de55f` ×3 (first: packages/cli/src/commands/bridge.ts:62)
+- block `2487b01e81c4` ×3 (first: packages/cli/src/commands/bridge.ts:63)
 - block `bf003ac24104` ×2 (first: frame.config.example.ts:6)
-- block `7d02f9e3291f` ×2 (first: frame.config.example.ts:7)
-- block `3a80f842e47b` ×2 (first: frame.config.example.ts:8)
-- block `4cc4251f9b23` ×2 (first: frame.config.example.ts:14)
 
 ## Dead code candidates (approximate)
 
@@ -40,4 +40,4 @@
 - `ReadEventsResult` in packages/core/src/log.ts
 - `LogIntegrity` in packages/core/src/log.ts
 
-_Note: approximate — exported symbols never referenced by another analyzed file (87 exports scanned); entry points exempt_
+_Note: approximate — exported symbols never referenced by another analyzed file (93 exports scanned); entry points exempt_

@@ -33,9 +33,13 @@ High-level roadmap. Ordered by priority.
 - [x] Security review + whitelabel invariant scan
 - [x] README + docs/
 
-### M8 — Continuous improvement backlog
-- [ ] npm publish preparation (bin packaging, files field audit)
-- [ ] GitHub Action wrapping `doctor --quality` as CI gate
+### M8 — Release readiness & packaging (DONE)
+- [x] npm publish preparation (bin packaging, files field audit, @jaxx/dashboard metadata)
+- [x] GitHub Action wrapping `doctor --quality` and test suites as CI gate (`.github/workflows/ci.yml`)
+- [x] Official MIT LICENSE in repository root
+- [x] Full visual browser audit of control center dashboard
+
+### M9 — Post-release enhancements
 - [ ] Real LLM wiring example for bridge nodes
 - [ ] Dashboard websocket push option (currently 10s polling)
 - [ ] Cross-machine lock coordination options

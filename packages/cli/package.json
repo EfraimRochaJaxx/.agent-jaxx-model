@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@jaxx/analyzers": "^0.1.0",
-    "@jaxx/core": "^0.1.0"
+    "@jaxx/core": "^0.1.0",
+    "@jaxx/dashboard": "^0.1.0"
   }
 }

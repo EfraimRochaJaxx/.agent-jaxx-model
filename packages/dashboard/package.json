@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "Agent Jaxx Model whitelabel control center: agent log, git, docker, skills, quality, token countdown.",
   "license": "MIT",
+  "main": "dist/server/server.js",
+  "files": ["dist"],
   "scripts": {
     "build": "vite build && tsc -p tsconfig.server.json",
     "dev": "vite",

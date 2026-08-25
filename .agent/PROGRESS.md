@@ -4,6 +4,7 @@ Reverse-chronological record of completed work.
 
 | Date | Agent | Summary | Evidence |
 | ---- | ----- | ------- | -------- |
+| 2026-08-25 | audit-agent | Pre-release audit: serve.ts fs & resolution, @jaxx/dashboard packaging, path traversal fix, MIT license, CI workflow, Windows lock compatibility, live browser audit | 54 vitest, 6 pytest, 26/26 clean-room, doctor --quality PASS, browser recording |
 | 2026-08-25 | ox-alpha | Phase 1 @jaxx/core: schemas/config/session/log/lock; 23 tests | commit 7ac5566 |
 | 2026-08-25 | ox-alpha | Phase 2 @jaxx/cli: init/log/doctor/skills; E2E on temp projects | commit da79434 |
 | 2026-08-25 | ox-alpha | Dogfooding: own .agent control plane initialized | commit bdf21db |

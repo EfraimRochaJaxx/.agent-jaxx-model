@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build TypeScript packages & Dashboard
+        run: npm run build
+
+      - name: Run TypeScript unit & integration tests
+        run: npm test
+
+      - name: Set up Python LangGraph bridge & run tests
+        run: |
+          cd packages/langgraph-bridge
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pytest tests/
+
+      - name: Run clean-room acceptance suite
+        run: node scripts/clean-room.mjs
+
+      - name: Verify self-hosted quality gate
+        run: npm run quality

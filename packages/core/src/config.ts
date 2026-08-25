@@ -54,6 +54,7 @@ function loadConfigModule(configPath: string): unknown {
     return mod.default ?? mod;
   } finally {
     try {
+      delete require.cache[tmpFile];
       fs.rmSync(path.dirname(tmpFile), { recursive: true, force: true });
     } catch {
       /* best effort */
