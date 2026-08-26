@@ -8,11 +8,13 @@ const SERVER = path.resolve(__dirname, "../dist/server/server.js");
 const PORT = 35000 + Math.floor(Math.random() * 20000);
 const BASE = `http://127.0.0.1:${PORT}`;
 
+let tmpRoot: string;
 let proj: string;
 let child: ReturnType<typeof spawn> | null = null;
 
 beforeAll(async () => {
-  proj = fs.mkdtempSync(path.join(os.tmpdir(), "jaxx-dash-"));
+  tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "jaxx-dash-"));
+  proj = path.join(tmpRoot, "workspace", "project");
   const agentDir = path.join(proj, ".agent");
   fs.mkdirSync(agentDir, { recursive: true });
   fs.writeFileSync(
@@ -64,7 +66,7 @@ function waitForServer(): Promise<void> {
 
 afterAll(() => {
   child?.kill();
-  fs.rmSync(proj, { recursive: true, force: true, maxRetries: 3 });
+  if (tmpRoot) fs.rmSync(tmpRoot, { recursive: true, force: true, maxRetries: 3 });
 });
 
 describe("dashboard server", () => {
