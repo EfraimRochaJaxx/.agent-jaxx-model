@@ -8,6 +8,7 @@ import {
   getRepoStatus,
   isGitAvailable,
   loadFrameConfig,
+  runGit,
   type FrameConfig,
 } from "@jaxx/core";
 
@@ -31,6 +32,8 @@ export interface DoctorOptions {
   quality?: boolean;
   /** Enable optional GitHub branch-protection probe (requires `gh` + network). */
   branchProtection?: boolean;
+  /** Enforce that any staged code changes must be accompanied by an audit trail in .agent/. */
+  enforceAuditTrail?: boolean;
 }
 
 const STATUS_SYMBOL: Record<CheckStatus, string> = {
@@ -99,8 +102,64 @@ export async function runDoctor(rootDir: string, opts: DoctorOptions = {}): Prom
   // 8. Quality gate (cyclomatic complexity / duplication via @jaxx/analyzers)
   checks.push(qualityGate(root, cfg, opts.quality ?? false));
 
+  // 9. Deterministic Audit Trail Gate (enforces that staged changes include .agent/ updates)
+  checks.push(checkAuditTrail(root, opts.enforceAuditTrail ?? false));
+
   const ok = checks.every((c) => c.status !== "fail");
   return { root, projectName: cfg?.project.name, checks, ok };
+}
+
+function getStagedFiles(root: string): string[] {
+  if (!isGitAvailable()) return [];
+  const raw = runGit(root, ["diff", "--cached", "--name-only"]);
+  if (!raw) return [];
+  return raw
+    .split("\n")
+    .map((s) => s.trim().replace(/\\/g, "/"))
+    .filter(Boolean);
+}
+
+function evaluateAuditTrail(staged: string[]): { status: CheckStatus; detail: string } {
+  if (staged.length === 0) {
+    return { status: "pass", detail: "no staged files" };
+  }
+  const codeModified = staged.some((f) => !f.startsWith(".agent/"));
+  if (!codeModified) {
+    return { status: "pass", detail: `${staged.length} staged file(s) (control plane update)` };
+  }
+  const auditModified = staged.some(
+    (f) => f === ".agent/AGENT_LOG.jsonl" || f === ".agent/VERIFICATION.md",
+  );
+  if (!auditModified) {
+    return {
+      status: "fail",
+      detail:
+        "Code changes staged without an audit log or session verification entry in .agent/. Run 'jaxx log <LVL> \"<msg>\"' or 'jaxx session close' before committing.",
+    };
+  }
+  return {
+    status: "pass",
+    detail: `${staged.length} staged file(s) with accompanying .agent/ audit trail`,
+  };
+}
+
+function checkAuditTrail(root: string, enabled: boolean): CheckResult {
+  if (!enabled) {
+    return {
+      id: "audit-trail",
+      title: "Audit trail gate",
+      status: "skip",
+      detail: "enable in pre-commit verification or with --audit",
+    };
+  }
+  const staged = getStagedFiles(root);
+  const evaluated = evaluateAuditTrail(staged);
+  return {
+    id: "audit-trail",
+    title: "Audit trail gate",
+    status: evaluated.status,
+    detail: evaluated.detail,
+  };
 }
 
 function qualityGate(root: string, cfg: FrameConfig | null, enabled: boolean): CheckResult {

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-26T22:45:17.483Z",
+  "generatedAt": "2026-08-26T23:08:26.342Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
   "filesAnalyzed": 35,
-  "functionsAnalyzed": 209,
+  "functionsAnalyzed": 212,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -80,10 +80,6 @@
       {
         "file": "packages/core/src/config.ts",
         "symbol": "loadFrameConfigFromPath"
-      },
-      {
-        "file": "packages/core/src/git.ts",
-        "symbol": "runGit"
       },
       {
         "file": "packages/core/src/git.ts",
@@ -213,8 +209,8 @@
     "note": "approximate — exported symbols never referenced by another analyzed file (106 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.038083538083538086,
-    "linesTotal": 4070,
+    "ratio": 0.03759398496240601,
+    "linesTotal": 4123,
     "linesDuplicated": 155,
     "worstBlocks": [
       {
