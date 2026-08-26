@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T23:08:26.611Z",
+  "generatedAt": "2026-08-26T23:18:00.184Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "nodes": [
     {
@@ -253,7 +253,7 @@
       "id": "packages/cli/src/commands/session.ts",
       "name": "session.ts",
       "dir": "packages/cli/src/commands",
-      "linesOfCode": 132,
+      "linesOfCode": 137,
       "maxComplexity": 6,
       "imports": [
         "packages/cli/src/args.ts",
@@ -606,8 +606,8 @@
       "id": "packages/core/src/session.ts",
       "name": "session.ts",
       "dir": "packages/core/src",
-      "linesOfCode": 107,
-      "maxComplexity": 6,
+      "linesOfCode": 109,
+      "maxComplexity": 7,
       "imports": [
         "packages/core/src/log.ts",
         "packages/core/src/schemas.ts"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T23:08:26.342Z",
+  "generatedAt": "2026-08-26T23:17:59.912Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
@@ -209,8 +209,8 @@
     "note": "approximate — exported symbols never referenced by another analyzed file (106 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.03759398496240601,
-    "linesTotal": 4123,
+    "ratio": 0.037539355776217004,
+    "linesTotal": 4129,
     "linesDuplicated": 155,
     "worstBlocks": [
       {

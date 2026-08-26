@@ -23,7 +23,7 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
   - 4 new unit tests in `packages/cli/test/verify-audit.test.ts`.
 
 ## Test totals
-- TypeScript: 65 vitest tests green (12 suites).
+- TypeScript: 66 vitest tests green (12 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).

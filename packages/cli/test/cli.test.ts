@@ -152,3 +152,20 @@ describe("jaxx skill", () => {
     expect(res.stderr).toMatch(/refusing non-https/);
   });
 });
+
+describe("jaxx session", () => {
+  it("open and close with summary writes to AGENT_LOG.jsonl and VERIFICATION.md", () => {
+    const openRes = jaxx(["session", "open", "--agent", "test-bot"], proj);
+    expect(openRes.code).toBe(0);
+
+    const closeRes = jaxx(["session", "close", "--summary", "Verified session log summary formatting"], proj);
+    expect(closeRes.code).toBe(0);
+
+    const logContent = fs.readFileSync(path.join(proj, ".agent", "AGENT_LOG.jsonl"), "utf8");
+    expect(logContent).toContain("Session closed");
+    expect(logContent).toContain("Verified session log summary formatting");
+
+    const verContent = fs.readFileSync(path.join(proj, ".agent", "VERIFICATION.md"), "utf8");
+    expect(verContent).toContain("Verified session log summary formatting");
+  });
+});

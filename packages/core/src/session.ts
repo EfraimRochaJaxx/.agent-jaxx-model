@@ -55,7 +55,9 @@ export class Session {
     appendEvent(this.rootDir, {
       lvl: "DONE",
       agent: this.agent,
-      msg: `Session closed (${this.sessionId}) — ${this.events.length} event(s) recorded`,
+      msg: summaryNote
+        ? `Session closed (${this.sessionId}): ${summaryNote}`
+        : `Session closed (${this.sessionId}) — ${this.events.length} event(s) recorded`,
     });
 
     const durationMin = ((closedAt.getTime() - this.startedAt.getTime()) / 60000).toFixed(1);

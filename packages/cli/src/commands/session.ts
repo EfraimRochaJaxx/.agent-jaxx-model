@@ -39,11 +39,12 @@ function openSession(root: string, stateFile: string, args: ParsedArgs, json: bo
     throw new Error("a session is already open — close it first (jaxx session close)");
   }
   const agent = flagStr(args, "agent") ?? process.env.JAXX_AGENT ?? "default";
+  const startedAt = new Date().toISOString();
   const session = new Session(root, agent).open();
   const state: SessionStateFile = {
     id: session.sessionId,
     agent,
-    startedAt: new Date().toISOString(),
+    startedAt,
   };
   fs.writeFileSync(stateFile, JSON.stringify(state, null, 2), "utf8");
   if (json) console.log(JSON.stringify({ ok: true, ...state }));
@@ -64,10 +65,14 @@ function closeSession(root: string, stateFile: string, args: ParsedArgs, json: b
     (e) => e.agent === state.agent && new Date(e.ts) >= new Date(state.startedAt),
   );
 
+  const summaryNote = flagStr(args, "summary") ?? (args.positional.length > 1 ? args.positional.slice(1).join(" ") : undefined);
+
   appendEvent(root, {
     lvl: "DONE",
     agent: state.agent,
-    msg: `Session closed (${state.id}) — ${events.length} event(s) recorded`,
+    msg: summaryNote
+      ? `Session closed (${state.id}): ${summaryNote}`
+      : `Session closed (${state.id}) — ${events.length} event(s) recorded`,
   });
 
   const verificationPath = renderSummary(root, state, events, closedAt, args);

@@ -52,3 +52,5 @@
 {"ts":"2026-08-26T22:45:56.948Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T22-35-38-007Z) — 0 event(s) recorded"}
 {"ts":"2026-08-26T23:03:05.199Z","lvl":"AGENT","agent":"antigravity","msg":"Session opened (session-2026-08-26T23-03-05-198Z)"}
 {"ts":"2026-08-26T23:08:39.205Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T23-03-05-198Z) — 0 event(s) recorded"}
+{"ts":"2026-08-26T23:18:09.539Z","lvl":"AGENT","agent":"antigravity","msg":"Session opened (session-2026-08-26T23-18-09-539Z)"}
+{"ts":"2026-08-26T23:18:13.746Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T23-18-09-539Z): Enhanced session lifecycle to record summary note directly into AGENT_LOG.jsonl events and VERIFICATION.md, added unit test in cli.test.ts, verified 66/66 vitest tests passing"}
