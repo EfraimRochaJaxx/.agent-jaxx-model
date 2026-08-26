@@ -24,11 +24,17 @@ beforeAll(() => {
   spawnSync("git", ["config", "user.name", "Test Agent"], { cwd: proj, windowsHide: true });
   spawnSync("git", ["config", "user.email", "agent@test.com"], { cwd: proj, windowsHide: true });
 
+  // 1. Initial git repository commit before hooks
+  fs.writeFileSync(path.join(proj, "README.md"), "# Test", "utf8");
+  spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
+  spawnSync("git", ["commit", "-m", "initial repo"], { cwd: proj, windowsHide: true });
+
+  // 2. Initialize JAXX control plane (which generates audit log in .agent/)
   jaxx(["init", "Audit Test Project"], proj);
 
-  // Initial commit so git diff has a baseline
+  // 3. Legitimate commit of control plane
   spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
-  spawnSync("git", ["commit", "-m", "initial commit", "--no-verify"], { cwd: proj, windowsHide: true });
+  spawnSync("git", ["commit", "-m", "chore: init jaxx control plane"], { cwd: proj, windowsHide: true });
 });
 
 afterAll(() => {
@@ -69,8 +75,8 @@ describe("Deterministic Audit Trail Gate", () => {
   });
 
   it("passes verify when only .agent/ files are staged", () => {
-    // Commit current stage
-    spawnSync("git", ["commit", "-m", "feat: add app", "--no-verify"], { cwd: proj, windowsHide: true });
+    // Commit the previous compliant stage
+    spawnSync("git", ["commit", "-m", "feat: add app"], { cwd: proj, windowsHide: true });
 
     // Modify and stage only a docs/state file
     fs.appendFileSync(path.join(proj, ".agent", "STATE.md"), "\n## Note\n");
