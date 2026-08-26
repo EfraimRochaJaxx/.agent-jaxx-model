@@ -1,196 +1,169 @@
-# Agent Jaxx Model
+# ⚡ Agent Jaxx Model
 
-A reusable, whitelabel agent-engineering framework. Drop it into any software
-project to get an **agent control plane**: persistent project memory, an
-append-only audit log, quality gates, a skills registry, dashboard
-observability, and optional multi-agent orchestration.
+<div align="center">
 
-> Agent Jaxx Model manages itself through its own `.agent/` directory — it is
-> its first real consumer.
+[![CI](https://github.com/EfraimRochaJaxx/agent-jaxx-model/actions/workflows/ci.yml/badge.svg)](https://github.com/EfraimRochaJaxx/agent-jaxx-model/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](./LICENSE)
+[![Quality Gate](https://img.shields.io/badge/Quality%20Gate-AST%20Verified-0ea5e9.svg)](./packages/analyzers)
+[![Tests](https://img.shields.io/badge/Tests-56%20Passing-10b981.svg)](./vitest.config.ts)
+[![Node](https://img.shields.io/badge/Node-%3E=20-22c55e.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
 
-## What it solves
+**The deterministic, whitelabel control plane that puts autonomous coding agents inside software engineering cages.**
 
-Autonomous coding agents fail at scale because state lives in conversation
-context. Agent Jaxx Model moves that state into the repository:
+[Quick Start](#-quick-start-in-30-seconds) •
+[Why Agents Fail](#-the-problem-prompts-are-not-guardrails) •
+[Architecture & Blast Radius](#-interactive-architecture--blast-radius-graph) •
+[Control Plane](#-the-agent-control-plane) •
+[Dashboard](#-real-time-control-center-dashboard) •
+[Author](#-author--community)
 
-| Problem | Solution |
-| ------- | -------- |
-| Agents forget to log actions | `Session` lifecycle + `jaxx log` with schema validation |
-| Branching documented but not enforced | `jaxx doctor` checks branches/trees; conventions live in `BRANCHING.md` |
-| No CI/quality gates | `jaxx doctor --quality` with threshold-driven exit codes |
-| Hardcoded dashboards | Fully whitelabel `frame.config.ts` |
-| Skills scattered | Versionable skills registry with a strict trust model |
-| No complexity analysis | ts-morph cyclomatic complexity, dead-code and duplication reports |
-| No multi-agent layer | Optional LangGraph bridge sharing the same control plane |
+</div>
 
-## Packages
+---
 
-| Package | Purpose |
-| ------- | ------- |
-| `@jaxx/core` | Zod schemas, frame config loading, sessions, append-only log, file locking, safe git helpers |
-| `@jaxx/cli` | `jaxx init`, `log`, `doctor`, `verify`, `skill add/list/install` |
-| `@jaxx/analyzers` | AST dependency & blast radius graph, cyclomatic complexity, dead code & duplication reports |
-| `@jaxx/dashboard` | Whitelabel React 18 + Tailwind 3 control center with interactive Architecture Impact Graph |
-| `@jaxx/langgraph-bridge` | Optional Python 3.11+ FastAPI/LangGraph orchestrator sharing the audit log |
+> ### 💡 The Core Thesis
+> **Prompts are not guardrails.** Autonomous coding agents fail in production because LLM tool-calling is non-deterministic. If your safety model depends on asking the AI *"please remember to write clean code and test"*, your codebase will degrade into spaghetti.
+>
+> **Agent Jaxx Model** moves project memory, governance, and safety out of fragile conversation context and into the repository: **AST parsers (`ts-morph`), physical Git hooks, concurrency locks, and transitive blast-radius dependency graphs.**
 
-## Installation
+---
 
-Requires Node 20+. From the monorepo root:
+## 💥 The Problem: Prompts vs. Deterministic Guardrails
 
-```bash
-npm install
-npm run build        # core + cli + analyzers + dashboard
-```
+| Toy AI Agent Wrappers | ⚡ Agent Jaxx Model |
+| :--- | :--- |
+| **State in chat window:** Context is wiped on notebook restart or token limits. | **State in repository:** Persistent project memory stored in versioned `.agent/` control plane. |
+| **Prompt-based hopes:** Asks the LLM to follow coding guidelines. | **AST Compilers:** `ts-morph` enforces Cyclomatic Complexity $\le 10$ and Duplication $\le 5\%$. |
+| **Silent blind commits:** The AI commits code that breaks hidden downstream files. | **Blast Radius Engine:** Computes transitive dependency impact map before touching code. |
+| **Broken unverified code:** Relies on AI saying "everything works!". | **Physical Git Hooks (`pre-commit`):** The OS/Git binary physically blocks commits that fail quality gates. |
+| **Race conditions:** Multiple agents overwrite files simultaneously. | **Advisory File Locking:** OS-level locks (`proper-lockfile` & `msvcrt/fcntl`) prevent lost updates. |
+| **Hardcoded vendor lock-in:** Bound to specific proprietary clouds. | **100% Whitelabel & Open-Source:** Zero hardcoded assumptions; configured in `frame.config.ts`. |
 
-The CLI is available at `packages/cli/dist/index.js` (publish or `npm link`
-as needed).
+---
 
-## Quick start
-
-```bash
-cd your-project
-npx @jaxx/cli init "Your Project"
-
-# record what agents do
-jaxx log INFO "implemented login endpoint" --agent coder-1
-
-# verify environment, git, docker, config, control plane, quality
-jaxx verify
-
-# observe everything
-node node_modules/@jaxx/dashboard/dist/server/server.js   # http://localhost:3099
-```
-
-## Control plane concept
-
-`jaxx init` creates `.agent/`:
-
-```
-.agent/
-├── STATE.md          current status — agents read this first
-├── PLAN.md           roadmap / milestones
-├── PROGRESS.md       completed-work history
-├── DECISIONS.md      lightweight ADRs
-├── VERIFICATION.md   auto-appended session summaries
-├── BRANCHING.md      branch conventions
-├── COLLABORATION.md  human/agent coordination protocol
-├── AGENT_LOG.jsonl   append-only audit log
-├── skills/           skill registry (markdown + YAML frontmatter)
-└── frame.config.ts   THE whitelabel configuration surface
-```
-
-## Architecture & Dependency Blast Radius Graph
-
-Agent Jaxx Model features an AST-driven dependency analyzer powered by `ts-morph`:
+## 🏛️ Architecture & Monorepo Packages
 
 ```mermaid
 graph TD
-    CLI[jaxx CLI / Pre-commit Gate] --> Core[@jaxx/core]
-    Dashboard[Control Center Dashboard] --> Server[Dashboard Server /api/graph]
-    Server --> Analyzers[@jaxx/analyzers]
-    Analyzers --> AST[AST Parser & Blast Radius Engine]
-    AST --> Graph[Dependency Graph & Impact Map]
+    User([Developer / AI Agent]) --> CLI[packages/cli: jaxx CLI]
+    CLI --> Gate{Pre-Commit Quality Gate}
+    Gate -- FAIL --> Block[❌ Abort Git Commit]
+    Gate -- PASS --> Git[✅ Commit Allowed]
+    
+    CLI --> Core[packages/core: Control Plane & Lock Engine]
+    Core --> Log[(.agent/AGENT_LOG.jsonl)]
+    
+    Dashboard[packages/dashboard: Control Center SPA] --> Server[Node HTTP Server /api/graph]
+    Server --> Analyzers[packages/analyzers: AST Engine]
+    Analyzers --> AST[ts-morph AST Parser & DFS/BFS Graph]
+    AST --> BlastRadius[Transitive Blast Radius Map]
+    
+    Bridge[packages/langgraph-bridge: Python Bridge] -. Shares Log .-> Log
 ```
 
-- **Interactive Visual Canvas**: Live SVG/Canvas viewer showing all project modules and relationships.
-- **Blast Radius Inspector**: Click any file to compute downstream affected files before editing.
-- **Circular Dependency Detection**: Automatic detection and visualization of circular import chains.
-- **Orphan File Detection**: Highlights unused / unreferenced code.
+| Package | Purpose |
+| :--- | :--- |
+| [`@jaxx/core`](./packages/core) | Zod schemas, whitelabel config loader, session lifecycle, append-only log, advisory file locking, and safe Git execution. |
+| [`@jaxx/cli`](./packages/cli) | Unified command surface: `jaxx init`, `log`, `doctor`, `verify`, `session`, `skill`, `serve`. |
+| [`@jaxx/analyzers`](./packages/analyzers) | AST engine (`ts-morph`): cyclomatic complexity, code duplication, dead-code detection, and transitive dependency blast radius. |
+| [`@jaxx/dashboard`](./packages/dashboard) | Whitelabel React 18 + Tailwind 3 SPA on a native Node HTTP server with interactive SVG/Canvas Architecture Graph. |
+| [`@jaxx/langgraph-bridge`](./packages/langgraph-bridge) | Optional Python 3.11+ FastAPI / LangGraph orchestrator (orchestrator $\rightarrow$ coder $\rightarrow$ reviewer $\rightarrow$ QA) sharing the same audit log. |
 
-## State management
+---
 
-Agents follow the loop:
+## 🕸️ Interactive Architecture & Blast Radius Graph
 
-1. **Read** `STATE.md`, `PLAN.md`, recent `AGENT_LOG.jsonl`.
-2. **Inspect** dependency blast radius before making breaking changes.
-3. **Work** on one branch per feature per agent.
-4. **Record** events (`jaxx log <lvl> "<msg>" --agent <name>`).
-5. **Verify** before committing (`jaxx verify`).
-6. **Close sessions** — a `Session` writes an automatic summary to `VERIFICATION.md`.
-7. **Update state**, commit, push.
+Agent Jaxx Model features an AST-driven dependency engine that parses real TypeScript syntax trees across the entire monorepo:
 
-## Append-only audit log
+* 🎯 **Transitive Downstream Blast Radius:** Click any file (e.g. `schemas.ts`) to see every direct and indirect file that will be affected if you modify it.
+* 🔄 **Circular Dependency Detection:** DFS cycle-finding algorithm detects and highlights circular import chains.
+* 🏝️ **Orphan File Detection:** Flags unused, dead, or orphaned modules with zero incoming/outgoing links.
+* 🔍 **Live Search & Filter:** Instant filtering by High Blast Radius, Circular Cycles, or directory packages.
 
-Every entry validates against:
+---
 
-```json
-{ "ts": "ISO8601", "lvl": "INFO|WARN|ERROR|DONE|AGENT|GIT", "agent": "string", "msg": "string" }
-```
+## 🚀 Quick Start in 30 Seconds
 
-Guarantees: validated writes under an advisory file lock (concurrent-safe);
-tolerant reads that **never destroy malformed historical data**; integrity
-reporting via `jaxx doctor`.
-
-## Quality gates & Pre-Commit Verification
-
+### 1. Install & Build
+Requires Node.js 20+.
 ```bash
-jaxx verify                      # full pre-commit pipeline (quality + checks)
-jaxx doctor --quality            # human report, exit != 0 on violations
-jaxx doctor --quality --json     # machine-readable scorecard
+git clone https://github.com/EfraimRochaJaxx/agent-jaxx-model.git
+cd agent-jaxx-model
+npm install
+npm run build
 ```
 
-Analyzers (ts-morph based):
+### 2. Initialize in Any Project
+Drop the control plane into your repository:
+```bash
+npx @jaxx/cli init "My Project Name"
+```
+*(This creates `.agent/`, generates `frame.config.ts`, and automatically installs `.git/hooks/pre-commit`)*.
 
-- **dependency & blast radius graph** (transitive downstream impact map);
-- **cyclomatic complexity** per function (default threshold 10);
-- **approximate dead code** (exports never referenced elsewhere);
-- **approximate duplication** (normalized sliding-window hashes).
+### 3. Verify Health & Quality Gate
+```bash
+node packages/cli/dist/index.js verify
+```
 
-Scorecards persist to `.agent/quality/latest.json` and `latest.md`. Configure
-thresholds in `frame.config.ts` under `quality`.
-
-## Dashboard
-
-Native `node:http` server + Vite-built React SPA. Reads everything from the
-target project's `.agent/`: agent log (10s polling), git status per repo,
-docker container status, skills registry, quality scorecards, token countdown,
-and project branding/theme from `frame.config.ts`. Binds to 127.0.0.1 only.
-
+### 4. Launch the Visual Control Center
 ```bash
 npm run dashboard:start
+# Open http://localhost:3099
 ```
 
-## Multi-agent bridge (optional)
+---
 
-Python FastAPI app running an orchestrator → coder/reviewer/qa LangGraph.
-Every node appends to the same `AGENT_LOG.jsonl`. See
-[packages/langgraph-bridge/README.md](packages/langgraph-bridge/README.md).
+## 📂 The `.agent/` Control Plane
 
-## Configuration
+When initialized, your project gets a persistent memory bank that AI agents read and respect:
 
-Everything project-specific lives in `frame.config.ts` (see
-[frame.config.example.ts](frame.config.example.ts)): project name/logo, theme,
-repos, docker containers, dashboard port, quality thresholds, token countdown.
-The framework ships zero hardcoded project assumptions.
+```
+.agent/
+├── STATE.md          Current project state & blockers (agents read this first)
+├── PLAN.md           High-level roadmap & milestone checklist
+├── PROGRESS.md       Historical log of completed milestones
+├── DECISIONS.md      Lightweight Architecture Decision Records (ADRs)
+├── VERIFICATION.md   Auto-appended audit log summaries on session close
+├── BRANCHING.md      Git branch & PR conventions (feat/<slug>)
+├── COLLABORATION.md  Human-in-the-loop coordination protocol
+├── AGENT_LOG.jsonl   Append-only, concurrent-safe event stream
+├── skills/           Versionable skill registry (Markdown + YAML frontmatter)
+└── frame.config.ts   THE whitelabel configuration surface (themes, thresholds, repos)
+```
 
-## Security model
+---
 
-See [docs/security.md](docs/security.md). Highlights:
+## 🐕 Dogfooding: Built by Itself
 
-- External skills are **untrusted input** — validated data, never executed.
-- All git/docker calls use argument arrays, no shell interpolation.
-- The dashboard API is read-only and jailed to the project directory.
-- The audit log preserves corrupted entries instead of rewriting them.
+> **Agent Jaxx Model is its own first consumer.**
+>
+> Every feature in this repository—from the AST analyzers to the dashboard UI and Python bridge—was planned, executed, logged, and verified using the very same `.agent/` control plane. You can inspect the real audit trail in [`.agent/AGENT_LOG.jsonl`](./.agent/AGENT_LOG.jsonl) and [`.agent/VERIFICATION.md`](./.agent/VERIFICATION.md).
 
-## Development
+---
+
+## 🧪 Comprehensive Verification Suite
 
 ```bash
-npm install
-npm run build      # tsc -b core cli analyzers dashboard
-npm test           # vitest (56 TS tests across 10 suites)
-cd packages/langgraph-bridge && python -m pytest -q   # 6 python tests
-node scripts/clean-room.mjs   # end-to-end acceptance suite (26 checks)
+npm test                      # 56 Vitest unit & integration tests across 10 suites (100% green)
+node packages/cli/dist/index.js doctor --quality # AST Quality Gate (Complexity <= 10, Duplication <= 5%)
+node scripts/clean-room.mjs    # Clean-room isolated E2E acceptance test (26 checks)
+cd packages/langgraph-bridge && python -m pytest # 6 Python LangGraph bridge tests
 ```
 
-Exit-code contract for agents/CI: `0` ok · `1` check failed · `2` usage ·
-`3` config · `4` internal.
+---
 
-## Roadmap
+## 👨‍💻 Author & Community
 
-- [x] Architecture & Dependency Blast Radius Graph
-- [x] Automated Pre-Commit Quality Gate & `jaxx verify`
-- [x] GitHub Action wrapping `doctor --quality` as a CI gate
-- [ ] Publish packages to npm
-- [ ] Real LLM wiring example for the bridge nodes
-- [ ] Cross-machine lock coordination options
-- [ ] Dashboard websocket push (currently 10s polling)
+Created with ⚡ by **Efraim Rocha** ([Jaxx Systems](https://github.com/Jaxx-Systems)):
+
+* **LinkedIn:** [linkedin.com/in/efraimrocha7](https://www.linkedin.com/in/efraimrocha7/)
+* **GitHub:** [@EfraimRochaJaxx](https://github.com/EfraimRochaJaxx)
+* **Contributions:** PRs and issues are welcome! Check out [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`docs/security.md`](./docs/security.md).
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE). Drop it into personal, commercial, or enterprise projects with zero restrictions.
+
