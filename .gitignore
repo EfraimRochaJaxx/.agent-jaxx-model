@@ -6,3 +6,12 @@ packages/langgraph-bridge/.venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+coverage/
+.vscode/
+.idea/
+
