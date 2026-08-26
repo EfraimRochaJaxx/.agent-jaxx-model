@@ -61,32 +61,52 @@ graph TD
 
 ## Quick Start
 
-### 1. Clone and Build
-Requires Node.js 20+.
+### 1. Try the Live Demo Locally (60 Seconds)
+Clone, build, and launch the control center on this repository:
+
 ```bash
-git clone https://github.com/EfraimRochaJaxx/agent-jaxx-model.git
-cd agent-jaxx-model
+git clone https://github.com/EfraimRochaJaxx/.agent-jaxx-model.git
+cd .agent-jaxx-model
 npm install
 npm run build
-```
-
-### 2. Initialize in Any Project
-Add the control plane to your project:
-```bash
-npx @jaxx/cli init "My Project Name"
-```
-This generates the `.agent/` directory, `frame.config.ts`, and configures `.git/hooks/pre-commit`.
-
-### 3. Verify Health & Quality
-```bash
-node packages/cli/dist/index.js verify
-```
-
-### 4. Start the Dashboard
-```bash
 npm run dashboard:start
-# Open http://localhost:3099
 ```
+Open **`http://localhost:3099`** in your browser to inspect the live Architecture Dependency Graph, blast radius inspector, and real-time audit logs.
+
+---
+
+### 2. Use the CLI Globally (Optional)
+To make the `jaxx` CLI available everywhere in your terminal:
+
+```bash
+# From the cloned repository root:
+npm link packages/cli
+
+# Now you can use `jaxx` anywhere:
+jaxx --help
+```
+
+---
+
+### 3. Add the Control Plane to Another Project
+To govern any other codebase with Agent Jaxx Model:
+
+```bash
+cd /path/to/your-project
+
+# Initialize .agent/ control plane, frame.config.ts, and git pre-commit hook:
+jaxx init "Your Project Name"
+
+# Record agent actions into the append-only log:
+jaxx log INFO "Implemented authentication flow" --agent coder-1
+
+# Run the AST quality gate & environment checks:
+jaxx verify
+
+# Launch the visual dashboard for your project:
+jaxx serve
+```
+*(Note: If you didn't run `npm link`, you can run any command directly with `node /path/to/.agent-jaxx-model/packages/cli/dist/index.js <command>`)*.
 
 ---
 
