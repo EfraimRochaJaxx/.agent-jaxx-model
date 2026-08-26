@@ -52,12 +52,12 @@ describe("FrameConfigSchema", () => {
     expect(parsed.success).toBe(true);
   });
 
-  it("rejects traversal-style repo paths", () => {
+  it("accepts sibling repository paths for multi-repo workspaces", () => {
     const parsed = FrameConfigSchema.safeParse({
       project: { name: "X" },
-      repos: [{ name: "evil", path: "../../etc" }],
+      repos: [{ name: "backend", path: "../backend-api" }],
     });
-    expect(parsed.success).toBe(false);
+    expect(parsed.success).toBe(true);
   });
 });
 

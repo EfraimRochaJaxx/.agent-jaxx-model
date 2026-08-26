@@ -18,10 +18,13 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
   - Interactive SVG/Canvas Architecture & Dependency Graph + Impact Inspector in `@jaxx/dashboard`.
   - `jaxx verify` command & automated `.git/hooks/pre-commit` installation in `init.ts`.
   - Updated `AGENTS.md`, `README.md`, and new `CONTRIBUTING.md`.
-  - Quality gate passing: 34 files analyzed, max complexity <= 10, duplication 4.0%.
+  - Multi-Repo Workspace Linking:
+  - `jaxx repo add <name> <path>`, `jaxx repo list`, `jaxx repo remove <name>` in `@jaxx/cli`.
+  - Allowed relative sibling paths in `RepoConfigSchema` for multi-repo monorepo workspaces.
+  - 5 new unit tests in `packages/cli/test/repo.test.ts`.
 
 ## Test totals
-- TypeScript: 56 vitest tests green (10 suites).
+- TypeScript: 61 vitest tests green (11 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).
