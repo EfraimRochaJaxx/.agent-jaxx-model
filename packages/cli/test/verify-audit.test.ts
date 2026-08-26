@@ -28,7 +28,7 @@ beforeAll(() => {
 
   // Initial commit so git diff has a baseline
   spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
-  spawnSync("git", ["commit", "-m", "initial commit"], { cwd: proj, windowsHide: true });
+  spawnSync("git", ["commit", "-m", "initial commit", "--no-verify"], { cwd: proj, windowsHide: true });
 });
 
 afterAll(() => {
@@ -70,7 +70,7 @@ describe("Deterministic Audit Trail Gate", () => {
 
   it("passes verify when only .agent/ files are staged", () => {
     // Commit current stage
-    spawnSync("git", ["commit", "-m", "feat: add app"], { cwd: proj, windowsHide: true });
+    spawnSync("git", ["commit", "-m", "feat: add app", "--no-verify"], { cwd: proj, windowsHide: true });
 
     // Modify and stage only a docs/state file
     fs.appendFileSync(path.join(proj, ".agent", "STATE.md"), "\n## Note\n");
