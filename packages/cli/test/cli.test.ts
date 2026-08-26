@@ -45,6 +45,9 @@ describe("jaxx init", () => {
     }
     const cfg = fs.readFileSync(path.join(proj, ".agent", "frame.config.ts"), "utf8");
     expect(cfg).toContain('"Test Project"');
+    expect(fs.existsSync(path.join(proj, ".git", "hooks", "pre-commit"))).toBe(true);
+    const hookContent = fs.readFileSync(path.join(proj, ".git", "hooks", "pre-commit"), "utf8");
+    expect(hookContent).toContain("jaxx verify");
   });
 
   it("is idempotent (does not clobber existing files)", () => {

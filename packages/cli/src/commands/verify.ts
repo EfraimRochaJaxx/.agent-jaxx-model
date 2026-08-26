@@ -1,13 +1,13 @@
-﻿import { runDoctor, formatDoctorReport } from "./doctor";
+import { runDoctor, formatDoctorReport } from "./doctor";
 
 export async function runVerify(rootDir: string, json: boolean): Promise<number> {
-  const doctorReport = await runDoctor(rootDir, { quality: true });
+  const doctorReport = await runDoctor(rootDir, { quality: true, enforceAuditTrail: true, blastRadius: true });
   if (!doctorReport.ok) {
     if (json) {
       console.log(JSON.stringify({ ok: false, step: "doctor", report: doctorReport }));
     } else {
       console.error(formatDoctorReport(doctorReport));
-      console.error("\n❌ Pre-commit quality verification failed.");
+      console.error("\n❌ Pre-commit quality, audit & blast radius verification failed.");
     }
     return 1;
   }

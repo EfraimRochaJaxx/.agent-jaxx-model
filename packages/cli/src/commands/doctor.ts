@@ -8,6 +8,7 @@ import {
   getRepoStatus,
   isGitAvailable,
   loadFrameConfig,
+  runGit,
   type FrameConfig,
 } from "@jaxx/core";
 
@@ -31,6 +32,10 @@ export interface DoctorOptions {
   quality?: boolean;
   /** Enable optional GitHub branch-protection probe (requires `gh` + network). */
   branchProtection?: boolean;
+  /** Enforce that any staged code changes must be accompanied by an audit trail in .agent/. */
+  enforceAuditTrail?: boolean;
+  /** Evaluate AST dependency graph and transitive blast radius of staged files. */
+  blastRadius?: boolean;
 }
 
 const STATUS_SYMBOL: Record<CheckStatus, string> = {
@@ -99,8 +104,158 @@ export async function runDoctor(rootDir: string, opts: DoctorOptions = {}): Prom
   // 8. Quality gate (cyclomatic complexity / duplication via @jaxx/analyzers)
   checks.push(qualityGate(root, cfg, opts.quality ?? false));
 
+  // 9. Deterministic Audit Trail Gate (enforces that staged changes include .agent/ updates)
+  checks.push(checkAuditTrail(root, opts.enforceAuditTrail ?? false));
+
+  // 10. AST Dependency & Blast Radius Impact Gate
+  checks.push(checkBlastRadius(root, cfg, opts.blastRadius ?? false));
+
   const ok = checks.every((c) => c.status !== "fail");
   return { root, projectName: cfg?.project.name, checks, ok };
+}
+
+function getStagedFiles(root: string): string[] {
+  if (!isGitAvailable()) return [];
+  const raw = runGit(root, ["diff", "--cached", "--name-only"]);
+  if (!raw) return [];
+  return raw
+    .split("\n")
+    .map((s) => s.trim().replace(/\\/g, "/"))
+    .filter(Boolean);
+}
+
+function evaluateAuditTrail(staged: string[]): { status: CheckStatus; detail: string } {
+  if (staged.length === 0) {
+    return { status: "pass", detail: "no staged files" };
+  }
+  const codeModified = staged.some((f) => !f.startsWith(".agent/"));
+  if (!codeModified) {
+    return { status: "pass", detail: `${staged.length} staged file(s) (control plane update)` };
+  }
+  const auditModified = staged.some(
+    (f) => f === ".agent/AGENT_LOG.jsonl" || f === ".agent/VERIFICATION.md",
+  );
+  if (!auditModified) {
+    return {
+      status: "fail",
+      detail:
+        "Code changes staged without an audit log or session verification entry in .agent/. Run 'jaxx log <LVL> \"<msg>\"' or 'jaxx session close' before committing.",
+    };
+  }
+  return {
+    status: "pass",
+    detail: `${staged.length} staged file(s) with accompanying .agent/ audit trail`,
+  };
+}
+
+function checkAuditTrail(root: string, enabled: boolean): CheckResult {
+  if (!enabled) {
+    return {
+      id: "audit-trail",
+      title: "Audit trail gate",
+      status: "skip",
+      detail: "enable in pre-commit verification or with --audit",
+    };
+  }
+  const staged = getStagedFiles(root);
+  const evaluated = evaluateAuditTrail(staged);
+  return {
+    id: "audit-trail",
+    title: "Audit trail gate",
+    status: evaluated.status,
+    detail: evaluated.detail,
+  };
+}
+
+function filterStagedSourceFiles(staged: string[]): string[] {
+  return staged.filter(
+    (f) =>
+      /\.(ts|tsx|js|jsx)$/.test(f) &&
+      !f.includes(".test.") &&
+      !f.includes(".spec.") &&
+      !f.startsWith(".agent/"),
+  );
+}
+
+function inspectNodeImpact(
+  src: string,
+  node: { impact: string[] },
+  hasStagedTests: boolean,
+  totalImpacted: Set<string>,
+): string | null {
+  for (const imp of node.impact) totalImpacted.add(imp);
+  const downstreamTests = node.impact.filter((imp) => imp.includes(".test.") || imp.includes(".spec."));
+  if (downstreamTests.length > 0 && !hasStagedTests) {
+    return `${path.basename(src)} (impacts ${downstreamTests.length} test file(s) but no tests are staged)`;
+  }
+  return null;
+}
+
+function collectBlastWarnings(
+  stagedSources: string[],
+  graph: { nodes: Array<{ id: string; impact: string[] }> },
+  hasStagedTests: boolean,
+  totalImpacted: Set<string>,
+): string[] {
+  const warnings: string[] = [];
+  for (const src of stagedSources) {
+    const node = graph.nodes.find((n) => n.id === src || n.id.replace(/\\/g, "/") === src);
+    if (node) {
+      const warn = inspectNodeImpact(src, node, hasStagedTests, totalImpacted);
+      if (warn) warnings.push(warn);
+    }
+  }
+  return warnings;
+}
+
+function evaluateBlastRadius(
+  root: string,
+  cfg: FrameConfig | null,
+  staged: string[],
+): { status: CheckStatus; detail: string } {
+  if (staged.length === 0) return { status: "pass", detail: "no staged files" };
+  const stagedSources = filterStagedSourceFiles(staged);
+  if (stagedSources.length === 0) return { status: "pass", detail: "no source files modified in stage" };
+
+  try {
+    const { buildDependencyGraph } = require("@jaxx/analyzers") as typeof import("@jaxx/analyzers");
+    const graph = buildDependencyGraph(root, cfg?.quality ?? {});
+    const totalImpacted = new Set<string>();
+    const hasStagedTests = staged.some((f) => f.includes(".test.") || f.includes(".spec."));
+    const warnings = collectBlastWarnings(stagedSources, graph, hasStagedTests, totalImpacted);
+
+    if (warnings.length > 0) {
+      return { status: "warn", detail: `Cascading blast radius: ${warnings.join("; ")}` };
+    }
+    return {
+      status: "pass",
+      detail: `${stagedSources.length} source file(s) staged · total blast radius ${totalImpacted.size} downstream file(s)`,
+    };
+  } catch (err) {
+    return {
+      status: "skip",
+      detail: `blast radius evaluation skipped: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
+}
+
+function checkBlastRadius(root: string, cfg: FrameConfig | null, enabled: boolean): CheckResult {
+  if (!enabled) {
+    return {
+      id: "blast-radius",
+      title: "Blast radius impact gate",
+      status: "skip",
+      detail: "run jaxx verify to analyze",
+    };
+  }
+  const staged = getStagedFiles(root);
+  const evaluated = evaluateBlastRadius(root, cfg, staged);
+  return {
+    id: "blast-radius",
+    title: "Blast radius impact gate",
+    status: evaluated.status,
+    detail: evaluated.detail,
+  };
 }
 
 function qualityGate(root: string, cfg: FrameConfig | null, enabled: boolean): CheckResult {

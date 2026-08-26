@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-26T22:45:17.483Z
-- Files analyzed: 35 · Functions: 209
+- Generated: 2026-08-26T23:46:01.305Z
+- Files analyzed: 35 · Functions: 217
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -15,7 +15,7 @@
 
 ## Duplication
 
-- Ratio: 3.8% of 4070 significant lines
+- Ratio: 3.7% of 4209 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `108cd8ce7bf8` ×3 (first: packages/cli/src/commands/bridge.ts:61)
 - block `a741382de55f` ×3 (first: packages/cli/src/commands/bridge.ts:62)
@@ -28,7 +28,6 @@
 - `DeadCodeReport` in packages/analyzers/src/deadcode.ts
 - `DuplicationBlock` in packages/analyzers/src/duplication.ts
 - `loadFrameConfigFromPath` in packages/core/src/config.ts
-- `runGit` in packages/core/src/git.ts
 - `CommitInfo` in packages/core/src/git.ts
 - `RepoStatus` in packages/core/src/git.ts
 - `withFileLock` in packages/core/src/lock.ts
@@ -39,5 +38,6 @@
 - `ReadEventsResult` in packages/core/src/log.ts
 - `LogIntegrity` in packages/core/src/log.ts
 - `SKILLS_DIR_NAME` in packages/core/src/paths.ts
+- `FRAME_CONFIG_FILENAME` in packages/core/src/paths.ts
 
 _Note: approximate — exported symbols never referenced by another analyzed file (106 exports scanned); entry points exempt_
