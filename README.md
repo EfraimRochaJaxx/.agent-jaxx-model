@@ -97,6 +97,12 @@ cd /path/to/your-project
 # Initialize .agent/ control plane, frame.config.ts, and git pre-commit hook:
 jaxx init "Your Project Name"
 
+# Link sibling repositories in multi-repo workspaces (e.g. backend / API):
+jaxx repo add backend ../api
+
+# List all connected repositories:
+jaxx repo list
+
 # Record agent actions into the append-only log:
 jaxx log INFO "Implemented authentication flow" --agent coder-1
 

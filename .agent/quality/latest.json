@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-26T00:53:02.069Z",
+  "generatedAt": "2026-08-26T22:45:17.483Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
-  "filesAnalyzed": 34,
-  "functionsAnalyzed": 201,
+  "filesAnalyzed": 35,
+  "functionsAnalyzed": 209,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -57,8 +57,8 @@
         "complexity": 8
       },
       {
-        "file": "packages/cli/src/commands/skills.ts",
-        "function": "findSkillFiles",
+        "file": "packages/cli/src/commands/repo.ts",
+        "function": "handleList",
         "complexity": 8
       }
     ]
@@ -76,10 +76,6 @@
       {
         "file": "packages/analyzers/src/duplication.ts",
         "symbol": "DuplicationBlock"
-      },
-      {
-        "file": "packages/core/src/config.ts",
-        "symbol": "locateFrameConfig"
       },
       {
         "file": "packages/core/src/config.ts",
@@ -200,13 +196,25 @@
       {
         "file": "packages/cli/src/commands/doctor.ts",
         "symbol": "DoctorOptions"
+      },
+      {
+        "file": "packages/cli/src/commands/repo.ts",
+        "symbol": "insertRepoIntoSource"
+      },
+      {
+        "file": "packages/cli/src/commands/repo.ts",
+        "symbol": "removeRepoFromSource"
+      },
+      {
+        "file": "packages/cli/src/commands/repo.ts",
+        "symbol": "RepoEntry"
       }
     ],
-    "note": "approximate — exported symbols never referenced by another analyzed file (102 exports scanned); entry points exempt"
+    "note": "approximate — exported symbols never referenced by another analyzed file (106 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.03985600411416817,
-    "linesTotal": 3889,
+    "ratio": 0.038083538083538086,
+    "linesTotal": 4070,
     "linesDuplicated": 155,
     "worstBlocks": [
       {

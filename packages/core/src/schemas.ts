@@ -18,7 +18,7 @@ export type Event = z.infer<typeof EventSchema>;
 
 export const RepoConfigSchema = z.object({
   name: z.string().min(1),
-  path: z.string().min(1).refine((p) => !pathIsTraversal(p), "path traversal detected"),
+  path: z.string().min(1),
   defaultBranch: z.string().min(1).default("main"),
 });
 export type RepoConfig = z.infer<typeof RepoConfigSchema>;

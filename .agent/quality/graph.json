@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T00:53:02.388Z",
+  "generatedAt": "2026-08-26T22:45:18.639Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "nodes": [
     {
@@ -125,6 +125,7 @@
       "imports": [],
       "importedBy": [
         "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -132,12 +133,13 @@
       ],
       "impact": [
         "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
         "packages/cli/src/index.ts"
       ],
-      "impactCount": 5,
+      "impactCount": 6,
       "isCircular": false,
       "isOrphan": false
     },
@@ -215,6 +217,22 @@
       "isOrphan": false
     },
     {
+      "id": "packages/cli/src/commands/repo.ts",
+      "name": "repo.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 205,
+      "maxComplexity": 8,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
       "id": "packages/cli/src/commands/serve.ts",
       "name": "serve.ts",
       "dir": "packages/cli/src/commands",
@@ -282,7 +300,7 @@
       "id": "packages/cli/src/index.ts",
       "name": "index.ts",
       "dir": "packages/cli/src",
-      "linesOfCode": 155,
+      "linesOfCode": 164,
       "maxComplexity": 9,
       "imports": [
         "packages/cli/src/args.ts",
@@ -314,6 +332,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -322,7 +341,7 @@
         "packages/core/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 13,
+      "impactCount": 14,
       "isCircular": false,
       "isOrphan": false
     },
@@ -345,6 +364,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -353,7 +373,7 @@
         "packages/core/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 13,
+      "impactCount": 14,
       "isCircular": false,
       "isOrphan": false
     },
@@ -374,6 +394,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -382,7 +403,7 @@
         "packages/core/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 13,
+      "impactCount": 14,
       "isCircular": false,
       "isOrphan": false
     },
@@ -410,6 +431,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -422,6 +444,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -429,7 +452,7 @@
         "packages/cli/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 12,
+      "impactCount": 13,
       "isCircular": false,
       "isOrphan": false
     },
@@ -451,6 +474,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -461,7 +485,7 @@
         "packages/core/src/session.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 15,
+      "impactCount": 16,
       "isCircular": false,
       "isOrphan": false
     },
@@ -487,6 +511,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -496,7 +521,7 @@
         "packages/core/src/session.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 14,
+      "impactCount": 15,
       "isCircular": false,
       "isOrphan": false
     },
@@ -521,6 +546,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -534,7 +560,7 @@
         "packages/core/src/skills.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 18,
+      "impactCount": 19,
       "isCircular": false,
       "isOrphan": false
     },
@@ -559,6 +585,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -571,7 +598,7 @@
         "packages/core/src/skills.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 17,
+      "impactCount": 18,
       "isCircular": false,
       "isOrphan": false
     },
@@ -595,6 +622,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -603,7 +631,7 @@
         "packages/core/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 13,
+      "impactCount": 14,
       "isCircular": false,
       "isOrphan": false
     },
@@ -627,6 +655,7 @@
         "packages/cli/src/commands/doctor.ts",
         "packages/cli/src/commands/init.ts",
         "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/repo.ts",
         "packages/cli/src/commands/serve.ts",
         "packages/cli/src/commands/session.ts",
         "packages/cli/src/commands/skills.ts",
@@ -635,7 +664,7 @@
         "packages/core/src/index.ts",
         "packages/dashboard/server/server.ts"
       ],
-      "impactCount": 13,
+      "impactCount": 14,
       "isCircular": false,
       "isOrphan": false
     },
@@ -973,6 +1002,16 @@
       "isCircular": false
     },
     {
+      "source": "packages/cli/src/commands/repo.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/repo.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
       "source": "packages/cli/src/commands/serve.ts",
       "target": "packages/cli/src/args.ts",
       "isCircular": false
@@ -1019,13 +1058,13 @@
     }
   ],
   "metrics": {
-    "totalFiles": 34,
-    "totalEdges": 48,
+    "totalFiles": 35,
+    "totalEdges": 50,
     "circularCyclesCount": 0,
     "orphansCount": 2,
     "highestImpactFile": {
       "id": "packages/core/src/paths.ts",
-      "impactCount": 18
+      "impactCount": 19
     }
   },
   "circularCycles": []

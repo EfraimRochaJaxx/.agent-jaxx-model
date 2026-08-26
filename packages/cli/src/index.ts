@@ -18,6 +18,9 @@ Usage:
   jaxx skill add <name>               Add a skill from a template
   jaxx skill list [--json]            List installed skills
   jaxx skill install <repo-git>       Safely install skills from an external Git repository
+  jaxx repo list                      List configured workspace repositories
+  jaxx repo add <name> <path>         Link another repository to this control plane
+  jaxx repo remove <name>             Unlink a repository
   jaxx bridge start|status            Start / probe the optional LangGraph bridge service
   jaxx serve [--with-bridge]          Start the dashboard (and optionally the bridge) for this project
   jaxx verify                         Run full pre-commit verification pipeline
@@ -41,6 +44,7 @@ const COMMANDS: Record<string, Handler> = {
   serve: handleServe,
   skills: handleSkill,
   verify: handleVerify,
+  repo: handleRepo,
   help: () => (console.log(USAGE), EXIT.OK),
 };
 
@@ -79,7 +83,7 @@ function reportError(err: unknown, json: boolean): number {
   const message = err instanceof Error ? err.message : String(err);
   if (json) console.log(JSON.stringify({ ok: false, error: message }));
   else console.error(`error: ${message}`);
-  if (/^Usage:|requires|invalid level|refusing/i.test(message)) return EXIT.USAGE;
+  if (/^Usage:|requires|invalid level|refusing|already configured|already exists|not found in/i.test(message)) return EXIT.USAGE;
   if (/Invalid frame config|No frame.config/i.test(message)) return EXIT.CONFIG;
   return EXIT.INTERNAL;
 }
@@ -142,6 +146,11 @@ async function handleSkill(ctx: CliContext): Promise<number> {
 async function handleVerify(ctx: CliContext): Promise<number> {
   const { runVerify } = await import("./commands/verify");
   return runVerify(resolveRoot(ctx.args), ctx.json);
+}
+
+async function handleRepo(ctx: CliContext): Promise<number> {
+  const { runRepo } = await import("./commands/repo");
+  return runRepo(ctx.args, resolveRoot(ctx.args), ctx.json);
 }
 
 function resolveRoot(args: ParsedArgs): string {
