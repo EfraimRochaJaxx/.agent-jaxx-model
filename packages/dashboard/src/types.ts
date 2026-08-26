@@ -37,6 +37,41 @@ export interface SkillDTO {
   file: string;
 }
 
+export interface GraphNodeDTO {
+  id: string;
+  name: string;
+  dir: string;
+  linesOfCode: number;
+  maxComplexity: number;
+  imports: string[];
+  importedBy: string[];
+  impact: string[];
+  impactCount: number;
+  isCircular: boolean;
+  isOrphan: boolean;
+}
+
+export interface GraphEdgeDTO {
+  source: string;
+  target: string;
+  isCircular?: boolean;
+}
+
+export interface DependencyGraphDTO {
+  generatedAt: string;
+  root: string;
+  nodes: GraphNodeDTO[];
+  edges: GraphEdgeDTO[];
+  metrics: {
+    totalFiles: number;
+    totalEdges: number;
+    circularCyclesCount: number;
+    orphansCount: number;
+    highestImpactFile: { id: string; impactCount: number } | null;
+  };
+  circularCycles?: string[][];
+}
+
 export interface QualityDTO {
   exists: boolean;
   generatedAt?: string;
@@ -56,4 +91,5 @@ export interface AllResponse {
   skills: { skills: SkillDTO[]; issues: { filePath: string; reason: string }[] };
   bridge?: { running: boolean; port: number };
   quality: QualityDTO;
+  graph?: DependencyGraphDTO;
 }

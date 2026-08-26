@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { AllResponse, EventDTO } from "./types";
+import { DependencyGraphView } from "./components/DependencyGraphView";
 
 const POLL_MS = 10_000;
 
@@ -121,86 +122,8 @@ export default function App() {
         <QualityPanel quality={data.quality} />
       </section>
 
-      <BridgePanel events={data.agentLog.events} bridge={data.bridge} />
+      <DependencyGraphView graph={data.graph} />
     </div>
-  );
-}
-
-const BRIDGE_NODES = [
-  { id: "orchestrator", label: "Orchestrator", role: "plans & delegates" },
-  { id: "coder", label: "Coder", role: "implements" },
-  { id: "reviewer", label: "Reviewer", role: "reviews" },
-  { id: "qa", label: "QA", role: "verifies" },
-] as const;
-
-interface BridgeStats {
-  counts: Map<string, number>;
-  total: number;
-  lastAt: string;
-}
-
-function computeBridgeStats(events: EventDTO[]): BridgeStats {
-  const counts = new Map<string, number>();
-  let lastAt = "";
-  for (const e of events) {
-    const node = BRIDGE_NODES.find((n) => n.id === e.agent);
-    if (node) counts.set(node.id, (counts.get(node.id) ?? 0) + 1);
-    if (!lastAt || e.ts > lastAt) lastAt = e.ts;
-  }
-  const total = [...counts.values()].reduce((a, b) => a + b, 0);
-  return { counts, total, lastAt };
-}
-
-function BridgeNodeCard({ node, count, isLast }: { node: (typeof BRIDGE_NODES)[number]; count: number; isLast: boolean }) {
-  const activeStyle = count > 0
-    ? { background: "color-mix(in srgb, var(--jx-primary) 10%, transparent)", borderColor: "color-mix(in srgb, var(--jx-primary) 40%, transparent)" }
-    : undefined;
-
-  return (
-    <div className="flex items-center gap-3 flex-1 min-w-0">
-      <div
-        className={`flex-1 rounded-lg border p-3 transition-colors ${count > 0 ? "border-transparent" : "border-slate-800"}`}
-        style={activeStyle}
-      >
-        <div className="flex items-baseline justify-between gap-2">
-          <span className="font-medium">{node.label}</span>
-          <span className="font-mono text-sm" style={{ color: count > 0 ? "var(--jx-primary)" : undefined }}>
-            {count}
-          </span>
-        </div>
-        <p className="text-xs text-slate-500">{node.role}</p>
-      </div>
-      {!isLast && <span className="text-slate-600 hidden lg:block" aria-hidden>→</span>}
-    </div>
-  );
-}
-
-function BridgePanel({ events, bridge }: { events: EventDTO[]; bridge?: { running: boolean; port: number } }) {
-  const { counts, total, lastAt } = computeBridgeStats(events);
-  const isRunning = Boolean(bridge?.running);
-  const statusText = isRunning ? `service running at :${bridge?.port}` : "service idle";
-  const statusCls = isRunning ? "text-emerald-300" : "text-slate-500";
-  const lastEventText = total > 0 && isRunning ? ` · last event ${fmtTime(lastAt)}` : "";
-
-  return (
-    <Card title="Multi-Agent Graph (LangGraph bridge)" right={
-      <span className={`text-xs ${statusCls}`}>{statusText}{lastEventText}</span>
-    }>
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
-        {BRIDGE_NODES.map((n, i) => (
-          <BridgeNodeCard
-            key={n.id}
-            node={n}
-            count={counts.get(n.id) ?? 0}
-            isLast={i === BRIDGE_NODES.length - 1}
-          />
-        ))}
-      </div>
-      <p className="mt-3 text-xs text-slate-500">
-        Every node appends to the shared AGENT_LOG.jsonl — the counters above are derived from the same audit log.
-        Start it with <code className="text-slate-400">jaxx bridge start</code> or <code className="text-slate-400">npm run dashboard:start:bridge</code>.
-      </p>
-    </Card>
   );
 }
 

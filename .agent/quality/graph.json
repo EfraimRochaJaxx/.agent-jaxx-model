@@ -1,0 +1,1032 @@
+{
+  "generatedAt": "2026-08-26T00:53:02.388Z",
+  "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
+  "nodes": [
+    {
+      "id": "frame.config.example.ts",
+      "name": "frame.config.example.ts",
+      "dir": ".",
+      "linesOfCode": 39,
+      "maxComplexity": 1,
+      "imports": [
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/analyzers/src/complexity.ts",
+      "name": "complexity.ts",
+      "dir": "packages/analyzers/src",
+      "linesOfCode": 97,
+      "maxComplexity": 8,
+      "imports": [],
+      "importedBy": [
+        "packages/analyzers/src/graph.ts",
+        "packages/analyzers/src/index.ts"
+      ],
+      "impact": [
+        "packages/analyzers/src/graph.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 3,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/analyzers/src/deadcode.ts",
+      "name": "deadcode.ts",
+      "dir": "packages/analyzers/src",
+      "linesOfCode": 74,
+      "maxComplexity": 6,
+      "imports": [],
+      "importedBy": [
+        "packages/analyzers/src/index.ts"
+      ],
+      "impact": [
+        "packages/analyzers/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 2,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/analyzers/src/duplication.ts",
+      "name": "duplication.ts",
+      "dir": "packages/analyzers/src",
+      "linesOfCode": 88,
+      "maxComplexity": 5,
+      "imports": [],
+      "importedBy": [
+        "packages/analyzers/src/index.ts"
+      ],
+      "impact": [
+        "packages/analyzers/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 2,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/analyzers/src/graph.ts",
+      "name": "graph.ts",
+      "dir": "packages/analyzers/src",
+      "linesOfCode": 303,
+      "maxComplexity": 7,
+      "imports": [
+        "packages/analyzers/src/complexity.ts"
+      ],
+      "importedBy": [
+        "packages/analyzers/src/index.ts"
+      ],
+      "impact": [
+        "packages/analyzers/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 2,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/analyzers/src/index.ts",
+      "name": "index.ts",
+      "dir": "packages/analyzers/src",
+      "linesOfCode": 240,
+      "maxComplexity": 8,
+      "imports": [
+        "packages/analyzers/src/complexity.ts",
+        "packages/analyzers/src/deadcode.ts",
+        "packages/analyzers/src/duplication.ts",
+        "packages/analyzers/src/graph.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [
+        "packages/dashboard/server/server.ts"
+      ],
+      "impact": [
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 1,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/args.ts",
+      "name": "args.ts",
+      "dir": "packages/cli/src",
+      "linesOfCode": 53,
+      "maxComplexity": 6,
+      "imports": [],
+      "importedBy": [
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/index.ts"
+      ],
+      "impact": [
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/index.ts"
+      ],
+      "impactCount": 5,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/bridge.ts",
+      "name": "bridge.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 165,
+      "maxComplexity": 7,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [
+        "packages/cli/src/commands/serve.ts"
+      ],
+      "impact": [
+        "packages/cli/src/commands/serve.ts"
+      ],
+      "impactCount": 1,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/doctor.ts",
+      "name": "doctor.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 367,
+      "maxComplexity": 8,
+      "imports": [
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [
+        "packages/cli/src/commands/verify.ts"
+      ],
+      "impact": [
+        "packages/cli/src/commands/verify.ts"
+      ],
+      "impactCount": 1,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/init.ts",
+      "name": "init.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 90,
+      "maxComplexity": 4,
+      "imports": [
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/log.ts",
+      "name": "log.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 29,
+      "maxComplexity": 3,
+      "imports": [
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [
+        "packages/cli/src/index.ts"
+      ],
+      "impact": [
+        "packages/cli/src/index.ts"
+      ],
+      "impactCount": 1,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/serve.ts",
+      "name": "serve.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 138,
+      "maxComplexity": 7,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/session.ts",
+      "name": "session.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 132,
+      "maxComplexity": 6,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/skills.ts",
+      "name": "skills.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 249,
+      "maxComplexity": 8,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/commands/verify.ts",
+      "name": "verify.ts",
+      "dir": "packages/cli/src/commands",
+      "linesOfCode": 23,
+      "maxComplexity": 4,
+      "imports": [
+        "packages/cli/src/commands/doctor.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/cli/src/index.ts",
+      "name": "index.ts",
+      "dir": "packages/cli/src",
+      "linesOfCode": 155,
+      "maxComplexity": 9,
+      "imports": [
+        "packages/cli/src/args.ts",
+        "packages/cli/src/commands/log.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/config.ts",
+      "name": "config.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 94,
+      "maxComplexity": 5,
+      "imports": [
+        "packages/core/src/paths.ts",
+        "packages/core/src/schemas.ts"
+      ],
+      "importedBy": [
+        "packages/core/src/index.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 13,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/controlplane.ts",
+      "name": "controlplane.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 113,
+      "maxComplexity": 4,
+      "imports": [
+        "packages/core/src/paths.ts"
+      ],
+      "importedBy": [
+        "packages/core/src/index.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 13,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/git.ts",
+      "name": "git.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 75,
+      "maxComplexity": 4,
+      "imports": [],
+      "importedBy": [
+        "packages/core/src/index.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 13,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/index.ts",
+      "name": "index.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 10,
+      "maxComplexity": 1,
+      "imports": [
+        "packages/core/src/config.ts",
+        "packages/core/src/controlplane.ts",
+        "packages/core/src/git.ts",
+        "packages/core/src/lock.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/paths.ts",
+        "packages/core/src/schemas.ts",
+        "packages/core/src/session.ts",
+        "packages/core/src/skills.ts"
+      ],
+      "importedBy": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 12,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/lock.ts",
+      "name": "lock.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 90,
+      "maxComplexity": 7,
+      "imports": [],
+      "importedBy": [
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/session.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 15,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/log.ts",
+      "name": "log.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 135,
+      "maxComplexity": 6,
+      "imports": [
+        "packages/core/src/lock.ts",
+        "packages/core/src/paths.ts",
+        "packages/core/src/schemas.ts"
+      ],
+      "importedBy": [
+        "packages/core/src/index.ts",
+        "packages/core/src/session.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/session.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 14,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/paths.ts",
+      "name": "paths.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 34,
+      "maxComplexity": 2,
+      "imports": [],
+      "importedBy": [
+        "packages/core/src/config.ts",
+        "packages/core/src/controlplane.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/skills.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/config.ts",
+        "packages/core/src/controlplane.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/session.ts",
+        "packages/core/src/skills.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 18,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/schemas.ts",
+      "name": "schemas.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 94,
+      "maxComplexity": 2,
+      "imports": [],
+      "importedBy": [
+        "packages/core/src/config.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/session.ts",
+        "packages/core/src/skills.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/config.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/log.ts",
+        "packages/core/src/session.ts",
+        "packages/core/src/skills.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 17,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/session.ts",
+      "name": "session.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 107,
+      "maxComplexity": 6,
+      "imports": [
+        "packages/core/src/log.ts",
+        "packages/core/src/schemas.ts"
+      ],
+      "importedBy": [
+        "packages/core/src/index.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 13,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/core/src/skills.ts",
+      "name": "skills.ts",
+      "dir": "packages/core/src",
+      "linesOfCode": 113,
+      "maxComplexity": 10,
+      "imports": [
+        "packages/core/src/paths.ts",
+        "packages/core/src/schemas.ts"
+      ],
+      "importedBy": [
+        "packages/core/src/index.ts"
+      ],
+      "impact": [
+        "frame.config.example.ts",
+        "packages/analyzers/src/index.ts",
+        "packages/cli/src/commands/bridge.ts",
+        "packages/cli/src/commands/doctor.ts",
+        "packages/cli/src/commands/init.ts",
+        "packages/cli/src/commands/log.ts",
+        "packages/cli/src/commands/serve.ts",
+        "packages/cli/src/commands/session.ts",
+        "packages/cli/src/commands/skills.ts",
+        "packages/cli/src/commands/verify.ts",
+        "packages/cli/src/index.ts",
+        "packages/core/src/index.ts",
+        "packages/dashboard/server/server.ts"
+      ],
+      "impactCount": 13,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/server/server.ts",
+      "name": "server.ts",
+      "dir": "packages/dashboard/server",
+      "linesOfCode": 308,
+      "maxComplexity": 10,
+      "imports": [
+        "packages/analyzers/src/index.ts",
+        "packages/core/src/index.ts"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/src/App.tsx",
+      "name": "App.tsx",
+      "dir": "packages/dashboard/src",
+      "linesOfCode": 315,
+      "maxComplexity": 10,
+      "imports": [
+        "packages/dashboard/src/components/DependencyGraphView.tsx",
+        "packages/dashboard/src/types.ts"
+      ],
+      "importedBy": [
+        "packages/dashboard/src/main.tsx",
+        "packages/dashboard/test/render.test.tsx"
+      ],
+      "impact": [
+        "packages/dashboard/src/main.tsx",
+        "packages/dashboard/test/render.test.tsx"
+      ],
+      "impactCount": 2,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/src/components/DependencyGraphView.tsx",
+      "name": "DependencyGraphView.tsx",
+      "dir": "packages/dashboard/src/components",
+      "linesOfCode": 585,
+      "maxComplexity": 8,
+      "imports": [
+        "packages/dashboard/src/types.ts"
+      ],
+      "importedBy": [
+        "packages/dashboard/src/App.tsx"
+      ],
+      "impact": [
+        "packages/dashboard/src/App.tsx",
+        "packages/dashboard/src/main.tsx",
+        "packages/dashboard/test/render.test.tsx"
+      ],
+      "impactCount": 3,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/src/main.tsx",
+      "name": "main.tsx",
+      "dir": "packages/dashboard/src",
+      "linesOfCode": 13,
+      "maxComplexity": 1,
+      "imports": [
+        "packages/dashboard/src/App.tsx"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/src/types.ts",
+      "name": "types.ts",
+      "dir": "packages/dashboard/src",
+      "linesOfCode": 96,
+      "maxComplexity": 1,
+      "imports": [],
+      "importedBy": [
+        "packages/dashboard/src/App.tsx",
+        "packages/dashboard/src/components/DependencyGraphView.tsx"
+      ],
+      "impact": [
+        "packages/dashboard/src/App.tsx",
+        "packages/dashboard/src/components/DependencyGraphView.tsx",
+        "packages/dashboard/src/main.tsx",
+        "packages/dashboard/test/render.test.tsx"
+      ],
+      "impactCount": 4,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/test/render.test.tsx",
+      "name": "render.test.tsx",
+      "dir": "packages/dashboard/test",
+      "linesOfCode": 83,
+      "maxComplexity": 1,
+      "imports": [
+        "packages/dashboard/src/App.tsx"
+      ],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": false
+    },
+    {
+      "id": "packages/dashboard/vite.config.ts",
+      "name": "vite.config.ts",
+      "dir": "packages/dashboard",
+      "linesOfCode": 18,
+      "maxComplexity": 1,
+      "imports": [],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": true
+    },
+    {
+      "id": "vitest.config.ts",
+      "name": "vitest.config.ts",
+      "dir": ".",
+      "linesOfCode": 9,
+      "maxComplexity": 1,
+      "imports": [],
+      "importedBy": [],
+      "impact": [],
+      "impactCount": 0,
+      "isCircular": false,
+      "isOrphan": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "frame.config.example.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/graph.ts",
+      "target": "packages/analyzers/src/complexity.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/index.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/index.ts",
+      "target": "packages/analyzers/src/complexity.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/index.ts",
+      "target": "packages/analyzers/src/deadcode.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/index.ts",
+      "target": "packages/analyzers/src/duplication.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/analyzers/src/index.ts",
+      "target": "packages/analyzers/src/graph.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/index.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/index.ts",
+      "target": "packages/cli/src/commands/log.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/config.ts",
+      "target": "packages/core/src/schemas.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/config.ts",
+      "target": "packages/core/src/paths.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/controlplane.ts",
+      "target": "packages/core/src/paths.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/schemas.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/paths.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/lock.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/log.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/config.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/session.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/controlplane.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/git.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/index.ts",
+      "target": "packages/core/src/skills.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/log.ts",
+      "target": "packages/core/src/schemas.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/log.ts",
+      "target": "packages/core/src/lock.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/log.ts",
+      "target": "packages/core/src/paths.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/session.ts",
+      "target": "packages/core/src/log.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/session.ts",
+      "target": "packages/core/src/schemas.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/skills.ts",
+      "target": "packages/core/src/schemas.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/core/src/skills.ts",
+      "target": "packages/core/src/paths.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/server/server.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/server/server.ts",
+      "target": "packages/analyzers/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/src/App.tsx",
+      "target": "packages/dashboard/src/types.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/src/App.tsx",
+      "target": "packages/dashboard/src/components/DependencyGraphView.tsx",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/src/main.tsx",
+      "target": "packages/dashboard/src/App.tsx",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/test/render.test.tsx",
+      "target": "packages/dashboard/src/App.tsx",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/bridge.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/bridge.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/doctor.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/init.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/log.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/serve.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/serve.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/serve.ts",
+      "target": "packages/cli/src/commands/bridge.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/session.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/session.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/skills.ts",
+      "target": "packages/cli/src/args.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/skills.ts",
+      "target": "packages/core/src/index.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/cli/src/commands/verify.ts",
+      "target": "packages/cli/src/commands/doctor.ts",
+      "isCircular": false
+    },
+    {
+      "source": "packages/dashboard/src/components/DependencyGraphView.tsx",
+      "target": "packages/dashboard/src/types.ts",
+      "isCircular": false
+    }
+  ],
+  "metrics": {
+    "totalFiles": 34,
+    "totalEdges": 48,
+    "circularCyclesCount": 0,
+    "orphansCount": 2,
+    "highestImpactFile": {
+      "id": "packages/core/src/paths.ts",
+      "impactCount": 18
+    }
+  },
+  "circularCycles": []
+}

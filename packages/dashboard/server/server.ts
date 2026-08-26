@@ -8,6 +8,7 @@ import {
   readEventsFrom,
   type FrameConfig,
 } from "@jaxx/core";
+import { buildDependencyGraph, type DependencyGraphReport } from "@jaxx/analyzers";
 
 /**
  * Whitelabel control-center server. Native node:http only.
@@ -112,6 +113,34 @@ function quality(): unknown {
   }
 }
 
+let CACHED_GRAPH: DependencyGraphReport | null = null;
+let LAST_GRAPH_FETCH = 0;
+const GRAPH_CACHE_MS = 15_000;
+
+function dependencyGraph(): DependencyGraphReport | null {
+  const p = path.join(ROOT, ".agent", "quality", "graph.json");
+  try {
+    if (fs.existsSync(p)) {
+      return JSON.parse(fs.readFileSync(p, "utf8"));
+    }
+  } catch {
+    /* fallback to dynamic computation */
+  }
+
+  const now = Date.now();
+  if (CACHED_GRAPH && now - LAST_GRAPH_FETCH < GRAPH_CACHE_MS) {
+    return CACHED_GRAPH;
+  }
+
+  try {
+    CACHED_GRAPH = buildDependencyGraph(ROOT, CONFIG.quality);
+    LAST_GRAPH_FETCH = now;
+    return CACHED_GRAPH;
+  } catch {
+    return null;
+  }
+}
+
 /** Serve the configured logo, but ONLY from inside the project root. */
 function logoResponse(res: http.ServerResponse): boolean {
   const logoPath = CONFIG.project.logoPath;
@@ -173,6 +202,9 @@ function handleApiRoute(url: string, res: http.ServerResponse): boolean {
     case "/api/ping":
       sendJson(res, 200, { ok: true, ts: new Date().toISOString() });
       return true;
+    case "/api/graph":
+      sendJson(res, 200, dependencyGraph() ?? { nodes: [], edges: [], metrics: { totalFiles: 0, totalEdges: 0, circularCyclesCount: 0, orphansCount: 0, highestImpactFile: null } });
+      return true;
     default:
       return false;
   }
@@ -218,6 +250,7 @@ function snapshot() {
     agentLog: agentLog(),
     skills: skills(),
     quality: quality(),
+    graph: dependencyGraph(),
   };
 }
 

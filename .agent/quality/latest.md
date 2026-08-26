@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-25T23:53:46.092Z
-- Files analyzed: 31 · Functions: 169
+- Generated: 2026-08-26T00:53:02.069Z
+- Files analyzed: 34 · Functions: 201
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -15,7 +15,7 @@
 
 ## Duplication
 
-- Ratio: 4.4% of 3036 significant lines
+- Ratio: 4.0% of 3889 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `108cd8ce7bf8` ×3 (first: packages/cli/src/commands/bridge.ts:61)
 - block `a741382de55f` ×3 (first: packages/cli/src/commands/bridge.ts:62)
@@ -40,4 +40,4 @@
 - `ReadEventsResult` in packages/core/src/log.ts
 - `LogIntegrity` in packages/core/src/log.ts
 
-_Note: approximate — exported symbols never referenced by another analyzed file (93 exports scanned); entry points exempt_
+_Note: approximate — exported symbols never referenced by another analyzed file (102 exports scanned); entry points exempt_

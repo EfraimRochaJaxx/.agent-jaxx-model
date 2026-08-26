@@ -16,11 +16,33 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
     agent: "jaxx-init",
     msg: `Control plane initialized for "${name}"`,
   });
+  // Install pre-commit hook if git exists
+  installGitHook(rootDir);
+
   const files = fs
     .readdirSync(agentDir)
     .map((f) => path.join(".agent", f))
     .sort();
   return { files, configPath };
+}
+
+function installGitHook(rootDir: string): boolean {
+  const gitDir = path.join(rootDir, ".git");
+  if (!fs.existsSync(gitDir)) return false;
+  const hooksDir = path.join(gitDir, "hooks");
+  if (!fs.existsSync(hooksDir)) {
+    fs.mkdirSync(hooksDir, { recursive: true });
+  }
+  const hookPath = path.join(hooksDir, "pre-commit");
+  if (!fs.existsSync(hookPath)) {
+    const scriptContent = `#!/bin/sh
+# Agent Jaxx Model — Automated Pre-Commit Quality Gate
+npx jaxx doctor --quality
+`;
+    fs.writeFileSync(hookPath, scriptContent, { mode: 0o755 });
+    return true;
+  }
+  return false;
 }
 
 function generateFrameConfig(projectName: string): string {

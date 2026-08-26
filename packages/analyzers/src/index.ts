@@ -5,6 +5,12 @@ import type { QualityConfig } from "@jaxx/core";
 import { analyzeComplexity, type ComplexityFinding } from "./complexity";
 import { analyzeDeadCode, type DeadCodeCandidate } from "./deadcode";
 import { analyzeDuplication, type DuplicationReport } from "./duplication";
+import { analyzeDependencyGraph, type DependencyGraphReport, type GraphEdge, type GraphNode } from "./graph";
+
+export * from "./complexity";
+export * from "./deadcode";
+export * from "./duplication";
+export * from "./graph";
 
 export interface Scorecard {
   generatedAt: string;
@@ -32,6 +38,7 @@ export interface AnalysisResult {
   scorecard: Scorecard;
   markdown: string;
   passed: boolean;
+  graph?: DependencyGraphReport;
 }
 
 /** Minimal glob matching (** and *), no external deps. */
@@ -118,17 +125,40 @@ export function runAnalyzers(rootDir: string, config: Partial<QualityConfig>): A
     violations,
   };
 
-  return { scorecard, markdown: renderMarkdown(scorecard), passed: scorecard.passed };
+  const graph = analyzeDependencyGraph(project, rootDir);
+
+  return { scorecard, markdown: renderMarkdown(scorecard), passed: scorecard.passed, graph };
 }
 
-export function persistResults(rootDir: string, result: AnalysisResult): { jsonPath: string; mdPath: string } {
+export function buildDependencyGraph(rootDir: string, config: Partial<QualityConfig> = {}): DependencyGraphReport {
+  const excludeGlobs = [...DEFAULT_EXCLUDE, ...(config.exclude ?? [])].map(globToRegExp);
+  const project = new Project({
+    tsConfigFilePath: resolveTsConfig(rootDir),
+    skipAddingFilesFromTsConfig: true,
+    skipFileDependencyResolution: true,
+  });
+
+  const sourceFiles = listSourceFiles(rootDir, excludeGlobs);
+  for (const file of sourceFiles) project.addSourceFileAtPath(file);
+
+  return analyzeDependencyGraph(project, rootDir);
+}
+
+export function persistResults(rootDir: string, result: AnalysisResult): { jsonPath: string; mdPath: string; graphPath?: string } {
   const dir = path.join(rootDir, ".agent", "quality");
   fs.mkdirSync(dir, { recursive: true });
   const jsonPath = path.join(dir, "latest.json");
   const mdPath = path.join(dir, "latest.md");
   fs.writeFileSync(jsonPath, JSON.stringify(result.scorecard, null, 2), "utf8");
   fs.writeFileSync(mdPath, result.markdown, "utf8");
-  return { jsonPath, mdPath };
+
+  let graphPath: string | undefined;
+  if (result.graph) {
+    graphPath = path.join(dir, "graph.json");
+    fs.writeFileSync(graphPath, JSON.stringify(result.graph, null, 2), "utf8");
+  }
+
+  return { jsonPath, mdPath, graphPath };
 }
 
 function renderMarkdown(s: Scorecard): string {

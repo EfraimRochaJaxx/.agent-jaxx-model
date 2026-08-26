@@ -20,6 +20,7 @@ Usage:
   jaxx skill install <repo-git>       Safely install skills from an external Git repository
   jaxx bridge start|status            Start / probe the optional LangGraph bridge service
   jaxx serve [--with-bridge]          Start the dashboard (and optionally the bridge) for this project
+  jaxx verify                         Run full pre-commit verification pipeline
 
 Exit codes: 0 ok | 1 check failed | 2 usage error | 3 config error | 4 internal error`;
 
@@ -39,6 +40,7 @@ const COMMANDS: Record<string, Handler> = {
   bridge: handleBridge,
   serve: handleServe,
   skills: handleSkill,
+  verify: handleVerify,
   help: () => (console.log(USAGE), EXIT.OK),
 };
 
@@ -135,6 +137,11 @@ async function handleServe(ctx: CliContext): Promise<number> {
 async function handleSkill(ctx: CliContext): Promise<number> {
   const { runSkill } = await import("./commands/skills");
   return runSkill(ctx.args, ctx.json);
+}
+
+async function handleVerify(ctx: CliContext): Promise<number> {
+  const { runVerify } = await import("./commands/verify");
+  return runVerify(resolveRoot(ctx.args), ctx.json);
 }
 
 function resolveRoot(args: ParsedArgs): string {

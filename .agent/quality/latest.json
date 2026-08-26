@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-25T23:53:46.092Z",
+  "generatedAt": "2026-08-26T00:53:02.069Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "thresholds": {
     "maxComplexity": 10,
     "maxDuplicationRatio": 0.05
   },
-  "filesAnalyzed": 31,
-  "functionsAnalyzed": 169,
+  "filesAnalyzed": 34,
+  "functionsAnalyzed": 201,
   "complexity": {
     "maxObserved": 10,
     "violations": [],
@@ -202,12 +202,12 @@
         "symbol": "DoctorOptions"
       }
     ],
-    "note": "approximate — exported symbols never referenced by another analyzed file (93 exports scanned); entry points exempt"
+    "note": "approximate — exported symbols never referenced by another analyzed file (102 exports scanned); entry points exempt"
   },
   "duplication": {
-    "ratio": 0.044466403162055336,
-    "linesTotal": 3036,
-    "linesDuplicated": 135,
+    "ratio": 0.03985600411416817,
+    "linesTotal": 3889,
+    "linesDuplicated": 155,
     "worstBlocks": [
       {
         "hash": "05ab8df3d768",

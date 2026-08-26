@@ -28,9 +28,9 @@ context. Agent Jaxx Model moves that state into the repository:
 | Package | Purpose |
 | ------- | ------- |
 | `@jaxx/core` | Zod schemas, frame config loading, sessions, append-only log, file locking, safe git helpers |
-| `@jaxx/cli` | `jaxx init`, `log`, `doctor`, `skill add/list/install` |
-| `@jaxx/analyzers` | Cyclomatic complexity, approximate dead code & duplication; JSON + Markdown scorecards |
-| `@jaxx/dashboard` | Whitelabel React 18 + Tailwind 3 control center on a native Node HTTP server |
+| `@jaxx/cli` | `jaxx init`, `log`, `doctor`, `verify`, `skill add/list/install` |
+| `@jaxx/analyzers` | AST dependency & blast radius graph, cyclomatic complexity, dead code & duplication reports |
+| `@jaxx/dashboard` | Whitelabel React 18 + Tailwind 3 control center with interactive Architecture Impact Graph |
 | `@jaxx/langgraph-bridge` | Optional Python 3.11+ FastAPI/LangGraph orchestrator sharing the audit log |
 
 ## Installation
@@ -39,8 +39,7 @@ Requires Node 20+. From the monorepo root:
 
 ```bash
 npm install
-npm run build        # core + cli + analyzers
-npm run dashboard:build
+npm run build        # core + cli + analyzers + dashboard
 ```
 
 The CLI is available at `packages/cli/dist/index.js` (publish or `npm link`
@@ -56,7 +55,7 @@ npx @jaxx/cli init "Your Project"
 jaxx log INFO "implemented login endpoint" --agent coder-1
 
 # verify environment, git, docker, config, control plane, quality
-jaxx doctor --quality
+jaxx verify
 
 # observe everything
 node node_modules/@jaxx/dashboard/dist/server/server.js   # http://localhost:3099
@@ -80,19 +79,35 @@ node node_modules/@jaxx/dashboard/dist/server/server.js   # http://localhost:309
 └── frame.config.ts   THE whitelabel configuration surface
 ```
 
+## Architecture & Dependency Blast Radius Graph
+
+Agent Jaxx Model features an AST-driven dependency analyzer powered by `ts-morph`:
+
+```mermaid
+graph TD
+    CLI[jaxx CLI / Pre-commit Gate] --> Core[@jaxx/core]
+    Dashboard[Control Center Dashboard] --> Server[Dashboard Server /api/graph]
+    Server --> Analyzers[@jaxx/analyzers]
+    Analyzers --> AST[AST Parser & Blast Radius Engine]
+    AST --> Graph[Dependency Graph & Impact Map]
+```
+
+- **Interactive Visual Canvas**: Live SVG/Canvas viewer showing all project modules and relationships.
+- **Blast Radius Inspector**: Click any file to compute downstream affected files before editing.
+- **Circular Dependency Detection**: Automatic detection and visualization of circular import chains.
+- **Orphan File Detection**: Highlights unused / unreferenced code.
+
 ## State management
 
 Agents follow the loop:
 
 1. **Read** `STATE.md`, `PLAN.md`, recent `AGENT_LOG.jsonl`.
-2. **Work** on one branch per feature per agent.
-3. **Record** events (`jaxx log <lvl> "<msg>" --agent <name>`).
-4. **Close sessions** — a `Session` writes an automatic summary to
-   `VERIFICATION.md`.
-5. **Update state**, commit, push.
-
-Conflict resolution for shared files is `git pull --rebase`; JSONL lines are
-independent so rebases resolve automatically.
+2. **Inspect** dependency blast radius before making breaking changes.
+3. **Work** on one branch per feature per agent.
+4. **Record** events (`jaxx log <lvl> "<msg>" --agent <name>`).
+5. **Verify** before committing (`jaxx verify`).
+6. **Close sessions** — a `Session` writes an automatic summary to `VERIFICATION.md`.
+7. **Update state**, commit, push.
 
 ## Append-only audit log
 
@@ -106,15 +121,17 @@ Guarantees: validated writes under an advisory file lock (concurrent-safe);
 tolerant reads that **never destroy malformed historical data**; integrity
 reporting via `jaxx doctor`.
 
-## Quality gates
+## Quality gates & Pre-Commit Verification
 
 ```bash
+jaxx verify                      # full pre-commit pipeline (quality + checks)
 jaxx doctor --quality            # human report, exit != 0 on violations
 jaxx doctor --quality --json     # machine-readable scorecard
 ```
 
 Analyzers (ts-morph based):
 
+- **dependency & blast radius graph** (transitive downstream impact map);
 - **cyclomatic complexity** per function (default threshold 10);
 - **approximate dead code** (exports never referenced elsewhere);
 - **approximate duplication** (normalized sliding-window hashes).
@@ -130,7 +147,7 @@ docker container status, skills registry, quality scorecards, token countdown,
 and project branding/theme from `frame.config.ts`. Binds to 127.0.0.1 only.
 
 ```bash
-node packages/dashboard/dist/server/server.js --root /path/to/project
+npm run dashboard:start
 ```
 
 ## Multi-agent bridge (optional)
@@ -159,8 +176,8 @@ See [docs/security.md](docs/security.md). Highlights:
 
 ```bash
 npm install
-npm run build      # tsc -b core cli analyzers
-npm test           # vitest (42 TS tests)
+npm run build      # tsc -b core cli analyzers dashboard
+npm test           # vitest (56 TS tests across 10 suites)
 cd packages/langgraph-bridge && python -m pytest -q   # 6 python tests
 node scripts/clean-room.mjs   # end-to-end acceptance suite (26 checks)
 ```
@@ -170,8 +187,10 @@ Exit-code contract for agents/CI: `0` ok · `1` check failed · `2` usage ·
 
 ## Roadmap
 
+- [x] Architecture & Dependency Blast Radius Graph
+- [x] Automated Pre-Commit Quality Gate & `jaxx verify`
+- [x] GitHub Action wrapping `doctor --quality` as a CI gate
 - [ ] Publish packages to npm
-- [ ] GitHub Action wrapping `doctor --quality` as a CI gate
 - [ ] Real LLM wiring example for the bridge nodes
 - [ ] Cross-machine lock coordination options
 - [ ] Dashboard websocket push (currently 10s polling)

@@ -9,6 +9,7 @@ that dogfoods its own framework. Its control plane lives in `.agent/`.
 2. Read `.agent/PLAN.md` — pick unclaimed milestone items.
 3. Skim recent events: tail `.agent/AGENT_LOG.jsonl`.
 4. Verify environment health: `node packages/cli/dist/index.js doctor`.
+5. Check Architecture & Dependency blast radius: before modifying shared schemas/modules, verify downstream impact in the dashboard graph or AST report.
 
 ## While working
 
@@ -20,9 +21,9 @@ that dogfoods its own framework. Its control plane lives in `.agent/`.
 
 ## Before committing
 
+- `node packages/cli/dist/index.js verify` (runs `doctor --quality` and checks quality gates)
 - `npm run build`
 - `npx vitest run` (all green)
-- `node packages/cli/dist/index.js doctor --quality` (must PASS)
 
 ## Closing work
 
