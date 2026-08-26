@@ -1,7 +1,7 @@
 # State — Agent Jaxx Model
 
 ## Status
-RELEASE_READY — AUDIT_COMPLETE
+PUBLIC_RELEASE — ACTIVE_GOVERNANCE (CI Green · Ruleset Protected)
 
 ## Product
 Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScript monorepo + optional Python bridge).
