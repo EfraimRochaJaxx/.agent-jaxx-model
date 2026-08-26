@@ -1,6 +1,6 @@
 # Quality Scorecard
 
-- Generated: 2026-08-26T23:46:01.305Z
+- Generated: 2026-08-26T23:47:15.914Z
 - Files analyzed: 35 · Functions: 217
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
