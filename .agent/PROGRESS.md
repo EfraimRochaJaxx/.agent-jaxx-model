@@ -4,6 +4,8 @@ Reverse-chronological record of completed work.
 
 | Date | Agent | Summary | Evidence |
 | ---- | ----- | ------- | -------- |
+| 2026-08-25 | antigravity | Public Release & Stranger Test Audit: GitHub Actions CI green on Linux, main branch ruleset active, PR #1 merged, quickstart & onboarding optimized | 56 vitest, 6 pytest, CI build-and-test PASS, PR #1 merged |
+| 2026-08-25 | antigravity | Architecture Impact Graph: AST dependency & blast radius engine, interactive SVG/Canvas dashboard, pre-commit verify & hook | 56 vitest, doctor --quality PASS, commit a56ff66 |
 | 2026-08-25 | audit-agent | Pre-release audit: serve.ts fs & resolution, @jaxx/dashboard packaging, path traversal fix, MIT license, CI workflow, Windows lock compatibility, live browser audit | 54 vitest, 6 pytest, 26/26 clean-room, doctor --quality PASS, browser recording |
 | 2026-08-25 | ox-alpha | Phase 1 @jaxx/core: schemas/config/session/log/lock; 23 tests | commit 7ac5566 |
 | 2026-08-25 | ox-alpha | Phase 2 @jaxx/cli: init/log/doctor/skills; E2E on temp projects | commit da79434 |
