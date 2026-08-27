@@ -428,7 +428,18 @@ function checkRepo(
 ): CheckResult[] {
   const results: CheckResult[] = [];
   const abs = path.resolve(rootDir, repo.path);
+  const isPrimary = repo.path === "." || path.relative(rootDir, abs) === "";
   if (!fs.existsSync(abs)) {
+    if (!isPrimary) {
+      return [
+        {
+          id: `repo:${repo.name}`,
+          title: `Repo ${repo.name}`,
+          status: "skip",
+          detail: `sibling path not found (standalone/CI mode): ${abs}`,
+        },
+      ];
+    }
     return [
       {
         id: `repo:${repo.name}`,
@@ -440,6 +451,16 @@ function checkRepo(
   }
   const st = getRepoStatus(abs);
   if (!st.isRepo) {
+    if (!isPrimary) {
+      return [
+        {
+          id: `repo:${repo.name}`,
+          title: `Repo ${repo.name}`,
+          status: "skip",
+          detail: `sibling not a git repository (standalone/CI mode): ${abs}`,
+        },
+      ];
+    }
     return [{ id: `repo:${repo.name}`, title: `Repo ${repo.name}`, status: "fail", detail: `not a git repository: ${abs}` }];
   }
   const branchLabel = st.branch ?? st.hash ?? "(no commits yet)";

@@ -57,6 +57,7 @@ describe("jaxx init", () => {
     expect(fs.existsSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"))).toBe(true);
     const ciContent = fs.readFileSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"), "utf8");
     expect(ciContent).toContain("npx jaxx verify");
+    expect(ciContent).toContain("fetch-depth: 0");
     expect(fs.existsSync(path.join(proj, "AGENTS.md"))).toBe(true);
     const agentsContent = fs.readFileSync(path.join(proj, "AGENTS.md"), "utf8");
     expect(agentsContent).toContain("Protocolo de Operação do Agente — Test Project");

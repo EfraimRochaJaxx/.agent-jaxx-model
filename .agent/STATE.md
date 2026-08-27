@@ -26,11 +26,12 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
       - Installs `.git/hooks/pre-commit`, `.git/hooks/post-commit` (anti-bypass rollback trap) and `.git/hooks/pre-push` running `npx jaxx verify`.
       - `.gitignore` integrity gate: Rejects commits if `.agent/` is placed in `.gitignore`.
       - Automated `AGENTS.md` operating protocol generation in `jaxx init`.
-      - Automated `.github/workflows/jaxx-ci.yml` generation in `jaxx init`.
-    - 68 unit tests passing across 13 suites.
+      - Automated `.github/workflows/jaxx-ci.yml` generation with `fetch-depth: 0`.
+      - Graceful skipping of missing sibling repositories in standalone/CI doctor runs.
+    - 69 unit tests passing across 13 suites.
 
 ## Test totals
-- TypeScript: 68 vitest tests green (13 suites).
+- TypeScript: 69 vitest tests green (13 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).

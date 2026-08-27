@@ -82,4 +82,12 @@ describe("jaxx repo command", () => {
     const config = loadFrameConfig(mainProj);
     expect(config.repos.some((r) => r.name === "backend")).toBe(false);
   });
+
+  it("doctor gracefully skips missing sibling repositories in standalone/CI mode", () => {
+    jaxx(["repo", "add", "missing-backend", "../missing-directory"], mainProj);
+    const res = jaxx(["doctor"], mainProj);
+    expect(res.code).toBe(0);
+    expect(res.stdout).toContain("sibling path not found (standalone/CI mode)");
+    jaxx(["repo", "remove", "missing-backend"], mainProj);
+  });
 });
