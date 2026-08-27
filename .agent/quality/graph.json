@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T23:47:16.146Z",
+  "generatedAt": "2026-08-27T01:36:03.769Z",
   "root": "C:\\dev\\jaxx-systems\\.agent-jaxx-model",
   "nodes": [
     {
@@ -167,7 +167,7 @@
       "id": "packages/cli/src/commands/doctor.ts",
       "name": "doctor.ts",
       "dir": "packages/cli/src/commands",
-      "linesOfCode": 522,
+      "linesOfCode": 556,
       "maxComplexity": 8,
       "imports": [
         "packages/core/src/index.ts"
@@ -186,8 +186,8 @@
       "id": "packages/cli/src/commands/init.ts",
       "name": "init.ts",
       "dir": "packages/cli/src/commands",
-      "linesOfCode": 90,
-      "maxComplexity": 4,
+      "linesOfCode": 141,
+      "maxComplexity": 5,
       "imports": [
         "packages/core/src/index.ts"
       ],

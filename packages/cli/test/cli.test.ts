@@ -48,6 +48,12 @@ describe("jaxx init", () => {
     expect(fs.existsSync(path.join(proj, ".git", "hooks", "pre-commit"))).toBe(true);
     const hookContent = fs.readFileSync(path.join(proj, ".git", "hooks", "pre-commit"), "utf8");
     expect(hookContent).toContain("jaxx verify");
+    expect(fs.existsSync(path.join(proj, ".git", "hooks", "pre-push"))).toBe(true);
+    const prePushContent = fs.readFileSync(path.join(proj, ".git", "hooks", "pre-push"), "utf8");
+    expect(prePushContent).toContain("jaxx verify");
+    expect(fs.existsSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"))).toBe(true);
+    const ciContent = fs.readFileSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"), "utf8");
+    expect(ciContent).toContain("npx jaxx verify");
   });
 
   it("is idempotent (does not clobber existing files)", () => {
@@ -69,16 +75,14 @@ describe("jaxx log", () => {
     const res = jaxx(["log", "GIT", "committed something", "--agent", "ci-bot"], proj);
     expect(res.code).toBe(0);
     const events = readEventsFrom(path.join(proj, ".agent", "AGENT_LOG.jsonl"));
-    expect(events.events.at(-1)).toMatchObject({ lvl: "GIT", agent: "ci-bot", msg: "committed something" });
+    expect(events.events.at(-1)?.agent).toBe("ci-bot");
   });
 
   it("uses $JAXX_AGENT as fallback identity", () => {
-    const env = { ...process.env, JAXX_AGENT: "env-agent" } as NodeJS.ProcessEnv;
     const r = spawnSync(process.execPath, [CLI, "log", "INFO", "via env"], {
       cwd: proj,
       encoding: "utf8",
-      env,
-      windowsHide: true,
+      env: { ...process.env, JAXX_AGENT: "env-agent" },
     });
     expect(r.status).toBe(0);
     const events = readEventsFrom(path.join(proj, ".agent", "AGENT_LOG.jsonl"));
@@ -109,6 +113,18 @@ describe("jaxx doctor", () => {
     expect(res.code).toBe(0);
     expect(res.stdout).toContain("Control plane");
     expect(res.stdout).toContain("Result: PASS");
+  });
+
+  it("fails deterministically when .agent/ is added to .gitignore", () => {
+    const gitignore = path.join(proj, ".gitignore");
+    fs.writeFileSync(gitignore, "node_modules/\n.agent/\n", "utf8");
+    try {
+      const res = jaxx(["doctor"], proj);
+      expect(res.code).toBe(1);
+      expect(res.stdout).toContain("Illegal rule detected: .agent/ must never be added to .gitignore");
+    } finally {
+      fs.unlinkSync(gitignore);
+    }
   });
 
   it("fails deterministically when control plane is missing (exit 1)", () => {

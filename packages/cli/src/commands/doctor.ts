@@ -52,7 +52,10 @@ export async function runDoctor(rootDir: string, opts: DoctorOptions = {}): Prom
   // 1. Control plane integrity
   checks.push(checkControlPlane(root));
 
-  // 2. Project configuration
+  // 2. Gitignore audit integrity (prevent .agent/ exclusion)
+  checks.push(checkGitIgnore(root));
+
+  // 3. Project configuration
   let cfg: FrameConfig | null = null;
   try {
     cfg = loadFrameConfig(root);
@@ -293,6 +296,37 @@ function qualityGate(root: string, cfg: FrameConfig | null, enabled: boolean): C
       detail: `analysis error: ${err instanceof Error ? err.message : String(err)}`,
     };
   }
+}
+
+function checkGitIgnore(root: string): CheckResult {
+  const gitignorePath = path.join(root, ".gitignore");
+  if (!fs.existsSync(gitignorePath)) {
+    return {
+      id: "gitignore",
+      title: ".gitignore audit integrity",
+      status: "pass",
+      detail: "no .gitignore found",
+    };
+  }
+  const content = fs.readFileSync(gitignorePath, "utf8");
+  const lines = content.split("\n").map((l) => l.trim());
+  const ignoresAgent = lines.some(
+    (l) => !l.startsWith("#") && (l === ".agent" || l === ".agent/" || l === "/.agent" || l === "/.agent/"),
+  );
+  if (ignoresAgent) {
+    return {
+      id: "gitignore",
+      title: ".gitignore audit integrity",
+      status: "fail",
+      detail: "Illegal rule detected: .agent/ must never be added to .gitignore",
+    };
+  }
+  return {
+    id: "gitignore",
+    title: ".gitignore audit integrity",
+    status: "pass",
+    detail: ".agent/ control plane correctly preserved",
+  };
 }
 
 function checkControlPlane(root: string): CheckResult {
