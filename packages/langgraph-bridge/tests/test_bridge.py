@@ -62,6 +62,7 @@ def test_state_read(project: Path):
 
 try:
     from fastapi.testclient import TestClient  # noqa: E402
+    from langgraph.graph import StateGraph  # noqa: E402
 
     import os
     from jaxx_bridge import server as bridge_server  # noqa: E402
