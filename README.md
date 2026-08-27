@@ -3,7 +3,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](./LICENSE)
 [![Quality Gate](https://img.shields.io/badge/Quality%20Gate-AST%20Verified-0ea5e9.svg)](./packages/analyzers)
-[![Tests](https://img.shields.io/badge/Tests-56%20Passing-10b981.svg)](./vitest.config.ts)
+[![Tests](https://img.shields.io/badge/Tests-68%20Passing-10b981.svg)](./vitest.config.ts)
 [![Node](https://img.shields.io/badge/Node-%3E=20-22c55e.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
 
 Agent Jaxx Model is an open-source, whitelabel agent-engineering framework for software repositories. It provides a structured control plane in `.agent/` with persistent project memory, an append-only audit log, AST-driven quality gates, dependency blast-radius analysis, a skills registry, and a local real-time dashboard.
@@ -161,6 +161,19 @@ Agent Jaxx Model enforces three automated pre-commit gates via `jaxx verify` and
 # Run the complete verification pipeline locally:
 jaxx verify
 ```
+
+---
+
+## One-Command Hardening & Anti-Bypass Shield
+
+When you run `jaxx init "Your Project"`, Agent Jaxx Model automatically hardens the target repository with a multi-layered local and cloud governance shield:
+
+1. **`AGENTS.md` Operating Protocol:** Generates autonomous LLM instructions in the project root mandating session lifecycle management and prohibiting `--no-verify`.
+2. **`pre-commit` Hook:** Runs `jaxx verify` automatically before any commit.
+3. **`post-commit` Anti-Bypass Trap:** If an autonomous agent attempts `git commit --no-verify`, the post-commit hook intercepts the commit, executes `jaxx verify`, and **immediately rolls back the commit (`git reset HEAD~1`)** if quality or audit gates were bypassed.
+4. **`pre-push` Hook:** Prevents unverified pushes from leaving the local machine.
+5. **`.gitignore` Audit Integrity Gate:** Actively rejects commits if `.agent/` is placed in `.gitignore`.
+6. **Automated GitHub Actions CI:** Generates `.github/workflows/jaxx-ci.yml` (with `fetch-depth: 0` for complete audit history) to enforce verification gates on pull requests in the cloud.
 
 ---
 

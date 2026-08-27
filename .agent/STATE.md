@@ -29,10 +29,10 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
       - Automated `.github/workflows/jaxx-ci.yml` generation with `fetch-depth: 0`.
       - Graceful skipping of missing sibling repositories in standalone/CI doctor runs.
       - **Clean Separation Architecture**: `jaxx init` ignores heavy telemetry (`.agent/*.jsonl`, vectors, cache) from git, preventing bloat and merge conflicts.
-    - 68 unit tests passing across 13 suites.
+    - 69 unit tests passing across 13 suites.
 
 ## Test totals
-- TypeScript: 68 vitest tests green (13 suites).
+- TypeScript: 69 vitest tests green (13 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).
