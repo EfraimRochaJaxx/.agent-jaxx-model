@@ -19,7 +19,7 @@ function jaxx(args: string[], cwd?: string) {
 let proj: string;
 
 beforeAll(() => {
-  proj = fs.mkdtempSync(path.join(os.tmpdir(), "jaxx-blast-radius-test-"));
+  proj = fs.mkdtempSync(path.join(os.tmpdir(), "jaxx-audit-gate-test-"));
   spawnSync("git", ["init", "-b", "main"], { cwd: proj, windowsHide: true });
   spawnSync("git", ["config", "user.name", "Test Agent"], { cwd: proj, windowsHide: true });
   spawnSync("git", ["config", "user.email", "agent@test.com"], { cwd: proj, windowsHide: true });
@@ -29,8 +29,8 @@ beforeAll(() => {
   spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
   spawnSync("git", ["commit", "-m", "initial repo"], { cwd: proj, windowsHide: true });
 
-  // 2. Initialize JAXX control plane (generates audit log in .agent/)
-  jaxx(["init", "Blast Radius Test Project"], proj);
+  // 2. Initialize JAXX control plane (which generates audit log in .agent/)
+  jaxx(["init", "Audit Test Project"], proj);
 
   // 3. Legitimate commit of control plane
   spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
@@ -41,29 +41,49 @@ afterAll(() => {
   fs.rmSync(proj, { recursive: true, force: true, maxRetries: 3 });
 });
 
-describe("AST Dependency & Blast Radius Impact Gate", () => {
+describe("Deterministic Audit Trail Gate", () => {
   it("passes verify when no files are staged", () => {
     const res = jaxx(["verify"], proj);
     expect(res.code).toBe(0);
     expect(res.stdout).toContain("Pre-commit verification passed");
   });
 
-  it("reports blast radius when source files and audit are staged", () => {
-    // Create source file and a test file
+  it("blocks verify when code is staged without an audit entry in .agent/", () => {
+    // Create and stage a code file
     const srcDir = path.join(proj, "src");
     fs.mkdirSync(srcDir, { recursive: true });
-    fs.writeFileSync(path.join(srcDir, "math.ts"), "export function add(a: number, b: number) { return a + b; }", "utf8");
-    fs.writeFileSync(path.join(srcDir, "math.test.ts"), "import { add } from './math';\nadd(1, 2);", "utf8");
+    fs.writeFileSync(path.join(srcDir, "app.ts"), "export const a = 1;", "utf8");
+    spawnSync("git", ["add", "src/app.ts"], { cwd: proj, windowsHide: true });
 
-    // Add log
-    jaxx(["log", "INFO", "Added math module and tests"], proj);
+    const res = jaxx(["verify"], proj);
+    expect(res.code).toBe(1);
+    expect(res.stderr).toContain("Audit trail gate");
+    expect(res.stderr).toContain("without an audit log or session verification");
+  });
 
-    // Stage source, test and log
-    spawnSync("git", ["add", "src/math.ts", "src/math.test.ts", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
+  it("passes verify once jaxx log is run and .agent/ is staged", () => {
+    // Run jaxx log to add audit entry
+    const logRes = jaxx(["log", "INFO", "Added app module"], proj);
+    expect(logRes.code).toBe(0);
+
+    // Stage the updated audit log
+    spawnSync("git", ["add", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
 
     const res = jaxx(["verify"], proj);
     expect(res.code).toBe(0);
-    expect(res.stdout).toContain("Blast radius impact gate");
+    expect(res.stdout).toContain("Pre-commit verification passed");
+  });
+
+  it("passes verify when only .agent/ files are staged", () => {
+    // Commit the previous compliant stage
+    spawnSync("git", ["commit", "-m", "feat: add app"], { cwd: proj, windowsHide: true });
+
+    // Modify and stage only a docs/state file
+    fs.appendFileSync(path.join(proj, ".agent", "STATE.md"), "\n## Note\n");
+    spawnSync("git", ["add", ".agent/STATE.md"], { cwd: proj, windowsHide: true });
+
+    const res = jaxx(["verify"], proj);
+    expect(res.code).toBe(0);
     expect(res.stdout).toContain("Pre-commit verification passed");
   });
 });
