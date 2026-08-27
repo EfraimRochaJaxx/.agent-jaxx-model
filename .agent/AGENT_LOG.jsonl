@@ -54,3 +54,4 @@
 {"ts":"2026-08-26T23:46:29.117Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T23-40-17-062Z) — 0 event(s) recorded"}
 {"ts":"2026-08-27T00:00:28.356Z","lvl":"INFO","agent":"antigravity","msg":"test(cli): refactor blast-radius and audit test suites for pure compliant git test lifecycle"}
 {"ts":"2026-08-27T00:10:40.249Z","lvl":"INFO","agent":"antigravity","msg":"test(bridge): include StateGraph in HAS_DEPS check in pytest suite"}
+{"ts":"2026-08-27T00:17:35.956Z","lvl":"INFO","agent":"antigravity","msg":"test(cli): isolate temp git sandbox in verify-audit and verify-blast-radius test suites"}

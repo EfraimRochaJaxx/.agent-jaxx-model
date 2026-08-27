@@ -24,17 +24,15 @@ beforeAll(() => {
   spawnSync("git", ["config", "user.name", "Test Agent"], { cwd: proj, windowsHide: true });
   spawnSync("git", ["config", "user.email", "agent@test.com"], { cwd: proj, windowsHide: true });
 
-  // 1. Initial git repository commit before hooks
-  fs.writeFileSync(path.join(proj, "README.md"), "# Test", "utf8");
-  spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
-  spawnSync("git", ["commit", "-m", "initial repo"], { cwd: proj, windowsHide: true });
-
-  // 2. Initialize JAXX control plane (generates audit log in .agent/)
   jaxx(["init", "Blast Radius Test Project"], proj);
 
-  // 3. Legitimate commit of control plane
+  // In isolated temp test dirs, remove the hook so git commit doesn't fail on unlinked npx
+  const hook = path.join(proj, ".git", "hooks", "pre-commit");
+  if (fs.existsSync(hook)) fs.unlinkSync(hook);
+
+  // Initial baseline commit
   spawnSync("git", ["add", "-A"], { cwd: proj, windowsHide: true });
-  spawnSync("git", ["commit", "-m", "chore: init jaxx control plane"], { cwd: proj, windowsHide: true });
+  spawnSync("git", ["commit", "-m", "initial commit"], { cwd: proj, windowsHide: true });
 });
 
 afterAll(() => {
