@@ -4,6 +4,7 @@ Reverse-chronological record of completed work.
 
 | Date | Agent | Summary | Evidence |
 | ---- | ----- | ------- | -------- |
+| 2026-08-27 | antigravity | Post-Commit Anti-Bypass Trap & AGENTS.md Template: post-commit hook auto-rollback on --no-verify bypass, automated AGENTS.md generation on jaxx init | 68 vitest, doctor --quality PASS, PR #7 |
 | 2026-08-26 | antigravity | Anti-Bypass Shield: pre-push hook, .gitignore integrity gate, automated .github/workflows/jaxx-ci.yml on jaxx init | 68 vitest, doctor --quality PASS, PR #6 |
 | 2026-08-26 | antigravity | Pre-Commit Blast Radius & Audit Pipeline: AST dependency blast radius gate in verify/doctor, audit trail enforcement, pre-commit hook update, README docs, unit tests | 63 vitest, doctor --quality PASS, PR #5 |
 | 2026-08-26 | antigravity | Multi-Repo Linking: jaxx repo add/list/remove, sibling path schema support, 5 unit tests, quality gate verified | 61 vitest, doctor --quality PASS, PR #3 |

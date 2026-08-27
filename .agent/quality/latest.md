@@ -1,7 +1,7 @@
 # Quality Scorecard
 
-- Generated: 2026-08-27T01:36:03.552Z
-- Files analyzed: 35 · Functions: 219
+- Generated: 2026-08-27T10:32:23.854Z
+- Files analyzed: 35 · Functions: 220
 - Thresholds: complexity ≤ 10, duplication ≤ 5%
 - Result: **PASS**
 
@@ -15,7 +15,7 @@
 
 ## Duplication
 
-- Ratio: 3.6% of 4281 significant lines
+- Ratio: 3.6% of 4336 significant lines
 - block `05ab8df3d768` ×3 (first: packages/core/src/git.ts:19)
 - block `108cd8ce7bf8` ×3 (first: packages/cli/src/commands/bridge.ts:61)
 - block `a741382de55f` ×3 (first: packages/cli/src/commands/bridge.ts:62)
