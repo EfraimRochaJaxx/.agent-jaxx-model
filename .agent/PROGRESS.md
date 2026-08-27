@@ -4,6 +4,7 @@ Reverse-chronological record of completed work.
 
 | Date | Agent | Summary | Evidence |
 | ---- | ----- | ------- | -------- |
+| 2026-08-27 | antigravity | Clean Separation Architecture: Moved heavy/ephemeral telemetry (.agent/*.jsonl, cache, vectors) to .gitignore during jaxx init, eliminating git bloat and merge conflicts while preserving governance | 68 vitest, PR #9 |
 | 2026-08-27 | antigravity | CI fetch-depth 0 & Sibling Repo CI Resilience: GitHub Actions template uses fetch-depth: 0, doctor gracefully skips missing sibling repos in standalone/CI mode, README updated | 69 vitest, doctor --quality PASS, PR #8 |
 | 2026-08-27 | antigravity | Post-Commit Anti-Bypass Trap & AGENTS.md Template: post-commit hook auto-rollback on --no-verify bypass, automated AGENTS.md generation on jaxx init | 68 vitest, doctor --quality PASS, PR #7 |
 | 2026-08-26 | antigravity | Anti-Bypass Shield: pre-push hook, .gitignore integrity gate, automated .github/workflows/jaxx-ci.yml on jaxx init | 68 vitest, doctor --quality PASS, PR #6 |

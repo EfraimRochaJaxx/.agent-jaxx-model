@@ -56,8 +56,8 @@ describe("AST Dependency & Blast Radius Impact Gate", () => {
     // Add log
     jaxx(["log", "INFO", "Added math module and tests"], proj);
 
-    // Stage source, test and log
-    spawnSync("git", ["add", "src/math.ts", "src/math.test.ts", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
+    // Stage source, test and log (force adding log as it is now in .gitignore)
+    spawnSync("git", ["add", "-f", "src/math.ts", "src/math.test.ts", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
 
     const res = jaxx(["verify"], proj);
     expect(res.code).toBe(0);

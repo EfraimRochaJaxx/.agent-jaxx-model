@@ -15,3 +15,12 @@ coverage/
 .vscode/
 .idea/
 
+
+
+# Agent Jaxx Model - Telemetry & Vectors
+.agent/*.jsonl
+.agent/cache/
+.agent/vectors/
+.agent/quality/
+.agent/tmp/
+.agent/sessions/

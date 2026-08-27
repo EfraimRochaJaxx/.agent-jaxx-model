@@ -139,3 +139,55 @@ Implemented post-commit automated rollback trap to destroy any --no-verify bypas
 Enhanced GitHub Actions CI workflow template with fetch-depth: 0, added graceful skipping for non-existent sibling repos in doctor for standalone/CI environments, updated README with One-Command Hardening, 69 tests passing
 
 ---
+## Session session-2026-08-27T20-05-52-729Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:05:52.734Z
+- **Closed:** 2026-08-27T20:06:53.956Z
+- **Duration:** 1.0 min
+- **Events:** 0 (none)
+
+### Outcome
+
+Implemented Clean Separation Architecture: moved agent telemetry and vectors to gitignore automatically via jaxx init to prevent git bloat and merge conflicts while maintaining governance.
+
+---
+## Session session-2026-08-27T20-43-07-012Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:43:07.017Z
+- **Closed:** 2026-08-27T20:43:13.666Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+fix(doctor): allow AGENT_LOG.jsonl to be initialized on demand in CI/remote environments
+
+---
+## Session session-2026-08-27T20-48-06-787Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:48:06.792Z
+- **Closed:** 2026-08-27T20:48:15.639Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+fix(ci): remove redundant template jaxx-ci.yml in source repo and add fetch-depth: 0 to ci.yml
+
+---
+## Session session-2026-08-27T20-52-39-550Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:52:39.561Z
+- **Closed:** 2026-08-27T20:52:48.410Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+test(cli): update jaxx init workflow assertion to expect @jaxx/cli verify
+
+---

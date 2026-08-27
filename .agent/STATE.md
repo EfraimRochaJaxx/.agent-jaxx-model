@@ -28,6 +28,7 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
       - Automated `AGENTS.md` operating protocol generation in `jaxx init`.
       - Automated `.github/workflows/jaxx-ci.yml` generation with `fetch-depth: 0`.
       - Graceful skipping of missing sibling repositories in standalone/CI doctor runs.
+      - **Clean Separation Architecture**: `jaxx init` ignores heavy telemetry (`.agent/*.jsonl`, vectors, cache) from git, preventing bloat and merge conflicts.
     - 69 unit tests passing across 13 suites.
 
 ## Test totals

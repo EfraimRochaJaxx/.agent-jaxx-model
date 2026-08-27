@@ -22,6 +22,8 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
   installGitHubWorkflow(rootDir);
   // Install AGENTS.md operating rules for autonomous LLMs
   installAgentsProtocol(rootDir, name);
+  // Install clean separation rules in .gitignore
+  installGitIgnore(rootDir);
 
   const files = fs
     .readdirSync(agentDir)
@@ -127,9 +129,12 @@ function installGitHubWorkflow(rootDir: string): boolean {
   if (!fs.existsSync(workflowsDir)) {
     fs.mkdirSync(workflowsDir, { recursive: true });
   }
+  const existingCiPath = path.join(workflowsDir, "ci.yml");
   const workflowPath = path.join(workflowsDir, "jaxx-ci.yml");
-  if (!fs.existsSync(workflowPath)) {
-    const workflowContent = `name: Jaxx Quality & Audit Gate
+  if (fs.existsSync(existingCiPath) || fs.existsSync(workflowPath)) {
+    return false;
+  }
+  const workflowContent = `name: Jaxx Quality & Audit Gate
 
 on:
   push:
@@ -155,12 +160,10 @@ jobs:
         run: npm ci || npm install
 
       - name: Verify Quality, Audit Trail & Blast Radius
-        run: npx jaxx verify
+        run: npx --yes @jaxx/cli verify
 `;
-    fs.writeFileSync(workflowPath, workflowContent, "utf8");
-    return true;
-  }
-  return false;
+  fs.writeFileSync(workflowPath, workflowContent, "utf8");
+  return true;
 }
 
 function generateFrameConfig(projectName: string): string {
@@ -204,4 +207,30 @@ const config = {
 
 export default config;
 `;
+}
+
+function installGitIgnore(rootDir: string): boolean {
+  const gitignorePath = path.join(rootDir, ".gitignore");
+  const ignoreRules = `
+# Agent Jaxx Model - Telemetry & Vectors
+.agent/*.jsonl
+.agent/cache/
+.agent/vectors/
+.agent/quality/
+.agent/tmp/
+.agent/sessions/
+`;
+
+  if (!fs.existsSync(gitignorePath)) {
+    fs.writeFileSync(gitignorePath, ignoreRules, "utf8");
+    return true;
+  }
+
+  const currentContent = fs.readFileSync(gitignorePath, "utf8");
+  if (!currentContent.includes(".agent/*.jsonl")) {
+    fs.appendFileSync(gitignorePath, "\n" + ignoreRules, "utf8");
+    return true;
+  }
+
+  return false;
 }

@@ -339,13 +339,24 @@ function checkControlPlane(root: string): CheckResult {
       detail: ".agent directory not found — run `jaxx init` first",
     };
   }
-  const missing = CONTROL_PLANE_FILES.filter((f) => !fs.existsSync(path.join(dir, f)));
+  const missing = CONTROL_PLANE_FILES.filter(
+    (f) => f !== "AGENT_LOG.jsonl" && !fs.existsSync(path.join(dir, f)),
+  );
   if (missing.length > 0) {
     return {
       id: "control-plane",
       title: "Control plane (.agent/)",
       status: "fail",
       detail: `missing: ${missing.join(", ")}`,
+    };
+  }
+  const logPath = path.join(dir, "AGENT_LOG.jsonl");
+  if (!fs.existsSync(logPath)) {
+    return {
+      id: "control-plane",
+      title: "Control plane (.agent/)",
+      status: "pass",
+      detail: "all governance documents present (local AGENT_LOG.jsonl initialized on demand)",
     };
   }
   const integrity = checkLogIntegrity(root);
