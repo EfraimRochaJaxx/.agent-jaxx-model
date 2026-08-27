@@ -178,3 +178,16 @@ fix(doctor): allow AGENT_LOG.jsonl to be initialized on demand in CI/remote envi
 fix(ci): remove redundant template jaxx-ci.yml in source repo and add fetch-depth: 0 to ci.yml
 
 ---
+## Session session-2026-08-27T20-52-39-550Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:52:39.561Z
+- **Closed:** 2026-08-27T20:52:48.410Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+test(cli): update jaxx init workflow assertion to expect @jaxx/cli verify
+
+---
