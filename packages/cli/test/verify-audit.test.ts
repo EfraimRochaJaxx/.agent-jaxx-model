@@ -64,8 +64,8 @@ describe("Deterministic Audit Trail Gate", () => {
     const logRes = jaxx(["log", "INFO", "Added app module"], proj);
     expect(logRes.code).toBe(0);
 
-    // Stage the updated audit log
-    spawnSync("git", ["add", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
+    // Stage the updated audit log (force add since it's in .gitignore now)
+    spawnSync("git", ["add", "-f", ".agent/AGENT_LOG.jsonl"], { cwd: proj, windowsHide: true });
 
     const res = jaxx(["verify"], proj);
     expect(res.code).toBe(0);
