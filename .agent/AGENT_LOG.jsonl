@@ -50,3 +50,8 @@
 {"ts":"2026-08-26T01:53:56.996Z","lvl":"DONE","agent":"antigravity","msg":"Public release complete: GitHub Actions CI passing on Linux, branch ruleset active, PR #1 merged, onboarding documentation verified"}
 {"ts":"2026-08-26T22:35:38.009Z","lvl":"AGENT","agent":"antigravity","msg":"Session opened (session-2026-08-26T22-35-38-007Z)"}
 {"ts":"2026-08-26T22:45:56.948Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T22-35-38-007Z) — 0 event(s) recorded"}
+{"ts":"2026-08-26T23:40:17.063Z","lvl":"AGENT","agent":"antigravity","msg":"Session opened (session-2026-08-26T23-40-17-062Z)"}
+{"ts":"2026-08-26T23:46:29.117Z","lvl":"DONE","agent":"antigravity","msg":"Session closed (session-2026-08-26T23-40-17-062Z) — 0 event(s) recorded"}
+{"ts":"2026-08-27T00:00:28.356Z","lvl":"INFO","agent":"antigravity","msg":"test(cli): refactor blast-radius and audit test suites for pure compliant git test lifecycle"}
+{"ts":"2026-08-27T00:10:40.249Z","lvl":"INFO","agent":"antigravity","msg":"test(bridge): include StateGraph in HAS_DEPS check in pytest suite"}
+{"ts":"2026-08-27T00:17:35.956Z","lvl":"INFO","agent":"antigravity","msg":"test(cli): isolate temp git sandbox in verify-audit and verify-blast-radius test suites"}

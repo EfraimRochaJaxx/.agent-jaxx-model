@@ -18,13 +18,15 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
   - Interactive SVG/Canvas Architecture & Dependency Graph + Impact Inspector in `@jaxx/dashboard`.
   - `jaxx verify` command & automated `.git/hooks/pre-commit` installation in `init.ts`.
   - Updated `AGENTS.md`, `README.md`, and new `CONTRIBUTING.md`.
-  - Multi-Repo Workspace Linking:
-  - `jaxx repo add <name> <path>`, `jaxx repo list`, `jaxx repo remove <name>` in `@jaxx/cli`.
-  - Allowed relative sibling paths in `RepoConfigSchema` for multi-repo monorepo workspaces.
-  - 5 new unit tests in `packages/cli/test/repo.test.ts`.
+  - Multi-Repo Workspace Linking: `jaxx repo add/list/remove`.
+  - Deterministic Pre-Commit Verification Pipeline:
+    - Audit Trail Gate: Mandates `.agent/` audit updates for any staged code changes.
+    - AST Blast Radius Impact Gate: Warns on modified modules without staged downstream test coverage.
+    - Updated `init.ts` pre-commit hook script to `npx jaxx verify`.
+    - 6 new unit tests across `verify-blast-radius.test.ts` and `cli.test.ts`.
 
 ## Test totals
-- TypeScript: 61 vitest tests green (11 suites).
+- TypeScript: 63 vitest tests green (12 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).

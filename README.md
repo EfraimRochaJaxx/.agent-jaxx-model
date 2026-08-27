@@ -140,11 +140,44 @@ Agent Jaxx Model was built and verified using its own framework. All implementat
 
 ---
 
-## Test Suites
+## Quality Gates & Verification Pipeline
+
+Agent Jaxx Model enforces three automated pre-commit gates via `jaxx verify` and the automated `.git/hooks/pre-commit` hook:
+
+1. **AST Quality Gate (`@jaxx/analyzers`):**
+   * Computes cyclomatic complexity per function (default threshold $\le 10$).
+   * Calculates code duplication ratio across files (default threshold $\le 5\%$).
+   * Detects approximate dead-code candidate exports.
+
+2. **Deterministic Audit Trail Gate:**
+   * Inspects staged changes in the Git index.
+   * Mandates that any source code changes outside `.agent/` are accompanied by verified session closure (`VERIFICATION.md`) or audit log records (`AGENT_LOG.jsonl`).
+
+3. **AST Dependency & Blast Radius Impact Gate:**
+   * Computes the transitive dependency graph and blast radius of staged files.
+   * Warns when modified modules impact downstream test suites that were not included in the changeset.
 
 ```bash
-npm test                                         # 56 Vitest tests across 10 suites
-node packages/cli/dist/index.js doctor --quality # AST Quality Gate check
+# Run the complete verification pipeline locally:
+jaxx verify
+```
+
+---
+
+## Development
+
+```bash
+# Install dependencies across all workspaces
+npm install
+
+# Build all packages
+npm run build
+
+# Run all unit and integration test suites
+npx vitest run
+
+# Run quality checks & AST complexity analysis
+node packages/cli/dist/index.js doctor --quality
 node scripts/clean-room.mjs                       # Clean-room isolated E2E suite (26 checks)
 cd packages/langgraph-bridge && python -m pytest # 6 Python bridge tests
 ```

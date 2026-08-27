@@ -36,8 +36,8 @@ function installGitHook(rootDir: string): boolean {
   const hookPath = path.join(hooksDir, "pre-commit");
   if (!fs.existsSync(hookPath)) {
     const scriptContent = `#!/bin/sh
-# Agent Jaxx Model — Automated Pre-Commit Quality Gate
-npx jaxx doctor --quality
+# Agent Jaxx Model — Automated Pre-Commit Quality & Audit Gate
+npx jaxx verify
 `;
     fs.writeFileSync(hookPath, scriptContent, { mode: 0o755 });
     return true;
