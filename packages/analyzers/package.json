@@ -1,17 +1,19 @@
 {
   "name": "@jaxx/analyzers",
-  "version": "0.1.0",
-  "description": "Agent Jaxx Model quality analyzers: cyclomatic complexity, approximate dead code and duplication detection.",
+  "version": "0.2.0",
+  "description": "Deterministic static analyzers for Agent Jaxx Model: cyclomatic complexity and token-based code duplication.",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run"
   },
   "dependencies": {
-    "@jaxx/core": "^0.1.0",
+    "@jaxx/core": "^0.2.0",
     "ts-morph": "^23.0.0"
   }
 }
