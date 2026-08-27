@@ -23,8 +23,9 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
     - Audit Trail Gate: Mandates `.agent/` audit updates for any staged code changes.
     - AST Blast Radius Impact Gate: Warns on modified modules without staged downstream test coverage.
     - Anti-Bypass Shield:
-      - Installs `.git/hooks/pre-commit` and `.git/hooks/pre-push` running `npx jaxx verify`.
+      - Installs `.git/hooks/pre-commit`, `.git/hooks/post-commit` (anti-bypass rollback trap) and `.git/hooks/pre-push` running `npx jaxx verify`.
       - `.gitignore` integrity gate: Rejects commits if `.agent/` is placed in `.gitignore`.
+      - Automated `AGENTS.md` operating protocol generation in `jaxx init`.
       - Automated `.github/workflows/jaxx-ci.yml` generation in `jaxx init`.
     - 68 unit tests passing across 13 suites.
 

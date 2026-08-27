@@ -48,12 +48,18 @@ describe("jaxx init", () => {
     expect(fs.existsSync(path.join(proj, ".git", "hooks", "pre-commit"))).toBe(true);
     const hookContent = fs.readFileSync(path.join(proj, ".git", "hooks", "pre-commit"), "utf8");
     expect(hookContent).toContain("jaxx verify");
+    expect(fs.existsSync(path.join(proj, ".git", "hooks", "post-commit"))).toBe(true);
+    const postCommitContent = fs.readFileSync(path.join(proj, ".git", "hooks", "post-commit"), "utf8");
+    expect(postCommitContent).toContain("COMMIT REVERTIDO");
     expect(fs.existsSync(path.join(proj, ".git", "hooks", "pre-push"))).toBe(true);
     const prePushContent = fs.readFileSync(path.join(proj, ".git", "hooks", "pre-push"), "utf8");
     expect(prePushContent).toContain("jaxx verify");
     expect(fs.existsSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"))).toBe(true);
     const ciContent = fs.readFileSync(path.join(proj, ".github", "workflows", "jaxx-ci.yml"), "utf8");
     expect(ciContent).toContain("npx jaxx verify");
+    expect(fs.existsSync(path.join(proj, "AGENTS.md"))).toBe(true);
+    const agentsContent = fs.readFileSync(path.join(proj, "AGENTS.md"), "utf8");
+    expect(agentsContent).toContain("Protocolo de Operação do Agente — Test Project");
   });
 
   it("is idempotent (does not clobber existing files)", () => {

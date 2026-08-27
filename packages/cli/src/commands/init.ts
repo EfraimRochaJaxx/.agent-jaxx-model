@@ -16,10 +16,12 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
     agent: "jaxx-init",
     msg: `Control plane initialized for "${name}"`,
   });
-  // Install pre-commit & pre-push hooks if git exists
+  // Install pre-commit, post-commit & pre-push hooks if git exists
   installGitHooks(rootDir);
   // Install automated GitHub Actions workflow
   installGitHubWorkflow(rootDir);
+  // Install AGENTS.md operating rules for autonomous LLMs
+  installAgentsProtocol(rootDir, name);
 
   const files = fs
     .readdirSync(agentDir)
@@ -45,6 +47,29 @@ npx jaxx verify
     fs.writeFileSync(preCommitPath, preCommitScript, { mode: 0o755 });
   }
 
+  const postCommitPath = path.join(hooksDir, "post-commit");
+  if (!fs.existsSync(postCommitPath)) {
+    const postCommitScript = `#!/bin/sh
+# Agent Jaxx Model — Automated Post-Commit Anti-Bypass Trap
+if ! npx jaxx verify >/dev/null 2>&1; then
+  echo ""
+  echo "❌ [JAXX SECURITY TRAP] COMMIT REVERTIDO E DESTRUÍDO AUTOMATICAMENTE!"
+  echo "O uso de --no-verify é estritamente proibido neste repositório."
+  echo "O commit foi desfeito e seus arquivos voltaram para o estado alterado."
+  echo "Abra a sessão com 'npx jaxx session open' e siga o fluxo para poder comitar."
+  echo ""
+  if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+    git reset HEAD~1
+  else
+    git update-ref -d HEAD
+    git rm --cached -r . 2>/dev/null || true
+  fi
+  exit 1
+fi
+`;
+    fs.writeFileSync(postCommitPath, postCommitScript, { mode: 0o755 });
+  }
+
   const prePushPath = path.join(hooksDir, "pre-push");
   if (!fs.existsSync(prePushPath)) {
     const prePushScript = `#!/bin/sh
@@ -55,6 +80,46 @@ npx jaxx verify
   }
 
   return true;
+}
+
+function installAgentsProtocol(rootDir: string, projectName: string): boolean {
+  const agentsPath = path.join(rootDir, "AGENTS.md");
+  if (!fs.existsSync(agentsPath)) {
+    const content = `# Protocolo de Operação do Agente — ${projectName}
+
+Você é um agente autônomo trabalhando em **${projectName}** sob a governança do framework **Agent Jaxx Model**.
+O plano de controle do projeto reside em \`.agent/\`.
+
+## Regras Rígidas e Proibições
+- **É TERMINANTEMENTE PROIBIDO** usar \`--no-verify\` ou \`-n\` no \`git commit\`. Qualquer tentativa ativará o rollback automático do hook \`post-commit\`.
+- **É TERMINANTEMENTE PROIBIDO** adicionar \`.agent/\` ao \`.gitignore\`.
+- Modificações de código devem SEMPRE ser acompanhadas de abertura e fechamento de sessão.
+
+## Fluxo Obrigatório de Trabalho
+
+### 1. Antes de qualquer alteração:
+- Leia \`.agent/STATE.md\` e \`.agent/PLAN.md\`.
+- Abra a sessão gerenciada:
+  \`npx jaxx session open --agent <seu-nome>\`
+
+### 2. Durante o trabalho:
+- Registre ações significativas no log de auditoria:
+  \`npx jaxx log <INFO|WARN|ERROR|DONE|GIT> "<mensagem>" --agent <seu-nome>\`
+
+### 3. Antes de comitar:
+- Valide os quality gates, trilha de auditoria e blast radius:
+  \`npx jaxx verify\`
+- Encerre a sessão com o sumário:
+  \`npx jaxx session close --summary "<o que foi feito e como foi verificado>"\`
+
+### 4. Commit:
+- Faça o commit normalmente (sem nenhuma flag de bypass):
+  \`git add -A && git commit -m "tipo(escopo): mensagem descritiva"\`
+`;
+    fs.writeFileSync(agentsPath, content, "utf8");
+    return true;
+  }
+  return false;
 }
 
 function installGitHubWorkflow(rootDir: string): boolean {
