@@ -165,3 +165,16 @@ Implemented Clean Separation Architecture: moved agent telemetry and vectors to 
 fix(doctor): allow AGENT_LOG.jsonl to be initialized on demand in CI/remote environments
 
 ---
+## Session session-2026-08-27T20-48-06-787Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-27T20:48:06.792Z
+- **Closed:** 2026-08-27T20:48:15.639Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+fix(ci): remove redundant template jaxx-ci.yml in source repo and add fetch-depth: 0 to ci.yml
+
+---
