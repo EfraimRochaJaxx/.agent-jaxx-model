@@ -4,6 +4,7 @@ Reverse-chronological record of completed work.
 
 | Date | Agent | Summary | Evidence |
 | ---- | ----- | ------- | -------- |
+| 2026-08-27 | antigravity | CI fetch-depth 0 & Sibling Repo CI Resilience: GitHub Actions template uses fetch-depth: 0, doctor gracefully skips missing sibling repos in standalone/CI mode, README updated | 69 vitest, doctor --quality PASS, PR #8 |
 | 2026-08-27 | antigravity | Post-Commit Anti-Bypass Trap & AGENTS.md Template: post-commit hook auto-rollback on --no-verify bypass, automated AGENTS.md generation on jaxx init | 68 vitest, doctor --quality PASS, PR #7 |
 | 2026-08-26 | antigravity | Anti-Bypass Shield: pre-push hook, .gitignore integrity gate, automated .github/workflows/jaxx-ci.yml on jaxx init | 68 vitest, doctor --quality PASS, PR #6 |
 | 2026-08-26 | antigravity | Pre-Commit Blast Radius & Audit Pipeline: AST dependency blast radius gate in verify/doctor, audit trail enforcement, pre-commit hook update, README docs, unit tests | 63 vitest, doctor --quality PASS, PR #5 |
