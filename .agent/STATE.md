@@ -22,11 +22,14 @@ Agent Jaxx Model — whitelabel autonomous agent engineering framework (TypeScri
   - Deterministic Pre-Commit Verification Pipeline:
     - Audit Trail Gate: Mandates `.agent/` audit updates for any staged code changes.
     - AST Blast Radius Impact Gate: Warns on modified modules without staged downstream test coverage.
-    - Updated `init.ts` pre-commit hook script to `npx jaxx verify`.
-    - 6 new unit tests across `verify-blast-radius.test.ts` and `cli.test.ts`.
+    - Anti-Bypass Shield:
+      - Installs `.git/hooks/pre-commit` and `.git/hooks/pre-push` running `npx jaxx verify`.
+      - `.gitignore` integrity gate: Rejects commits if `.agent/` is placed in `.gitignore`.
+      - Automated `.github/workflows/jaxx-ci.yml` generation in `jaxx init`.
+    - 68 unit tests passing across 13 suites.
 
 ## Test totals
-- TypeScript: 63 vitest tests green (12 suites).
+- TypeScript: 68 vitest tests green (13 suites).
 - Python bridge: 6 pytest tests green.
 - Clean-room E2E: 26 checks green.
 - Quality gate: PASS (`doctor --quality` / `jaxx verify`).

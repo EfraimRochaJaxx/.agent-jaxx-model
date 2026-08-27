@@ -16,8 +16,10 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
     agent: "jaxx-init",
     msg: `Control plane initialized for "${name}"`,
   });
-  // Install pre-commit hook if git exists
-  installGitHook(rootDir);
+  // Install pre-commit & pre-push hooks if git exists
+  installGitHooks(rootDir);
+  // Install automated GitHub Actions workflow
+  installGitHubWorkflow(rootDir);
 
   const files = fs
     .readdirSync(agentDir)
@@ -26,20 +28,69 @@ export function cmdInit(name: string, rootDir: string): { files: string[]; confi
   return { files, configPath };
 }
 
-function installGitHook(rootDir: string): boolean {
+function installGitHooks(rootDir: string): boolean {
   const gitDir = path.join(rootDir, ".git");
   if (!fs.existsSync(gitDir)) return false;
   const hooksDir = path.join(gitDir, "hooks");
   if (!fs.existsSync(hooksDir)) {
     fs.mkdirSync(hooksDir, { recursive: true });
   }
-  const hookPath = path.join(hooksDir, "pre-commit");
-  if (!fs.existsSync(hookPath)) {
-    const scriptContent = `#!/bin/sh
+
+  const preCommitPath = path.join(hooksDir, "pre-commit");
+  if (!fs.existsSync(preCommitPath)) {
+    const preCommitScript = `#!/bin/sh
 # Agent Jaxx Model — Automated Pre-Commit Quality & Audit Gate
 npx jaxx verify
 `;
-    fs.writeFileSync(hookPath, scriptContent, { mode: 0o755 });
+    fs.writeFileSync(preCommitPath, preCommitScript, { mode: 0o755 });
+  }
+
+  const prePushPath = path.join(hooksDir, "pre-push");
+  if (!fs.existsSync(prePushPath)) {
+    const prePushScript = `#!/bin/sh
+# Agent Jaxx Model — Automated Pre-Push Quality & Audit Gate
+npx jaxx verify
+`;
+    fs.writeFileSync(prePushPath, prePushScript, { mode: 0o755 });
+  }
+
+  return true;
+}
+
+function installGitHubWorkflow(rootDir: string): boolean {
+  const workflowsDir = path.join(rootDir, ".github", "workflows");
+  if (!fs.existsSync(workflowsDir)) {
+    fs.mkdirSync(workflowsDir, { recursive: true });
+  }
+  const workflowPath = path.join(workflowsDir, "jaxx-ci.yml");
+  if (!fs.existsSync(workflowPath)) {
+    const workflowContent = `name: Jaxx Quality & Audit Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Verify Quality, Audit Trail & Blast Radius
+        run: npx jaxx verify
+`;
+    fs.writeFileSync(workflowPath, workflowContent, "utf8");
     return true;
   }
   return false;
