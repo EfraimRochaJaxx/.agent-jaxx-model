@@ -180,6 +180,29 @@ When you run `jaxx init "Your Project"`, Agent Jaxx Model automatically hardens 
 
 ---
 
+## Recommended GitHub Repository Configuration (Total Security)
+
+To achieve complete enterprise-grade protection on GitHub alongside Agent Jaxx Model, configure your repository with these recommended settings:
+
+### 1. Protect the `main` Branch with GitHub Rulesets
+Navigate to **Settings** ➔ **Rules** ➔ **Rulesets** ➔ **New branch ruleset**:
+* **Ruleset Name:** `Main Branch Protection`
+* **Enforcement status:** `Active`
+* **Target branches:** *Include default branch* (`main`).
+* **Protection Rules:**
+  * ✅ **Restrict deletions:** Prevents accidental or rogue branch deletions.
+  * ✅ **Block force pushes:** Prohibits destructive history rewrites (`git push --force`).
+  * ✅ **Require a pull request before merging:** Mandates peer/human review before landing changes.
+  * ✅ **Require status checks to pass before merging:** Add the required CI check (`verify` or `build-and-test`) and enable *Require branches to be up to date before merging*.
+
+### 2. Enforce Clean Git History with Squash Merging
+Navigate to **Settings** ➔ **General** ➔ **Pull Requests**:
+* ✅ **Allow squash merging:** Enable squash merging to condense multi-step agent development commits into a single clean commit on `main`.
+* ❌ **Allow merge commits / rebase merging:** Disable to enforce linear, clean repository history.
+* ✅ **Automatically delete head branches:** Automatically prune feature branches after PR merge.
+
+---
+
 ## Development
 
 ```bash
