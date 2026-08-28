@@ -3,7 +3,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](./LICENSE)
 [![Quality Gate](https://img.shields.io/badge/Quality%20Gate-AST%20Verified-0ea5e9.svg)](./packages/analyzers)
-[![Tests](https://img.shields.io/badge/Tests-68%20Passing-10b981.svg)](./vitest.config.ts)
+[![Tests](https://img.shields.io/badge/Tests-69%20Passing-10b981.svg)](./vitest.config.ts)
 [![Node](https://img.shields.io/badge/Node-%3E=20-22c55e.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
 
 Agent Jaxx Model is an open-source, whitelabel agent-engineering framework for software repositories. It provides a structured control plane in `.agent/` with persistent project memory, an append-only audit log, AST-driven quality gates, dependency blast-radius analysis, a skills registry, and a local real-time dashboard.
@@ -116,27 +116,29 @@ jaxx serve
 
 ---
 
-## The `.agent/` Directory Structure
+## The `.agent/` Directory Structure (Clean Separation Architecture)
 
 ```
 .agent/
-├── STATE.md          Current project state and next steps (read first by agents)
-├── PLAN.md           Roadmap and milestone checklist
-├── PROGRESS.md       Log of completed milestones
-├── DECISIONS.md      Architecture Decision Records (ADRs)
-├── VERIFICATION.md   Automated verification summaries recorded on session close
-├── BRANCHING.md      Git branch conventions (feat/<slug>)
-├── COLLABORATION.md  Coordination rules for human and AI contributors
-├── AGENT_LOG.jsonl   Append-only event stream
-├── skills/           Skill registry (Markdown with YAML frontmatter)
-└── frame.config.ts   Whitelabel configuration file (theme, thresholds, repos)
+├── STATE.md          Current project state and next steps (read first by agents) [GIT]
+├── PLAN.md           Roadmap and milestone checklist [GIT]
+├── PROGRESS.md       Log of completed milestones [GIT]
+├── DECISIONS.md      Architecture Decision Records (ADRs) [GIT]
+├── VERIFICATION.md   Automated verification summaries recorded on session close [GIT]
+├── BRANCHING.md      Git branch conventions (feat/<slug>) [GIT]
+├── COLLABORATION.md  Coordination rules for human and AI contributors [GIT]
+├── frame.config.ts   Whitelabel configuration file (theme, thresholds, repos) [GIT]
+├── skills/           Skill registry (Markdown with YAML frontmatter) [GIT]
+├── AGENT_LOG.jsonl   Local append-only event stream [LOCAL / .gitignore]
+├── vectors/          Vector embeddings & memory graphs (e.g. Graphify) [LOCAL / .gitignore]
+└── quality/          Generated AST dependency maps & quality scorecards [LOCAL / .gitignore]
 ```
 
 ---
 
 ## Dogfooding
 
-Agent Jaxx Model was built and verified using its own framework. All implementation phases, testing runs, and quality audits are recorded in the repository's own [`.agent/AGENT_LOG.jsonl`](./.agent/AGENT_LOG.jsonl) and [`.agent/VERIFICATION.md`](./.agent/VERIFICATION.md).
+Agent Jaxx Model was built and verified using its own framework. All implementation phases, testing runs, and quality audits are recorded in the repository's own `.agent/` control plane and [`.agent/VERIFICATION.md`](./.agent/VERIFICATION.md).
 
 ---
 
@@ -151,7 +153,7 @@ Agent Jaxx Model enforces three automated pre-commit gates via `jaxx verify` and
 
 2. **Deterministic Audit Trail Gate:**
    * Inspects staged changes in the Git index.
-   * Mandates that any source code changes outside `.agent/` are accompanied by verified session closure (`VERIFICATION.md`) or audit log records (`AGENT_LOG.jsonl`).
+   * Mandates that any source code changes outside `.agent/` are accompanied by verified session closure (`VERIFICATION.md`).
 
 3. **AST Dependency & Blast Radius Impact Gate:**
    * Computes the transitive dependency graph and blast radius of staged files.
@@ -169,11 +171,35 @@ jaxx verify
 When you run `jaxx init "Your Project"`, Agent Jaxx Model automatically hardens the target repository with a multi-layered local and cloud governance shield:
 
 1. **`AGENTS.md` Operating Protocol:** Generates autonomous LLM instructions in the project root mandating session lifecycle management and prohibiting `--no-verify`.
-2. **`pre-commit` Hook:** Runs `jaxx verify` automatically before any commit.
-3. **`post-commit` Anti-Bypass Trap:** If an autonomous agent attempts `git commit --no-verify`, the post-commit hook intercepts the commit, executes `jaxx verify`, and **immediately rolls back the commit (`git reset HEAD~1`)** if quality or audit gates were bypassed.
-4. **`pre-push` Hook:** Prevents unverified pushes from leaving the local machine.
-5. **`.gitignore` Audit Integrity Gate:** Actively rejects commits if `.agent/` is placed in `.gitignore`.
-6. **Automated GitHub Actions CI:** Generates `.github/workflows/jaxx-ci.yml` (with `fetch-depth: 0` for complete audit history) to enforce verification gates on pull requests in the cloud.
+2. **Clean Separation Architecture:** Automatically populates `.gitignore` with rules for `.agent/*.jsonl`, `.agent/vectors/`, and `.agent/quality/`, preventing repository bloat and merge conflicts across parallel agents.
+3. **`pre-commit` Hook:** Runs `jaxx verify` automatically before any commit.
+4. **`post-commit` Anti-Bypass Trap:** If an autonomous agent attempts `git commit --no-verify`, the post-commit hook intercepts the commit, executes `jaxx verify`, and **immediately rolls back the commit (`git reset HEAD~1`)** if quality or audit gates were bypassed.
+5. **`pre-push` Hook:** Prevents unverified pushes from leaving the local machine.
+6. **`.gitignore` Audit Integrity Gate:** Actively rejects commits if the `.agent/` control plane itself is ignored.
+7. **Automated GitHub Actions CI:** Generates `.github/workflows/jaxx-ci.yml` (with `fetch-depth: 0` for complete history) to enforce verification gates on pull requests in the cloud.
+
+---
+
+## Recommended GitHub Repository Configuration (Total Security)
+
+To achieve complete enterprise-grade protection on GitHub alongside Agent Jaxx Model, configure your repository with these recommended settings:
+
+### 1. Protect the `main` Branch with GitHub Rulesets
+Navigate to **Settings** ➔ **Rules** ➔ **Rulesets** ➔ **New branch ruleset**:
+* **Ruleset Name:** `Main Branch Protection`
+* **Enforcement status:** `Active`
+* **Target branches:** *Include default branch* (`main`).
+* **Protection Rules:**
+  * ✅ **Restrict deletions:** Prevents accidental or rogue branch deletions.
+  * ✅ **Block force pushes:** Prohibits destructive history rewrites (`git push --force`).
+  * ✅ **Require a pull request before merging:** Mandates peer/human review before landing changes.
+  * ✅ **Require status checks to pass before merging:** Add the required CI check (`verify` or `build-and-test`) and enable *Require branches to be up to date before merging*.
+
+### 2. Enforce Clean Git History with Squash Merging
+Navigate to **Settings** ➔ **General** ➔ **Pull Requests**:
+* ✅ **Allow squash merging:** Enable squash merging to condense multi-step agent development commits into a single clean commit on `main`.
+* ❌ **Allow merge commits / rebase merging:** Disable to enforce linear, clean repository history.
+* ✅ **Automatically delete head branches:** Automatically prune feature branches after PR merge.
 
 ---
 

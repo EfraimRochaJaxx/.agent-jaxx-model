@@ -1,6 +1,6 @@
 {
   "name": "@jaxx/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Agent Jaxx Model CLI: project init, audit logging, doctor checks, skills registry.",
   "license": "MIT",
   "bin": {
@@ -14,8 +14,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@jaxx/analyzers": "^0.1.0",
-    "@jaxx/core": "^0.1.0",
-    "@jaxx/dashboard": "^0.1.0"
+    "@jaxx/analyzers": "^0.2.0",
+    "@jaxx/core": "^0.2.0",
+    "@jaxx/dashboard": "^0.2.0"
   }
 }
