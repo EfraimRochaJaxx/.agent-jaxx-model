@@ -40,6 +40,7 @@ describe("jaxx init", () => {
       "COLLABORATION.md",
       "AGENT_LOG.jsonl",
       "frame.config.ts",
+      "jaxx.d.ts",
     ]) {
       expect(fs.existsSync(path.join(proj, ".agent", f))).toBe(true);
     }
