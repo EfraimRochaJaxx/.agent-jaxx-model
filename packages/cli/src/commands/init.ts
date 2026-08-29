@@ -158,11 +158,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm ci || npm install
+      - name: Install Jaxx CLI
+        run: npm install -g https://github.com/EfraimRochaJaxx/.agent-jaxx-model.git
+
+      - name: Install dependencies (if package.json exists)
+        run: |
+          if [ -f package.json ]; then
+            npm ci || npm install
+          else
+            echo "No package.json found, skipping dependency installation."
+          fi
 
       - name: Verify Quality, Audit Trail & Blast Radius
-        run: npx --yes @jaxx/cli verify
+        run: jaxx verify
 `;
   fs.writeFileSync(workflowPath, workflowContent, "utf8");
   return true;

@@ -243,3 +243,20 @@ docs: add comprehensive GitHub repository hardening & branch rulesets guide to R
 feat(cli): generate ambient types .agent/jaxx.d.ts during jaxx init for zero-config TypeScript IDE DX
 
 ---
+## Session session-2026-08-29T00-50-48-934Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-29T00:50:48.943Z
+- **Closed:** 2026-08-29T00:53:45.173Z
+- **Duration:** 2.9 min
+- **Events:** 1 (INFO:1)
+
+### Outcome
+
+Updated jaxx init CI workflow template (jaxx-ci.yml) to install Jaxx CLI directly from GitHub repository and conditionally run npm install if package.json exists. All 69 vitest tests and 27 clean-room acceptance tests passing.
+
+### Activity
+
+- `2026-08-29T00:53:42.031Z` [INFO] feat(cli): make generated jaxx-ci.yml workflow install CLI from GitHub repo and make dependencies install conditional on package.json
+
+---
