@@ -80,7 +80,7 @@ To make the `jaxx` CLI available everywhere in your terminal:
 
 ```bash
 # From the cloned repository root:
-npm link packages/cli
+npm link ./packages/cli
 
 # Now you can use `jaxx` anywhere:
 jaxx --help

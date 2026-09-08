@@ -159,7 +159,12 @@ jobs:
           node-version: 20
 
       - name: Install Jaxx CLI
-        run: npm install -g https://github.com/EfraimRochaJaxx/.agent-jaxx-model.git
+        run: |
+          git clone --depth 1 https://github.com/EfraimRochaJaxx/.agent-jaxx-model.git /tmp/agent-jaxx-model
+          cd /tmp/agent-jaxx-model
+          npm ci || npm install
+          npm run build
+          npm link ./packages/cli
 
       - name: Install dependencies (if package.json exists)
         run: |

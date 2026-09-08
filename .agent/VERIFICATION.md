@@ -260,3 +260,20 @@ Updated jaxx init CI workflow template (jaxx-ci.yml) to install Jaxx CLI directl
 - `2026-08-29T00:53:42.031Z` [INFO] feat(cli): make generated jaxx-ci.yml workflow install CLI from GitHub repo and make dependencies install conditional on package.json
 
 ---
+## Session session-2026-09-08T14-35-19-125Z
+
+- **Agent:** antigravity
+- **Started:** 2026-09-08T14:35:19.134Z
+- **Closed:** 2026-09-08T14:37:15.469Z
+- **Duration:** 1.9 min
+- **Events:** 1 (INFO:1)
+
+### Outcome
+
+Corrigido template de CI gerado pelo jaxx init para usar npm link ./packages/cli, atualizado README.md e testes unitarios.
+
+### Activity
+
+- `2026-09-08T14:35:56.544Z` [INFO] Fix jaxx init workflow template to use npm link ./packages/cli and update README
+
+---
