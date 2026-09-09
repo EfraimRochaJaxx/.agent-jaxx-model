@@ -230,3 +230,50 @@ docs: update README.md with Clean Separation Architecture, 69 vitest passing bad
 docs: add comprehensive GitHub repository hardening & branch rulesets guide to README.md
 
 ---
+## Session session-2026-08-28T00-38-47-317Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-28T00:38:47.322Z
+- **Closed:** 2026-08-28T00:38:55.127Z
+- **Duration:** 0.1 min
+- **Events:** 0 (none)
+
+### Outcome
+
+feat(cli): generate ambient types .agent/jaxx.d.ts during jaxx init for zero-config TypeScript IDE DX
+
+---
+## Session session-2026-08-29T00-50-48-934Z
+
+- **Agent:** Antigravity
+- **Started:** 2026-08-29T00:50:48.943Z
+- **Closed:** 2026-08-29T00:53:45.173Z
+- **Duration:** 2.9 min
+- **Events:** 1 (INFO:1)
+
+### Outcome
+
+Updated jaxx init CI workflow template (jaxx-ci.yml) to install Jaxx CLI directly from GitHub repository and conditionally run npm install if package.json exists. All 69 vitest tests and 27 clean-room acceptance tests passing.
+
+### Activity
+
+- `2026-08-29T00:53:42.031Z` [INFO] feat(cli): make generated jaxx-ci.yml workflow install CLI from GitHub repo and make dependencies install conditional on package.json
+
+---
+## Session session-2026-09-08T14-35-19-125Z
+
+- **Agent:** antigravity
+- **Started:** 2026-09-08T14:35:19.134Z
+- **Closed:** 2026-09-08T14:37:15.469Z
+- **Duration:** 1.9 min
+- **Events:** 1 (INFO:1)
+
+### Outcome
+
+Corrigido template de CI gerado pelo jaxx init para usar npm link ./packages/cli, atualizado README.md e testes unitarios.
+
+### Activity
+
+- `2026-09-08T14:35:56.544Z` [INFO] Fix jaxx init workflow template to use npm link ./packages/cli and update README
+
+---

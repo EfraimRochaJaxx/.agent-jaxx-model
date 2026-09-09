@@ -40,7 +40,7 @@ try {
   // 1. init
   const init = jaxx(["init", "Demo"], proj);
   ok(init.code === 0, `jaxx init "Demo" exits 0`);
-  for (const f of ["STATE.md","PLAN.md","PROGRESS.md","DECISIONS.md","VERIFICATION.md","BRANCHING.md","COLLABORATION.md","AGENT_LOG.jsonl","frame.config.ts","skills"]) {
+  for (const f of ["STATE.md","PLAN.md","PROGRESS.md","DECISIONS.md","VERIFICATION.md","BRANCHING.md","COLLABORATION.md","AGENT_LOG.jsonl","frame.config.ts","jaxx.d.ts","skills"]) {
     ok(fs.existsSync(path.join(proj, ".agent", f)), `.agent/${f} exists`);
   }
 
