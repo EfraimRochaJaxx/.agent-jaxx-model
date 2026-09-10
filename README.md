@@ -1,12 +1,16 @@
 # Agent Jaxx Model
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Governed Repos: Language-Agnostic](https://img.shields.io/badge/Governed%20Repos-Language--Agnostic-8b5cf6.svg)](#polyglot--language-agnostic-governance)
+[![CLI & Engine: TypeScript](https://img.shields.io/badge/CLI%20%26%20Engine-TypeScript%205.5+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Python Bridge](https://img.shields.io/badge/Python%20Bridge-3.11+-3776AB.svg?logo=python&logoColor=white)](./packages/langgraph-bridge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](./LICENSE)
 [![Quality Gate](https://img.shields.io/badge/Quality%20Gate-AST%20Verified-0ea5e9.svg)](./packages/analyzers)
 [![Tests](https://img.shields.io/badge/Tests-69%20Passing-10b981.svg)](./vitest.config.ts)
 [![Node](https://img.shields.io/badge/Node-%3E=20-22c55e.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
 
 Agent Jaxx Model is an open-source, whitelabel agent-engineering framework for software repositories. It provides a structured control plane in `.agent/` with persistent project memory, an append-only audit log, AST-driven quality gates, dependency blast-radius analysis, a skills registry, and a local real-time dashboard.
+
+> **Polyglot & Language-Agnostic:** Agent Jaxx Model governs repositories written in **any programming language** (Python, Go, Rust, Java, C#, Ruby, TypeScript, etc.). The runtime CLI and dashboard are distributed via Node.js, and an optional first-class Python 3.11+ bridge is included out-of-the-box.
 
 ---
 
@@ -16,11 +20,13 @@ Autonomous coding agents often fail at scale because execution state and project
 
 Agent Jaxx Model moves governance, verification, and state into the repository itself:
 
+* **Language-Agnostic Governance:** Governs codebases in any language. LLMs and developers coordinate through universal Markdown contracts (`.agent/*.md`) and an append-only audit stream (`AGENT_LOG.jsonl`).
 * **Persistent Project Memory:** All roadmaps, decisions, and progress live in versioned markdown files inside `.agent/`.
-* **AST Quality Gates:** Analyzes TypeScript abstract syntax trees via `ts-morph` to enforce function complexity thresholds (cyclomatic complexity <= 10) and duplication limits (<= 5%).
-* **Pre-Commit Enforcement:** Installs a git pre-commit hook that runs quality checks before any commit is accepted.
+* **AST Quality Gates:** Analyzes TypeScript abstract syntax trees via `ts-morph` to enforce function complexity thresholds (cyclomatic complexity <= 10) and duplication limits (<= 5%). Non-TypeScript projects pass cleanly or can toggle AST analysis in `frame.config.ts`.
+* **Pre-Commit Enforcement:** Installs git pre-commit, post-commit (anti-bypass rollback trap), and pre-push hooks that run verification before any commit is accepted.
 * **Dependency & Blast Radius Graph:** Computes transitive downstream impact for every file to identify affected modules before making changes.
 * **Append-Only Audit Log:** Thread-safe, advisory-locked event log (`AGENT_LOG.jsonl`) for tracking multi-agent actions without race conditions.
+* **Polyglot Multi-Agent Bridge:** Optional Python 3.11+ FastAPI / LangGraph bridge sharing the unified audit log and state machine across languages.
 * **Whitelabel Dashboard:** Lightweight React 18 + Tailwind 3 control center served locally on a native Node HTTP server.
 
 ---
@@ -31,7 +37,7 @@ Agent Jaxx Model moves governance, verification, and state into the repository i
 | :--- | :--- |
 | [`@jaxx/core`](./packages/core) | Core schemas, configuration loader, session management, append-only log, and advisory file locking. |
 | [`@jaxx/cli`](./packages/cli) | CLI commands: `jaxx init`, `log`, `doctor`, `verify`, `session`, `skill`, `serve`. |
-| [`@jaxx/analyzers`](./packages/analyzers) | AST analyzers (`ts-morph`) for cyclomatic complexity, code duplication, dead-code detection, and dependency graphs. |
+| [`@jaxx/analyzers`](./packages/analyzers) | AST analyzers (`ts-morph`) for cyclomatic complexity, code duplication, dead-code detection, and dependency graphs (TS/JS). |
 | [`@jaxx/dashboard`](./packages/dashboard) | Control center interface with interactive SVG/Canvas dependency graph and blast-radius inspector. |
 | [`@jaxx/langgraph-bridge`](./packages/langgraph-bridge) | Optional Python 3.11+ FastAPI / LangGraph multi-agent bridge sharing the unified audit log. |
 
@@ -56,6 +62,40 @@ graph TD
     
     Bridge[packages/langgraph-bridge: Python Bridge] -. Shares Log .-> Log
 ```
+
+---
+
+## Polyglot & Language-Agnostic Governance
+
+A common question is: **Does Agent Jaxx Model only work with TypeScript?**
+
+**No.** Agent Jaxx Model governs software repositories in **any programming language**.
+
+| Dimension | Target Project (Any Language) | Jaxx Framework Runtime |
+| :--- | :--- | :--- |
+| **Supported Project Languages** | **Python, Go, Rust, Java, C#, PHP, C++, TS/JS...** | TypeScript / Node.js >= 20 |
+| **Control Plane Documents** | Standard Markdown (`STATE.md`, `PLAN.md`, etc.) | Schema validation & session lifecycle |
+| **Audit Stream** | Standard JSON Lines (`AGENT_LOG.jsonl`) | Concurrency control & advisory file locks |
+| **Git Hooks & Anti-Bypass** | POSIX Shell scripts (`.git/hooks/*`) | Executed by Git on any OS |
+| **AI Assistants Supported** | Claude, Gemini, GPT, Cursor, Copilot, Roo... | Read/write repository Markdown & CLI |
+| **Python Ecosystem Integration** | Native LangGraph bridge (`@jaxx/langgraph-bridge`) | Python 3.11+ FastAPI service |
+
+### Using Jaxx with Non-TypeScript Projects (e.g. Python, Go, Rust)
+
+1. **Initialize in your project root:**
+   ```bash
+   cd /path/to/my-python-project
+   jaxx init "My Python Project"
+   ```
+2. **Quality Gates configuration:**
+   If your project does not contain `.ts` files, `jaxx verify` automatically skips TypeScript-specific AST scanning with 0 violations. Alternatively, you can explicitly disable TS AST analysis in `.agent/frame.config.ts`:
+   ```ts
+   quality: {
+     enabled: false, // Disables TypeScript AST scanner for pure Python/Go/Rust repos
+   },
+   ```
+3. **Bring Your Own Linters:**
+   You can run your language's standard test and lint suites (such as `pytest`, `ruff`, `cargo test`, or `golangci-lint`) alongside `jaxx verify` or as part of your CI workflow.
 
 ---
 
@@ -89,7 +129,7 @@ jaxx --help
 ---
 
 ### 3. Add the Control Plane to Another Project
-To govern any other codebase with Agent Jaxx Model:
+To govern any codebase (Python, Go, Rust, TypeScript, or any language) with Agent Jaxx Model:
 
 ```bash
 cd /path/to/your-project
